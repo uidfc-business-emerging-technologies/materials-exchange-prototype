@@ -1,0 +1,789 @@
+.top {
+  padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
+}
+
+.reviewBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: var(--action-tint);
+  border: 1px solid var(--action);
+  border-radius: var(--radius-md);
+}
+
+.reviewIcon {
+  flex: none;
+  color: var(--action);
+}
+
+.reviewText {
+  flex: 1 1 300px;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-4);
+}
+
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--action);
+}
+
+.cover {
+  height: clamp(160px, 23.4vw, 300px);
+  margin-top: 8px;
+  border-radius: var(--radius-md);
+}
+
+/* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
+.titlePanel {
+  position: relative;
+  margin-top: clamp(-118px, -9.2vw, -40px);
+  width: min(820px, 100%);
+  padding: clamp(20px, 2.5vw, 32px) clamp(16px, 3.75vw, 48px) 0 0;
+  background: #fff;
+  border-top-right-radius: var(--radius-md);
+}
+
+.kickerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.kicker {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-3);
+}
+
+.h1 {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3.75vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.summary {
+  margin-top: 16px;
+  max-width: 700px;
+  font-size: clamp(17px, 1.5vw, 19px);
+  line-height: 1.5;
+  color: var(--text-3);
+  text-wrap: pretty;
+}
+
+.byline {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.byline a {
+  color: var(--action);
+}
+
+.meta {
+  color: var(--text-4);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pill:hover {
+  border-color: var(--navy);
+}
+
+.pill:focus-visible {
+  border-radius: 20px;
+}
+
+.pillOn {
+  border-color: var(--action);
+  background: var(--action-tint);
+}
+
+/* Files panel comes first in the source so it sits above the description on phones. */
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 40px 64px;
+  padding: clamp(32px, 3.75vw, 48px) var(--gutter) clamp(48px, 5vw, 64px);
+}
+
+.aside {
+  flex: 0 1 420px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.main {
+  flex: 1 1 520px;
+  min-width: 0;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 4vw, 52px);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.2vw, 28px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.h3 {
+  margin-top: 28px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ---------- Files ---------- */
+.files {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.filesHead {
+  padding: 20px 20px 16px;
+}
+
+.filesTitleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+
+.filesTotal {
+  font-size: 13.5px;
+  color: var(--text-4);
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.note svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.noteOk {
+  color: var(--ok);
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.fileIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.dim {
+  opacity: 0.7;
+}
+
+.fileText {
+  flex: 1 1 170px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fileRole {
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.fileMeta {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text-4);
+  overflow-wrap: anywhere;
+}
+
+.fileTag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.tagLocked {
+  color: var(--locked);
+}
+
+.fileFlag {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7d3e13;
+}
+
+.fileFlag svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.previewBtn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--action);
+}
+
+.previewBtn:hover {
+  background: var(--action-tint);
+}
+
+.fileAction {
+  margin-left: auto;
+  font-size: 14px;
+  padding: 0 14px;
+  gap: 7px;
+}
+
+.noAuto {
+  margin-left: 0;
+}
+
+.filesFoot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.allMeta {
+  font-size: 13.5px;
+  color: var(--text-4);
+  text-align: center;
+}
+
+/* ---------- Usage ---------- */
+.usage {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.usageTitle {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.usageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.usageStat {
+  display: flex;
+  flex-direction: column;
+}
+
+.usageN {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+}
+
+.usageLabel {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-4);
+}
+
+.usageNote {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-3);
+}
+
+.usedBtn {
+  margin-top: 20px;
+}
+
+.usedHint {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-4);
+}
+
+.reported {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: var(--ok-tint);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ok);
+}
+
+/* ---------- About ---------- */
+.about {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.objectives {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 22px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.objectives li {
+  padding-left: 4px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: clamp(120px, 28%, 200px) minmax(0, 1fr);
+  margin: 32px 0 0;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.facts dt {
+  padding: 12px 12px 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-4);
+}
+
+.facts dd {
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.facts dd a {
+  color: var(--action);
+}
+
+.facts .toolsDd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.toolChip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  font-size: 14px;
+  color: var(--ink) !important;
+  text-decoration: none;
+}
+
+.toolChip:hover {
+  border-color: var(--border-strong);
+}
+
+.toolChip:focus-visible {
+  border-radius: 16px;
+}
+
+/* ---------- Authors ---------- */
+.authors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.authorCard {
+  display: flex;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.initials {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.authorText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.authorName {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--action);
+}
+
+.authorSub {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+}
+
+/* ---------- Cite ---------- */
+.cite {
+  margin-top: 16px;
+  padding: 20px clamp(16px, 1.9vw, 24px);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.citeHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.citeStyle {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-3);
+}
+
+.copied {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ok);
+}
+
+.citeText {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}
+
+.citeNote {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-4);
+}
+
+.license {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.license strong {
+  font-weight: 600;
+}
+
+/* ---------- Versions ---------- */
+.versions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.versionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.versionList li {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+  gap: 4px 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.versionName {
+  font-weight: 600;
+}
+
+.versionDate {
+  font-weight: 400;
+  color: var(--text-4);
+}
+
+.versionNote {
+  color: var(--text-2);
+}
+
+.reportLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Related ---------- */
+.related {
+  padding: clamp(40px, 3.75vw, 48px) var(--gutter) clamp(48px, 5vw, 64px);
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+/* ---------- Dialogs ---------- */
+.dialogForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.pvStage {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+
+.pvPage {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 8.5 / 11;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 30px 34px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(19, 41, 75, 0.12);
+  overflow: hidden;
+}
+
+.pvKicker {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-4);
+}
+
+.pvTitle {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.pvAuthors {
+  margin-bottom: 10px;
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.pvLine {
+  display: block;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--border);
+}
+
+.pvNum {
+  margin-top: auto;
+  align-self: center;
+  font-size: 10.5px;
+  color: var(--text-4);
+}
+
+.pvBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pvNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pvArrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  color: var(--ink);
+}
+
+.pvArrow:disabled {
+  color: #c6c7c6;
+  cursor: default;
+}
+
+.pvCount {
+  min-width: 96px;
+  text-align: center;
+  font-size: 15px;
+}
+
+@media (max-width: 640px) {
+  .fileRow {
+    flex-wrap: wrap;
+  }
+
+  .fileAction {
+    margin-left: 52px;
+  }
+
+  .previewBtn + .fileAction {
+    margin-left: 0;
+  }
+
+  .previewBtn {
+    margin-left: 52px;
+  }
+}
