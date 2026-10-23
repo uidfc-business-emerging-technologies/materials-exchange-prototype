@@ -1,0 +1,165 @@
+/*
+ * Design tokens for the Teaching Materials Exchange (Editorial direction, Illini palette).
+ * Every color, type size, radius, and spacing value used by components lives here.
+ */
+:root {
+  /* Ink and neutrals */
+  --ink: #1e293b;
+  --ink-strong: #0e0e13;
+  --navy: #13294b;
+  --text-2: #334155;
+  --text-3: #475569;
+  --text-4: #64748b;
+  --text-5: #85848e;
+  --border: #dddedd;
+  --border-soft: #ebeceb;
+  --border-strong: #8e9090;
+  --surface: #ffffff;
+  --surface-2: #f4f4f4;
+  --surface-3: #f8f8f8;
+
+  /* Action and brand */
+  --action: #1d58a7;
+  --action-hover: #13294b;
+  --action-tint: #e8eef6;
+  --orange: #ff5f05;
+  --orange-dark: #c84113;
+
+  /* Status: text colors meet 4.5:1 on white and on their tints */
+  --ok: #1e7a46;
+  --ok-tint: #e6f2ea;
+  --info: #1f5bae;
+  --info-tint: #e8eef6;
+  --warn: #8a5a00;
+  --warn-tint: #fdf3dc;
+  --danger: #b3261e;
+  --danger-tint: #fbeae8;
+  --locked: #c84113;
+  --muted-status: #45454f;
+
+  /* Type */
+  --font-display: "Newsreader", Georgia, serif;
+  --font-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-body: 16px;
+  --lh-body: 1.55;
+
+  /* Shape */
+  --radius-sm: 3px;
+  --radius: 4px;
+  --radius-md: 6px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --gutter: clamp(16px, 3.125vw, 40px);
+  --content-max: 1280px;
+  --text-max: 720px;
+  --header-h: 72px;
+
+  /* Focus: a thick navy ring with a white halo so it stays visible on patterns */
+  --focus-ring: 0 0 0 2px #fff, 0 0 0 5px var(--navy);
+  --shadow-pop: 0 10px 30px rgba(19, 41, 75, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--action);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius);
+}
+
+/* Text links keep the ring tight to the text */
+a:focus-visible {
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

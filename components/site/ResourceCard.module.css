@@ -1,0 +1,362 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+.cover {
+  height: 140px;
+  flex: none;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+}
+
+.kicker {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-wrap: pretty;
+}
+
+.titleLink {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* The whole card is clickable through the title link. */
+.card {
+  position: relative;
+}
+
+.card .titleLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.card .titleLink:focus-visible {
+  box-shadow: none;
+}
+
+.card:has(.titleLink:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.authorLink,
+.dl {
+  position: relative;
+  z-index: 1;
+}
+
+.summary {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--text-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.meta li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.metaIcon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--text-4);
+}
+
+.authors {
+  font-weight: 500;
+}
+
+.authorLink {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.authorLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.muted {
+  color: var(--text-3);
+}
+
+.dl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto 18px 0;
+  padding: 14px 0 18px;
+  border-top: 1px solid var(--border-soft);
+  pointer-events: none;
+}
+
+.dlRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.dlRow dt {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--text-4);
+}
+
+.dlRow .dtTools {
+  line-height: 26px;
+}
+
+.dlRow dd {
+  margin: 0;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toolChip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.moreTools {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 4px;
+  font-size: 13px;
+  color: var(--text-3);
+  pointer-events: auto;
+}
+
+.includedCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.includes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.include {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--ink);
+}
+
+.includeIcon {
+  color: var(--text-3);
+}
+
+.lockIcon {
+  color: var(--locked);
+}
+
+.lockKey {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--locked);
+}
+
+/* ---------- List variant ---------- */
+.listCard {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.listCover {
+  flex: none;
+  width: 144px;
+  height: 96px;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
+}
+
+.listBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.listTitle {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.listMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.metaItem {
+  display: inline-flex;
+  gap: 7px;
+  align-items: flex-start;
+}
+
+.metaItem .metaIcon {
+  margin-top: 2px;
+}
+
+.listDl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 6px 0 0;
+}
+
+.listDlRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.listDlRow dt {
+  margin-right: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.listDlRow dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.listDlRow .toolChip {
+  border-color: #c6c7c6;
+}
+
+.includeTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--radius);
+  background: #f0f1f0;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .listCard {
+    gap: 14px;
+  }
+
+  .listCover {
+    width: 72px;
+    height: 72px;
+  }
+
+  .listTitle {
+    font-size: 19px;
+  }
+}
+
+/* ---------- Skeleton ---------- */
+.skel {
+  background: linear-gradient(90deg, #f0f1f0 0%, #f7f7f7 50%, #f0f1f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skelLine {
+  height: 12px;
+  border-radius: 3px;
+  background: #eeefee;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}

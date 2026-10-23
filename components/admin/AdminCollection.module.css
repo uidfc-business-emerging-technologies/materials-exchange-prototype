@@ -1,0 +1,142 @@
+.checkCol {
+  width: 40px;
+  padding-right: 4px !important;
+}
+
+.rowOn td {
+  background: #f1f5fa;
+}
+
+.clearSearch {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text-4);
+}
+
+.bulkBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--action-tint);
+}
+
+.bulkCount {
+  margin-right: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dangerBtn {
+  background: var(--orange-dark) !important;
+  border-color: var(--orange-dark) !important;
+}
+
+.dangerBtn:hover {
+  background: #a3360f !important;
+}
+
+.dangerOutline {
+  border-color: var(--orange-dark) !important;
+  color: var(--orange-dark) !important;
+}
+
+.body {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.names {
+  margin-top: 10px;
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+
+.dialogFields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.dialogFields:empty {
+  display: none;
+}
+
+.emailLine {
+  margin-top: 16px;
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+
+.detailStatus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 14px 20px;
+  margin: 0;
+}
+
+.facts dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: var(--text-4);
+}
+
+.facts dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.checks {
+  margin: 16px 0 0;
+  padding: 12px 14px 12px 32px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.histTitle {
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.hist {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14.5px;
+}
+
+.hist li {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.histWhen {
+  color: var(--text-4);
+}

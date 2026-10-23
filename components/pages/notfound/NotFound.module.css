@@ -1,0 +1,97 @@
+.badge {
+  height: 30px;
+  margin-bottom: 4px;
+  padding: 0 12px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.path {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--text-3);
+}
+
+.path span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.links {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.links li {
+  border-bottom: 1px solid var(--border);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 52px;
+  padding: 6px 0;
+  color: var(--action);
+  text-decoration: none;
+}
+
+.link:hover .linkLabel {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.linkText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.linkLabel {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.linkSub {
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+.note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--action-tint);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.note svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--action);
+}
+
+.h2 {
+  margin-top: 28px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.cite {
+  margin-top: 8px;
+  padding: 16px 18px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-size: 15.5px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}

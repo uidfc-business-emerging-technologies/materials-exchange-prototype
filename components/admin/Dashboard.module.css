@@ -1,0 +1,246 @@
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 16px 32px;
+  margin: 24px 0 0;
+  padding: 0 0 28px;
+  list-style: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.tile:hover .tileN {
+  color: var(--action);
+}
+
+.tileLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.tileN {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.tileNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.5px;
+}
+
+.activity {
+  margin-top: 28px;
+}
+
+.actHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.h3 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.customForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 10px 12px;
+  margin-top: 12px;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dateField input {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+
+.dateField input[aria-invalid="true"] {
+  border: 2px solid var(--danger);
+}
+
+.dateError {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--danger);
+}
+
+.actBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.chartCol {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  margin-top: 24px;
+  padding: 0 4px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.barCol {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.barValue {
+  margin-bottom: 4px;
+  font-size: 12.5px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.bar {
+  display: block;
+  background: var(--navy);
+  border-radius: 1px 1px 0 0;
+}
+
+.barCol:hover .bar {
+  background: var(--action);
+}
+
+.axis {
+  display: flex;
+  padding: 6px 4px 0;
+}
+
+.axis span {
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin: 10px 0 0;
+}
+
+.totals div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.totals dt {
+  max-width: 120px;
+  font-size: 14.5px;
+  line-height: 1.3;
+  color: var(--text-3);
+}
+
+.totals dd {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.alerts {
+  flex: 0 1 320px;
+  min-width: 260px;
+  padding-left: 24px;
+  border-left: 1px solid var(--border);
+}
+
+.allEmails {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--action);
+}
+
+.alertList {
+  margin: 12px 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.alertList li {
+  border-top: 1px solid var(--border-soft);
+}
+
+.alertList li:last-child {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.digest {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.digest ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.digest li + li {
+  margin-top: 8px;
+}
+
+@media (max-width: 899px) {
+  .alerts {
+    padding-left: 0;
+    border-left: 0;
+  }
+}

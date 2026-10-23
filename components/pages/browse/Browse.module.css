@@ -1,0 +1,363 @@
+.page {
+  padding: clamp(24px, 2.8vw, 36px) var(--gutter) clamp(48px, 5vw, 64px);
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.125vw, 40px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.phoneBar {
+  display: none;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.filtersButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.filterCount {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12.5px;
+}
+
+.sortPhone {
+  flex: 1;
+}
+
+.sortPhone button {
+  height: 44px;
+  font-weight: 600;
+}
+
+.sortDesktop {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.sortDesktop > label {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.sortDesktop button {
+  min-width: 140px;
+}
+
+.layout {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  margin-top: clamp(16px, 2.2vw, 28px);
+}
+
+.filters {
+  flex: none;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filtersTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.group {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+
+.groupTitle {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.more {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.results {
+  flex: 1;
+  min-width: 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  min-height: 44px;
+}
+
+.status {
+  font-size: 15px;
+  color: var(--text-3);
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.applied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.appliedLabel {
+  margin-right: 2px;
+  font-size: 14.5px;
+  color: var(--text-3);
+}
+
+.appliedChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 10px 0 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 22px;
+  background: #fff;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.appliedChip:hover {
+  border-color: var(--navy);
+}
+
+.appliedChip:focus-visible {
+  border-radius: 22px;
+}
+
+.appliedGroup {
+  color: var(--text-4);
+}
+
+.clear {
+  height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 28px 24px;
+  margin-top: 20px;
+  transition: opacity 0.18s ease;
+}
+
+.listWrap {
+  margin-top: 12px;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.18s ease;
+}
+
+.refreshing {
+  opacity: 0.45;
+}
+
+.empty {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+  align-items: flex-start;
+  margin-top: 4px;
+  padding: clamp(20px, 3.1vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.emptyCover {
+  flex: none;
+  width: 112px;
+  height: 112px;
+  border-radius: var(--radius-md);
+}
+
+.emptyBody {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.2vw, 28px);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.emptyLead {
+  margin-top: 10px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tryTitle {
+  margin: 28px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tryList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tryLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  color: var(--action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-align: left;
+}
+
+/* ---------- Phone filter sheet ---------- */
+.sheetGroups {
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+.sheetGroup {
+  border-bottom: 1px solid var(--border);
+}
+
+.sheetHeader {
+  margin: 0;
+}
+
+.sheetTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+}
+
+.sheetSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-4);
+}
+
+.sheetChevron {
+  transition: transform 0.15s ease;
+}
+
+.sheetTrigger[data-panel-open] .sheetChevron {
+  transform: rotate(180deg);
+}
+
+.sheetPanel {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12px;
+}
+
+.sheetClear {
+  flex: 1;
+}
+
+.sheetShow {
+  flex: 2;
+}
+
+@media (max-width: 959px) {
+  .phoneBar {
+    display: flex;
+  }
+
+  .filters,
+  .toolbarRight {
+    display: none;
+  }
+}
