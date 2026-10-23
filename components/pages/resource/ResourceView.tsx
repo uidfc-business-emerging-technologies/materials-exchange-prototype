@@ -106,7 +106,7 @@ export function ResourceView({ id }: { id: string }) {
 
   const canGated = access === "verified" || isAuthor;
   const unlock: Record<Exclude<Access, "verified" | "author">, { label: string; href: string }> = {
-    visitor: { label: "Sign in to verify", href: signInHref(here) },
+    visitor: { label: "Sign in to verify", href: signInHref(here, { verify: true }) },
     member: { label: "Verify you teach", href: verifyHref(here) },
     review: { label: "See status", href: "/verify?state=review&returnTo=" + encodeURIComponent(here) },
     renewal: { label: "Re-check to unlock", href: "/verify?state=expired&returnTo=" + encodeURIComponent(here) },

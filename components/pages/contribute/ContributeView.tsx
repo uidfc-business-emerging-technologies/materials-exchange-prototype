@@ -443,7 +443,7 @@ export function ContributeView() {
   // ---------- Gate for people who can't share yet ----------
   if (demo.auth !== "verified") {
     const gate = {
-      out: { Icon: Lock, note: "Sign in with your school email, then verify you teach. Most instructors are verified in a few seconds.", label: "Sign in to start", href: signInHref("/contribute") },
+      out: { Icon: Lock, note: "Sign in with your school email, then verify you teach. Most instructors are verified in a few seconds.", label: "Sign in to start", href: signInHref("/contribute", { verify: true }) },
       member: { Icon: Shield, note: "Verify you teach first. Most instructors are verified in a few seconds.", label: "Verify you teach", href: "/verify" },
       review: { Icon: Clock, note: "Your verification is in review. A person will check it within 2 business days, and then you can share.", label: "See verification status", href: "/verify?state=review" },
       renewal: { Icon: RefreshCw, note: "Your verification is due for renewal. Re-check your page to share materials.", label: "Re-check your page", href: "/verify?state=expired" },

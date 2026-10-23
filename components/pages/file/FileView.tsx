@@ -44,7 +44,7 @@ export function FileView({ id, fileName }: { id: string; fileName: string }) {
   }, [ready, demo.ready]);
 
   const LOCK: Record<Exclude<Auth, "verified">, [string, string, string]> = {
-    out: ["Sign in to verify", signInHref(back), "Sign in and verify you teach, and this link will work."],
+    out: ["Sign in to verify", signInHref(back, { verify: true }), "Sign in and verify you teach, and this link will work."],
     member: ["Verify you teach", verifyHref(back), "Verify you teach, and this link will work. Most instructors are verified in a few seconds."],
     review: ["See verification status", "/verify?state=review&returnTo=" + encodeURIComponent(back), "Your verification is in review. We'll email you when it's done, and this link will work then."],
     renewal: ["Re-check your page", "/verify?state=expired&returnTo=" + encodeURIComponent(back), "Your verification is due for renewal. Re-check your page, and this link will work again."],

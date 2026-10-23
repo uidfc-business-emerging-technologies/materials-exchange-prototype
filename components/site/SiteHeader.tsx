@@ -25,8 +25,13 @@ export function useReturnTo() {
   return pathname + (q ? "?" + q : "");
 }
 
-export function signInHref(returnTo?: string) {
-  return "/sign-in" + (returnTo && returnTo !== "/sign-in" ? "?returnTo=" + encodeURIComponent(returnTo) : "");
+/** Sign-in link that brings the person back. With `verify`, they go on to verify you teach first. */
+export function signInHref(returnTo?: string, opts: { verify?: boolean } = {}) {
+  const q = new URLSearchParams();
+  if (returnTo && !returnTo.startsWith("/sign-in")) q.set("returnTo", returnTo);
+  if (opts.verify) q.set("next", "verify");
+  const s = q.toString();
+  return "/sign-in" + (s ? "?" + s : "");
 }
 
 export function verifyHref(returnTo?: string) {
