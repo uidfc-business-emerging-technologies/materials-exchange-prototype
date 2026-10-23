@@ -29,6 +29,27 @@ There is no backend. Use the **View as** switch (bottom right, or in the admin s
 - Everything else you do (saves, downloads, drafts, admin edits) lives in `localStorage` on your browser.
 - Signing out resets the demo.
 
+## Pages
+
+| Path | Screen |
+| --- | --- |
+| `/` | Home |
+| `/browse` | Browse, with filters, sort, and grid or list view |
+| `/r/0142` | Resource (`?own=1` shows it to its authors) |
+| `/r/0142/files/lakeside-solution.xlsx` | File, locked or unlocked by access |
+| `/verify` | Verify instructor status (`?state=expired` and other states) |
+| `/contribute` | Contribute a resource, five steps |
+| `/sign-in`, `/reset-password` | Sign in, create account, reset password (`?expired=1`) |
+| `/account` | Account |
+| `/authors/dana-whitfield` | Author profile |
+| `/r/0066`, `/r/0999` | Unpublished resource, page not found |
+| `/admin` | Dashboard |
+| `/admin/verification`, `/admin/verification/akim` | Verification queue and decision |
+| `/admin/submissions`, `/admin/submissions/TME-0171` | Submissions and review |
+| `/admin/materials`, `/admin/materials/TME-0142` | Materials and edit material |
+| `/admin/users`, `/admin/users/praman` | Users and edit user |
+| `/admin/emails` | Every email the exchange sends (`?t=ver-ok` opens one) |
+
 ## Layout
 
 ```
@@ -38,10 +59,12 @@ app/
 components/
   ui/            Base UI wrappers: Button, Badge, controls (Checkbox, Select, RadioCards, Switch, TextField, Segmented), overlays (Menu, Modal, Tabs, Disclosure, Toast)
   site/          SiteHeader, SiteFooter, PatternCover, ResourceCard, ViewAs, Mark
-  admin/         AdminShell
+  admin/         AdminShell, AdminCollection (shared table), queues, review, dashboard, emails, edit pages
   pages/         page-level views
 lib/
   data.ts        sample content (all people and most institutions are fictional)
+  admin-data.ts  applicants, submissions, and users for the admin screens
+  emails.ts      every email template shown on the admin Emails page
   demo.tsx       demo state provider
   pattern.ts     discipline to Tabbied design and palette mapping
 ```
