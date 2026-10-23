@@ -23,24 +23,27 @@ npm run deploy    # deploy to Cloudflare Workers (needs `cf auth login` or CLOUD
 
 ## Deploy
 
-GitHub Actions deploys the `materials-exchange-prototype` Worker with the Cloudflare CLI (`cf`):
+Cloudflare Workers Builds deploys the `materials-exchange-prototype` Worker from this repository:
 
-| Workflow | When | What it does |
-| --- | --- | --- |
-| `Production` | Every push to `main`, or run by hand from the Actions tab | Typechecks, builds, and deploys to the production Worker |
-| `Preview` | Every pull request | Typechecks, builds, and validates the production build. Then deploys a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named `pr-<number>` and comments its URL on the pull request. The URL stays the same for the life of the pull request. The Preview is deleted when the pull request closes. |
+| Branch | What Workers Builds does |
+| --- | --- |
+| `main` | Builds and deploys to production |
+| Any other branch | Builds a [Worker Preview](https://developers.cloudflare.com/workers/previews/) and comments its URL on the pull request. The URL stays the same as you push to the branch. |
 
-The first deploy creates the Worker, so there is nothing to set up in the Cloudflare dashboard. Pull requests from forks get the checks but no Preview, because GitHub doesn't give forks the repository secrets.
+GitHub Actions (`CI`) typechecks, builds, and validates every pull request and every push to `main`. It needs no secrets.
 
-### One-time setup
+### Workers Builds settings
 
-1. In the Cloudflare dashboard, create an API token at **My Profile > API Tokens > Create Token > Custom token** with these permissions:
-   - **Account > Workers > Admin**, for all Workers in the account. Creating a Worker needs Admin. After the first deploy, you can narrow it to **Editor** on this one Worker.
-   - **Account > Account Settings > Read**
-2. Copy the account ID from **Workers & Pages** in the dashboard sidebar.
-3. In GitHub, go to **Settings > Secrets and variables > Actions** and add two repository secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+The project uses a typed `cloudflare.config.ts`, which deploys with the Cloudflare CLI (`cf`), not Wrangler. In the Cloudflare dashboard, open the Worker and go to **Settings > Build**:
 
-Until the secrets are set, `Preview` still runs the checks and warns that it skipped the Preview, and `Production` fails with a message that names the missing secrets.
+| Setting | Value |
+| --- | --- |
+| Build command | Leave empty. `cf` builds the project. |
+| Deploy command | `npx cf deploy` |
+| Preview command | `npx cf previews deploy` |
+| Branch control | Production branch `main`, with **Enable Preview Builds** checked |
+
+With the default deploy command, `npx wrangler deploy`, the build fails with "Missing entry-point to Worker script or to assets directory", because the project has no Wrangler configuration file.
 
 ## Demo state
 
