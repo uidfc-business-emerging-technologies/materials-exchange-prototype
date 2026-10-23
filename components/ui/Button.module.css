@@ -1,0 +1,142 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: none;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.xs {
+  height: 32px;
+  padding: 0 10px;
+  font-size: 13.5px;
+  gap: 6px;
+}
+
+.sm {
+  height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.md {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 15px;
+}
+
+.lg {
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 16px;
+}
+
+.xl {
+  height: 56px;
+  padding: 0 clamp(16px, 2vw, 26px);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.block {
+  display: flex;
+  width: 100%;
+}
+
+.primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--action);
+  border-color: var(--action);
+}
+
+.secondary {
+  background: #fff;
+  border-color: var(--action);
+  color: var(--action);
+}
+
+.secondary:hover {
+  background: var(--action-tint);
+}
+
+.accent {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+
+.accent:hover {
+  background: var(--orange-dark);
+  border-color: var(--orange-dark);
+}
+
+.danger {
+  background: #fff;
+  border-color: var(--orange-dark);
+  color: var(--orange-dark);
+}
+
+.danger:hover {
+  background: #fdf0ea;
+}
+
+.ghost {
+  background: #fff;
+  border-color: var(--border);
+  color: var(--ink);
+}
+
+.ghost:hover {
+  border-color: var(--border-strong);
+}
+
+.quiet {
+  background: none;
+  border-color: transparent;
+  color: var(--action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.quiet:hover {
+  text-decoration-thickness: 2px;
+}
+
+.btn:disabled,
+.btn[data-disabled] {
+  cursor: not-allowed;
+  background: #85848e;
+  border-color: #85848e;
+  color: #fff;
+}
+
+.secondary:disabled,
+.secondary[data-disabled],
+.ghost:disabled,
+.ghost[data-disabled] {
+  background: #fff;
+  border-color: var(--border);
+  color: var(--text-5);
+}

@@ -1,0 +1,26 @@
+.cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #fff;
+}
+
+.layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+}
+
+.fadeIn {
+  animation: fade 1.4s ease both;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

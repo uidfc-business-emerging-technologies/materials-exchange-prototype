@@ -1,0 +1,94 @@
+.floating {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 12px;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 24px;
+  box-shadow: 0 6px 20px rgba(19, 41, 75, 0.16);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.label {
+  white-space: nowrap;
+  color: #4d4f4f;
+}
+
+.group {
+  display: flex;
+}
+
+.sidebar .group {
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.option {
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.sidebar .option {
+  flex: 1;
+  height: 32px;
+  padding: 0 6px;
+  border-radius: 16px;
+  font-size: 12.5px;
+}
+
+.option:hover {
+  background: var(--surface-2);
+}
+
+.option[data-pressed] {
+  background: var(--navy);
+  color: #fff;
+}
+
+.option:focus-visible {
+  border-radius: 18px;
+}
+
+@media (max-width: 640px) {
+  .floating {
+    right: 8px;
+    bottom: 8px;
+    padding-left: 10px;
+  }
+
+  .floating .option {
+    padding: 0 10px;
+  }
+}
+
+@media print {
+  .floating {
+    display: none;
+  }
+}
