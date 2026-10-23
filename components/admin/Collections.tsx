@@ -149,10 +149,20 @@ export interface Material {
   courses: number;
   updated: string;
   license: LicenseName;
-  files: { role: string; gated: boolean }[];
+  files: { role: string; gated: boolean; name?: string }[];
   featured: boolean;
   history: { when: string; what: string }[];
+  /** Set once an admin edits the material. */
+  summary?: string;
+  level?: string;
+  time?: string;
+  discs?: DisciplineKey[];
+  authorList?: { name: string; inst: string }[];
+  /** Cover shuffles; 0 is the original arrangement. */
+  cover?: number;
 }
+
+export const coverSeed = (m: { id: string; cover?: number }) => m.id + (m.cover ? "-" + m.cover : "");
 
 export function materialsSeed(): Material[] {
   const files = (id: string) => detailFor(id).files.map((f) => ({ role: f.role, gated: !!f.gated }));
@@ -166,7 +176,7 @@ export function materialsSeed(): Material[] {
   return out;
 }
 
-const MAT_STATUS = { published: "Published", inreview: "In review", unpublished: "Unpublished" } as const;
+export const MAT_STATUS = { published: "Published", inreview: "In review", unpublished: "Unpublished" } as const;
 const matHref = (m: Material) => (m.status === "inreview" ? reviewHref(m) : resourceHref(m.id));
 const matOpenLabel = (m: Material) => (m.status === "inreview" ? "Open the review" : m.status === "unpublished" ? "See what visitors see" : "Open resource page");
 
@@ -204,7 +214,7 @@ export function MaterialsTable() {
           Icon: BookOpen,
           render: (m) => (
             <div className={a.withThumb}>
-              <Thumb d={m.d} id={m.id} />
+              <Thumb d={m.d} id={coverSeed(m)} />
               <div>
                 <Link href={"/admin/materials/" + m.id} className={a.cellLink}>
                   {m.title}
@@ -266,7 +276,7 @@ export function MaterialsTable() {
 
 // ---------- Users ----------
 
-const USER_STATUS: Record<AdminUser["status"] | "suspended", { label: string; tone: Tone; Icon: typeof Shield }> = {
+export const USER_STATUS: Record<AdminUser["status"] | "suspended", { label: string; tone: Tone; Icon: typeof Shield }> = {
   verified: { label: "Verified", tone: "ok", Icon: BadgeCheck },
   review: { label: "In review", tone: "info", Icon: Clock },
   none: { label: "Not verified", tone: "neutral", Icon: Shield },

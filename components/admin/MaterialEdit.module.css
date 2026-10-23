@@ -1,0 +1,223 @@
+.headCover {
+  flex: none;
+  width: 80px;
+  height: 58px;
+  margin-top: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.discs {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fieldErr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--danger);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 14.5px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: var(--surface-2);
+}
+
+.chip[aria-pressed="true"] {
+  padding: 0 12px;
+  border: 2px solid var(--navy);
+  background: #f1f5fa;
+  font-weight: 600;
+}
+
+.authors {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-soft);
+}
+
+.authors li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.authorN {
+  font-size: 14px;
+  color: var(--text-4);
+}
+
+.iconBtn {
+  width: 38px;
+  padding: 0;
+  justify-content: center;
+  border-color: transparent;
+  color: var(--text-3);
+}
+
+.iconBtn:hover {
+  border-color: var(--border);
+  color: var(--orange-dark);
+}
+
+.addBtn {
+  margin-top: 14px;
+}
+
+.files {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-soft);
+}
+
+.files li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.fileRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.fileName {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.fileRole {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fileFile {
+  font-size: 13.5px;
+  color: var(--text-4);
+  overflow-wrap: anywhere;
+}
+
+/* "Who can download" sits inline before the select. */
+.access {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+}
+
+.access button {
+  width: 220px;
+}
+
+.accessLabel {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.replace {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fileWarn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7d3e13;
+}
+
+.fileWarn svg {
+  flex: none;
+}
+
+.feature {
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  gap: 12px;
+  margin-top: 18px;
+  max-width: max-content;
+}
+
+.coverRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  margin-top: 18px;
+}
+
+.cover {
+  width: 180px;
+  height: 108px;
+  border-radius: var(--radius-sm);
+}
+
+.coverTitle {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.coverHint {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+@media (max-width: 640px) {
+  .authors li {
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+  }
+
+  .authors li > :nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .access {
+    flex-wrap: wrap;
+  }
+}

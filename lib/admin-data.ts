@@ -461,6 +461,10 @@ export interface AdminUser {
   work: string;
   history: { when: string; what: string }[];
   suspended: boolean;
+  /** Set once an admin edits the user. */
+  page?: string;
+  note?: string;
+  reason?: string;
 }
 
 export const USERS: AdminUser[] = [
