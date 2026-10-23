@@ -10,7 +10,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { Toggle } from "@base-ui/react/toggle";
 import { ToggleGroup } from "@base-ui/react/toggle-group";
-import { Check, ChevronDown, CircleAlert } from "lucide-react";
+import { Check, ChevronDown, CircleAlert, Minus } from "lucide-react";
 import { useId } from "react";
 import styles from "./controls.module.css";
 
@@ -30,10 +30,14 @@ export interface CheckboxProps {
   className?: string;
   /** Shows the error border. */
   invalid?: boolean;
+  /** Some but not all rows are selected. */
+  indeterminate?: boolean;
+  /** Accessible name when there is no visible label (table row selection). */
+  ariaLabel?: string;
 }
 
 /** Checkbox with a visible label. The whole row is the hit target. */
-export function Checkbox({ checked, onCheckedChange, children, trailing, description, disabled, size = "sm", className, invalid }: CheckboxProps) {
+export function Checkbox({ checked, onCheckedChange, children, trailing, description, disabled, size = "sm", className, invalid, indeterminate, ariaLabel }: CheckboxProps) {
   const id = useId();
   return (
     <label className={cx(styles.checkRow, size === "md" && styles.checkRowMd, disabled && styles.disabled, className)}>
@@ -43,9 +47,11 @@ export function Checkbox({ checked, onCheckedChange, children, trailing, descrip
         disabled={disabled}
         className={cx(styles.checkbox, invalid && styles.invalidBox)}
         aria-describedby={description ? id : undefined}
+        aria-label={ariaLabel}
+        indeterminate={indeterminate}
       >
         <BaseCheckbox.Indicator className={styles.checkIndicator}>
-          <Check size={size === "md" ? 15 : 13} strokeWidth={3} aria-hidden />
+          {indeterminate ? <Minus size={13} strokeWidth={3} aria-hidden /> : <Check size={size === "md" ? 15 : 13} strokeWidth={3} aria-hidden />}
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       <span className={styles.checkText}>
