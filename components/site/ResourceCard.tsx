@@ -44,7 +44,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   if (variant === "list") {
     return (
       <article className={styles.listCard}>
-        <PatternCover discipline={r.d} seed={r.id} className={styles.listCover} hint={[144, 96]} />
+        <PatternCover discipline={r.d} seed={r.id} className={styles.listCover} cellSize={24} />
         <div className={styles.listBody}>
           <span className={styles.kicker}>
             {r.type} · {r.discipline}
@@ -109,7 +109,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   const tools = r.tools;
   return (
     <article className={styles.card}>
-      <PatternCover discipline={r.d} seed={r.id} className={styles.cover} hint={[420, 140]} />
+      <PatternCover discipline={r.d} seed={r.id} className={styles.cover} />
       <div className={styles.body}>
         <span className={styles.kicker}>
           {r.type} · {r.discipline}

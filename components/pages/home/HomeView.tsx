@@ -37,7 +37,7 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" className={styles.heroCover} hint={[1280, 480]} />
+        <PatternCover discipline="fin" seed="home-hero" className={styles.heroCover} cellSize={36} />
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty
@@ -104,7 +104,7 @@ export function HomeView() {
           {disciplines.map((d) => (
             <li key={d.d}>
               <Link href={browseFilterHref("disc", d.label)} className={styles.discipline}>
-                <PatternCover discipline={d.d} seed={"disc-" + d.d} className={styles.discCover} hint={[72, 72]} />
+                <PatternCover discipline={d.d} seed={"disc-" + d.d} className={styles.discCover} cellSize={24} />
                 <span className={styles.discText}>
                   <span className={styles.discLabel}>{d.label}</span>
                   <span className={styles.discCount}>{counts[d.label] || 0} resources</span>
@@ -116,7 +116,7 @@ export function HomeView() {
       </section>
 
       <section aria-labelledby="how-h" className={styles.how}>
-        <PatternCover discipline="ais" seed="how-it-works" className={styles.howCover} hint={[520, 360]} />
+        <PatternCover discipline="ais" seed="how-it-works" className={styles.howCover} />
         <div className={styles.howBody}>
           <h2 id="how-h" className={styles.h2}>
             How it works

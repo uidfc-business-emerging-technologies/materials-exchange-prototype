@@ -8,6 +8,7 @@ A clickable prototype of the Teaching Materials Exchange: free, classroom-ready 
 - **Cloudflare Workers**: deployed with `@vinext/cloudflare` and `cf` (`cloudflare.config.ts`)
 - **[Base UI](https://base-ui.com)** (`@base-ui/react`): unstyled, accessible primitives (menus, selects, checkboxes, radios, switches, dialogs, tabs, toasts)
 - **[Lucide](https://lucide.dev)** (`lucide-react`): line icons
+- **[Tabbied](https://tabbied.com)** (`tabbied`): generative pattern covers
 - **Plain CSS**: design tokens in `app/globals.css`, CSS Modules per component. No Tailwind.
 
 ## Run it
@@ -42,9 +43,9 @@ components/
 lib/
   data.ts        sample content (all people and most institutions are fictional)
   demo.tsx       demo state provider
-  pattern.ts     discipline to pattern mapping for covers
+  pattern.ts     discipline to Tabbied design and palette mapping
 ```
 
 ## Pattern covers
 
-Each resource gets a generated pattern cover. The discipline picks the pattern and palette; the resource ID sets the seed, so the same resource always gets the same cover. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
+Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
