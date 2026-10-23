@@ -206,6 +206,11 @@
   background: #fff;
 }
 
+/* Keep fields reached with Tab clear of the sticky bar. */
+:global(html):has(.saveBar) {
+  scroll-padding-bottom: 96px;
+}
+
 .saveLine {
   display: inline-flex;
   align-items: center;

@@ -1,0 +1,13 @@
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+}
