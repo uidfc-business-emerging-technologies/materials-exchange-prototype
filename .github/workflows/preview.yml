@@ -1,0 +1,92 @@
+# Checks every pull request, deploys it as a Worker Preview, and comments the URL.
+# The Preview keeps one URL for the life of the pull request and is deleted when it closes.
+# Needs the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets (see README, Deploy).
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CF_SEND_TELEMETRY: "false"
+  WORKER_NAME: materials-exchange-prototype
+  PREVIEW_NAME: pr-${{ github.event.pull_request.number }}
+
+jobs:
+  preview:
+    name: Check and deploy preview
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npx cf build
+      # Validates the production build without credentials, so pull requests from forks are checked too.
+      - run: npx cf deploy --prebuilt --mode production --dry-run
+
+      - name: Deploy preview
+        id: deploy
+        # Forks don't get repository secrets.
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::No preview: add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets. See the Deploy section of the README."
+            exit 0
+          fi
+          # Build logs go to stderr; stdout is the JSON result.
+          npx cf previews deploy "$PREVIEW_NAME" > preview.json
+          cat preview.json
+          url="$(jq -er '.preview_urls[0] | if type == "object" then .url else . end' preview.json)"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment the preview URL
+        if: steps.deploy.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: ${{ steps.deploy.outputs.url }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          body="$(printf '**Preview:** %s\n\nUpdated for %s. The link stays the same for this pull request.' "$URL" "${SHA::7}")"
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none --body "$body"
+
+  cleanup:
+    name: Delete preview
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Delete preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::Skipped: the Cloudflare secrets aren't set."
+            exit 0
+          fi
+          npx cf previews delete "$PREVIEW_NAME" --worker "$WORKER_NAME" --force \
+            || echo "::warning::Couldn't delete $PREVIEW_NAME. It may never have been created."

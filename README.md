@@ -21,6 +21,27 @@ npm run start     # preview the built Worker locally
 npm run deploy    # deploy to Cloudflare Workers (needs `cf auth login` or CLOUDFLARE_API_TOKEN)
 ```
 
+## Deploy
+
+GitHub Actions deploys the `materials-exchange-prototype` Worker with the Cloudflare CLI (`cf`):
+
+| Workflow | When | What it does |
+| --- | --- | --- |
+| `Production` | Every push to `main`, or run by hand from the Actions tab | Typechecks, builds, and deploys to the production Worker |
+| `Preview` | Every pull request | Typechecks, builds, and validates the production build. Then deploys a [Worker Preview](https://developers.cloudflare.com/workers/previews/) named `pr-<number>` and comments its URL on the pull request. The URL stays the same for the life of the pull request. The Preview is deleted when the pull request closes. |
+
+The first deploy creates the Worker, so there is nothing to set up in the Cloudflare dashboard. Pull requests from forks get the checks but no Preview, because GitHub doesn't give forks the repository secrets.
+
+### One-time setup
+
+1. In the Cloudflare dashboard, create an API token at **My Profile > API Tokens > Create Token > Custom token** with these permissions:
+   - **Account > Workers > Admin**, for all Workers in the account. Creating a Worker needs Admin. After the first deploy, you can narrow it to **Editor** on this one Worker.
+   - **Account > Account Settings > Read**
+2. Copy the account ID from **Workers & Pages** in the dashboard sidebar.
+3. In GitHub, go to **Settings > Secrets and variables > Actions** and add two repository secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+
+Until the secrets are set, `Preview` still runs the checks and warns that it skipped the Preview, and `Production` fails with a message that names the missing secrets.
+
 ## Demo state
 
 There is no backend. Use the **View as** switch (bottom right, or in the admin sidebar) to see the site as a guest, a verified instructor, or an admin.
