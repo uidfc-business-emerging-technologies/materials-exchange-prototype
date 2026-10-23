@@ -1,0 +1,75 @@
+/* Text column beside a pattern panel (sign in, file links, not found). The panel hides on phones. */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 64px;
+  align-items: stretch;
+  padding: clamp(24px, 3.75vw, 48px) var(--gutter) clamp(56px, 6.25vw, 80px);
+}
+
+.col {
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 560px;
+}
+
+.art {
+  flex: 1 1 360px;
+  min-height: 460px;
+  border-radius: var(--radius-md);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: var(--action);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-3);
+}
+
+.eyebrowLocked {
+  color: var(--locked);
+}
+
+.h1 {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.4vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.lead {
+  margin-top: 16px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+@media (max-width: 959px) {
+  .art {
+    display: none;
+  }
+}
