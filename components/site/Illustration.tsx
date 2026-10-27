@@ -1,4 +1,4 @@
-import { resources } from "@/lib/data";
+import { allResources } from "@/lib/data";
 import styles from "./Illustration.module.css";
 
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
@@ -20,7 +20,7 @@ export type IllustrationName =
   | "not-found";
 
 /** Every published resource has a 3:2 illustration named after its ID. */
-const WIDE = new Set(resources.map((r) => r.id));
+const WIDE = new Set(allResources().map((r) => r.id));
 
 export const hasMaterialImage = (id: string): id is `TME-${string}` => WIDE.has(id);
 
