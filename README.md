@@ -43,7 +43,12 @@ The project uses a typed `cloudflare.config.ts`, which deploys with the Cloudfla
 | Preview command | `npx cf previews deploy` |
 | Branch control | Production branch `main`, with **Enable Preview Builds** checked |
 
-With the default deploy command, `npx wrangler deploy`, the build fails with "Missing entry-point to Worker script or to assets directory", because the project has no Wrangler configuration file.
+With the default commands, builds fail because the project has no Wrangler configuration file:
+
+- `npx wrangler deploy` fails with "Missing entry-point to Worker script or to assets directory".
+- `npx wrangler preview` fails with "Your Wrangler configuration is missing a `previews` block to run this command".
+
+Each Preview keeps its own copy of the build settings it was created with. If you change the Preview command, Previews that already exist keep running the old one (the build log's `Executing user deploy command` line shows which). Update them too: the Cloudflare API's Update Worker build configuration call (`PATCH /accounts/{account_id}/builds/workers/{script_tag}`) applies a new Preview command to every existing Preview when you pass `patch_existing_previews=true`.
 
 ## Demo state
 
