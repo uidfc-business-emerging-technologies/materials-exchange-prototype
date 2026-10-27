@@ -1,0 +1,7 @@
+/* Width comes from the caller; the width and height attributes keep the aspect ratio. */
+.img {
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}

@@ -246,12 +246,18 @@
 .step {
   display: flex;
   gap: 18px;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.stepArt {
+  flex: none;
+  width: clamp(72px, 8vw, 104px);
 }
 
 .stepN {
   flex: none;
-  width: 40px;
+  align-self: flex-start;
+  width: 28px;
   font-family: var(--font-display);
   font-size: 36px;
   line-height: 1;
@@ -280,6 +286,11 @@
   padding: clamp(40px, 5vw, 64px) var(--gutter) clamp(56px, 7.5vw, 96px);
 }
 
+.shareArt {
+  flex: none;
+  width: clamp(96px, 11vw, 148px);
+}
+
 .shareText {
   flex: 1 1 420px;
   min-width: 0;
@@ -302,5 +313,22 @@
 @media (max-width: 480px) {
   .heroSearch {
     gap: 8px;
+  }
+
+  /* Number above the title, so the text keeps most of the width beside the picture. */
+  .step {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 4px 14px;
+    align-items: start;
+  }
+
+  .stepArt {
+    grid-row: span 2;
+    width: 64px;
+  }
+
+  .stepN {
+    font-size: 28px;
   }
 }

@@ -53,6 +53,24 @@
   color: var(--action);
 }
 
+.headSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Beside the name, the picture sits over the right end of the totals. */
+@media (min-width: 900px) {
+  .headSide {
+    align-items: flex-end;
+  }
+}
+
+.headArt {
+  width: clamp(96px, 10vw, 136px);
+}
+
 .totals {
   display: flex;
   flex-wrap: wrap;

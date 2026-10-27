@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/controls";
 import { ErrorSummary, errorFor, type FormError } from "@/components/ui/ErrorSummary";
-import { PatternCover } from "@/components/site/PatternCover";
+import { SplitArt } from "@/components/site/SplitArt";
 import split from "@/components/site/SplitPage.module.css";
 import { PasswordField } from "./SignInView";
 import styles from "./Auth.module.css";
@@ -131,7 +131,7 @@ export function ResetPasswordView() {
           </>
         ) : null}
       </div>
-      <PatternCover discipline="other" seed="reset-password" className={split.art} cellSize={32} />
+      <SplitArt discipline="other" seed="reset-password" cellSize={32} image="reset-password" />
     </div>
   );
 }

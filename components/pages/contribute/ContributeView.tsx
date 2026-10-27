@@ -40,6 +40,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Checkbox, RadioCards, Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Contribute.module.css";
@@ -451,7 +452,7 @@ export function ContributeView() {
     return (
       <div className={styles.page}>
         <div className={styles.narrowCenter}>
-          <PatternCover discipline="other" seed="contribute-gate" className={styles.gateTile} cellSize={24} />
+          <Illustration name="contribute" className={styles.gateArt} eager />
           <p className={styles.eyebrow}>Contribute</p>
           <h1 className={styles.h1}>Share your teaching materials</h1>
           <p className={styles.lead}>Verified instructors can share cases, data exercises, and teaching modules. Your work is published under a Creative Commons license with full credit to you.</p>
@@ -474,6 +475,7 @@ export function ContributeView() {
     return (
       <div className={styles.page}>
         <div className={styles.narrowCenter}>
+          <Illustration name="contribute-done" className={styles.gateArt} eager />
           <Badge tone="info" icon={<Clock size={16} aria-hidden />} className={styles.stateBadge}>
             In review
           </Badge>
@@ -522,7 +524,10 @@ export function ContributeView() {
     <div className={styles.page}>
       <div className={wide ? styles.wide : styles.narrow}>
         <div className={styles.titleRow}>
-          <h1 className={styles.h1}>Share your materials</h1>
+          <h1 className={`${styles.h1} ${styles.titleH1}`}>
+            <Illustration name="contribute" className={styles.titleArt} eager />
+            Share your materials
+          </h1>
           <span className={styles.saved}>
             <Check size={16} aria-hidden />
             Draft saved at 10:42 AM

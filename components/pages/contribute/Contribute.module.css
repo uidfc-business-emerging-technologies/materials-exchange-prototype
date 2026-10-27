@@ -68,10 +68,20 @@
   color: var(--text-2);
 }
 
-.gateTile {
-  width: 96px;
-  height: 96px;
-  border-radius: var(--radius-md);
+.gateArt {
+  width: clamp(96px, 11vw, 128px);
+  margin-bottom: 8px;
+}
+
+.titleH1 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.titleArt {
+  flex: none;
+  width: clamp(48px, 5vw, 64px);
 }
 
 .gateNote {

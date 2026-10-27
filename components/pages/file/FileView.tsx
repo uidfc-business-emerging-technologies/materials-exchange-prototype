@@ -8,7 +8,7 @@ import { useDemo, type Auth } from "@/lib/demo";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { toast } from "@/components/ui/overlays";
-import { PatternCover } from "@/components/site/PatternCover";
+import { SplitArt } from "@/components/site/SplitArt";
 import { signInHref, verifyHref } from "@/components/site/SiteHeader";
 import split from "@/components/site/SplitPage.module.css";
 import styles from "./File.module.css";
@@ -134,7 +134,7 @@ export function FileView({ id, fileName }: { id: string; fileName: string }) {
           </>
         )}
       </div>
-      <PatternCover discipline={res.d} seed={res.id} className={split.art} cellSize={36} />
+      <SplitArt discipline={res.d} seed={res.id} cellSize={36} image={!f ? "not-found" : locked ? "file-locked" : "file-download"} />
     </div>
   );
 }

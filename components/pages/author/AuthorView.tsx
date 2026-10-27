@@ -6,6 +6,7 @@ import { allResources, byId, detailFor } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
 import { Button } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import styles from "./Author.module.css";
 
@@ -82,18 +83,21 @@ export function AuthorView({ name }: { name: string }) {
             ) : null}
           </div>
         </div>
-        <dl className={styles.totals}>
-          {[
-            [String(works.length), "resources"],
-            [downloads.toLocaleString("en-US"), "downloads"],
-            [String(courses), "courses have used them"],
-          ].map(([n, label]) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              <dd>{n}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className={styles.headSide}>
+          <Illustration name="author" className={styles.headArt} eager />
+          <dl className={styles.totals}>
+            {[
+              [String(works.length), "resources"],
+              [downloads.toLocaleString("en-US"), "downloads"],
+              [String(courses), "courses have used them"],
+            ].map(([n, label]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{n}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
 
       <section aria-labelledby="mat-h" className={styles.section}>
