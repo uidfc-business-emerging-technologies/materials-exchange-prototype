@@ -14,9 +14,33 @@
 }
 
 .art {
+  position: relative;
+  display: grid;
+  place-items: center;
   flex: 1 1 360px;
   min-height: 460px;
   border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.artPattern {
+  position: absolute;
+  inset: 0;
+}
+
+.artDisc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(220px, 22vw, 300px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-pop);
+}
+
+.artImage {
+  width: 74%;
 }
 
 .back {

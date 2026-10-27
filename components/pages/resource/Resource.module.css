@@ -420,6 +420,20 @@
   text-wrap: pretty;
 }
 
+/* The resource's illustration, on a quiet panel so it reads as part of the description. */
+.figure {
+  margin-top: 24px;
+  padding: clamp(16px, 2.5vw, 28px);
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+}
+
+.figureArt {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 .objectives {
   display: flex;
   flex-direction: column;

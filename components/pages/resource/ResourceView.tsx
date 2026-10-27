@@ -35,6 +35,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
+import { hasMaterialImage, Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import { signInHref, verifyHref } from "@/components/site/SiteHeader";
@@ -373,6 +374,11 @@ export function ResourceView({ id }: { id: string }) {
               {res.aboutTitle}
             </h2>
             <p className={styles.about}>{res.about}</p>
+            {hasMaterialImage(res.id) ? (
+              <div className={styles.figure}>
+                <Illustration name={res.id} className={styles.figureArt} />
+              </div>
+            ) : null}
             {res.objectives.length ? (
               <>
                 <h3 className={styles.h3}>Learning objectives</h3>

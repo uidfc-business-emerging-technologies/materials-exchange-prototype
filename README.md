@@ -10,6 +10,7 @@ A clickable prototype of the Teaching Materials Exchange: free, classroom-ready 
 - **[Lucide](https://lucide.dev)** (`lucide-react`): line icons
 - **[Tabbied](https://tabbied.com)** (`tabbied`): generative pattern covers
 - **Plain CSS**: design tokens in `app/globals.css`, CSS Modules per component. No Tailwind.
+- **Illustrations**: generated with OpenAI's `gpt-image-2.5-sunburst` (`public/images`)
 
 ## Run it
 
@@ -87,7 +88,7 @@ app/
   admin/         admin screens: dashboard, verification, submissions, materials, users, emails
 components/
   ui/            Base UI wrappers: Button, Badge, controls (Checkbox, Select, RadioCards, Switch, TextField, Segmented), overlays (Menu, Modal, Tabs, Disclosure, Toast)
-  site/          SiteHeader, SiteFooter, PatternCover, ResourceCard, ViewAs, Mark
+  site/          SiteHeader, SiteFooter, PatternCover, Illustration, SplitArt, ResourceCard, ViewAs, Mark
   admin/         AdminShell, AdminCollection (shared table), queues, review, dashboard, emails, edit pages
   pages/         page-level views
 lib/
@@ -101,3 +102,14 @@ lib/
 ## Pattern covers
 
 Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
+
+## Illustrations
+
+Each public page has a spot illustration (the admin screens stay plain), each How it works step has one, and each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
+
+```bash
+OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
+OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new version of one image
+```
+
+Every resource page expects an image named after the resource's ID, so a new resource in `lib/data.ts` needs an entry in the script too.

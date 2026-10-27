@@ -7,7 +7,7 @@ import { useDemo } from "@/lib/demo";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
-import { PatternCover } from "@/components/site/PatternCover";
+import { SplitArt } from "@/components/site/SplitArt";
 import split from "@/components/site/SplitPage.module.css";
 import styles from "./NotFound.module.css";
 
@@ -95,7 +95,7 @@ export function NotFoundView({ kind = "404" }: { kind?: "404" | "unpublished" })
           </>
         )}
       </div>
-      <PatternCover discipline={gone ? "audit" : "other"} seed={gone ? "TME-0066" : "not-found"} className={split.art} cellSize={32} />
+      <SplitArt discipline={gone ? "audit" : "other"} seed={gone ? "TME-0066" : "not-found"} cellSize={32} image="not-found" />
     </div>
   );
 }

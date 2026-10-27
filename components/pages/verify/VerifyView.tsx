@@ -11,6 +11,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { RadioCards, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Verify.module.css";
@@ -158,6 +159,7 @@ export function VerifyView() {
             {backLabel}
           </Link>
         ) : null}
+        <Illustration name="verify" className={styles.art} eager />
 
         {st === "form" ? (
           <>

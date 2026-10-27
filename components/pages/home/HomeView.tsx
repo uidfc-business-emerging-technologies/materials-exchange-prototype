@@ -8,6 +8,7 @@ import { disciplines, filterDefs, resources } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import styles from "./Home.module.css";
@@ -19,10 +20,10 @@ const STATS = [
   { n: "1,960", label: "verified instructors" },
 ];
 const STEPS = [
-  { n: "1", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
-  { n: "2", title: "Verify", text: "Paste the link to your faculty page. Most instructors are verified in a few seconds, and teaching notes and solutions unlock." },
-  { n: "3", title: "Share", text: "Upload your own materials under a Creative Commons license, with credit and usage counts you can cite." },
-];
+  { n: "1", art: "how-find", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
+  { n: "2", art: "how-verify", title: "Verify", text: "Paste the link to your faculty page. Most instructors are verified in a few seconds, and teaching notes and solutions unlock." },
+  { n: "3", art: "how-share", title: "Share", text: "Upload your own materials under a Creative Commons license, with credit and usage counts you can cite." },
+] as const;
 
 const searchHref = (q: string) => "/browse" + (q ? "?q=" + encodeURIComponent(q) : "");
 export const browseFilterHref = (key: string, label: string) => "/browse?" + new URLSearchParams({ [key]: label }).toString();
@@ -124,6 +125,7 @@ export function HomeView() {
           <ol className={styles.steps}>
             {STEPS.map((s) => (
               <li key={s.n} className={styles.step}>
+                <Illustration name={s.art} className={styles.stepArt} />
                 <span aria-hidden="true" className={styles.stepN}>
                   {s.n}
                 </span>
@@ -138,6 +140,7 @@ export function HomeView() {
       </section>
 
       <section aria-labelledby="share-h" className={styles.share}>
+        <Illustration name="home-share" className={styles.shareArt} />
         <div className={styles.shareText}>
           <h2 id="share-h" className={styles.h2}>
             Share what works in your classroom

@@ -16,6 +16,11 @@
   color: var(--action);
 }
 
+.art {
+  width: clamp(88px, 10vw, 120px);
+  margin-top: 12px;
+}
+
 .summary {
   display: flex;
   gap: 12px;

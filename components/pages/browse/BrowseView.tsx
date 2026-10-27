@@ -9,6 +9,7 @@ import { useDemo } from "@/lib/demo";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Checkbox, Segmented, Select } from "@/components/ui/controls";
 import { infoToast, Modal } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard, ResourceCardSkeleton } from "@/components/site/ResourceCard";
 import styles from "./Browse.module.css";
@@ -163,7 +164,10 @@ export function BrowseView() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.h1}>{heading}</h1>
+      <div className={styles.head}>
+        <h1 className={styles.h1}>{heading}</h1>
+        <Illustration name="browse" className={styles.headArt} eager />
+      </div>
 
       <div className={styles.phoneBar}>
         <button type="button" className={styles.filtersButton} aria-haspopup="dialog" onClick={() => setSheet(true)}>

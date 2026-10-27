@@ -10,6 +10,7 @@ import { Badge, StatusBadge, verificationMeta, type ResourceStatus } from "@/com
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/controls";
 import { infoToast, toast } from "@/components/ui/overlays";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Account.module.css";
@@ -98,7 +99,10 @@ export function AccountView() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.h1}>Account</h1>
+      <div className={styles.head}>
+        <h1 className={styles.h1}>Account</h1>
+        <Illustration name="account" className={styles.headArt} eager />
+      </div>
       <div className={styles.layout}>
         <nav aria-label="Account sections" className={styles.sideNav}>
           {sections.map(([label, meta, id]) => (

@@ -11,7 +11,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { RadioCards, TextField } from "@/components/ui/controls";
 import { ErrorSummary, errorFor, type FormError } from "@/components/ui/ErrorSummary";
 import { infoToast, toast } from "@/components/ui/overlays";
-import { PatternCover } from "@/components/site/PatternCover";
+import { SplitArt } from "@/components/site/SplitArt";
 import { verifyHref } from "@/components/site/SiteHeader";
 import split from "@/components/site/SplitPage.module.css";
 import styles from "./Auth.module.css";
@@ -456,7 +456,7 @@ export function SignInView() {
           </>
         ) : null}
       </div>
-      <PatternCover discipline="other" seed="sign-in" className={split.art} cellSize={32} />
+      <SplitArt discipline="other" seed="sign-in" cellSize={32} image="sign-in" />
     </div>
   );
 }
