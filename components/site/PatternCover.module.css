@@ -10,3 +10,18 @@
   position: absolute !important;
   inset: 0;
 }
+
+/* An illustration on a white disc over the pattern. The caller places and sizes the disc. */
+.disc {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-pop);
+}
+
+.discImage {
+  width: 74%;
+}

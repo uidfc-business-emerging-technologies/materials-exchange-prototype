@@ -1,4 +1,8 @@
 .top {
+  /* Shared by the cover, the title panel, and the disc, which keeps clear of the panel. */
+  --cover-h: clamp(160px, 23.4vw, 300px);
+  --overlap: clamp(40px, 9.2vw, 118px);
+  --panel-w: 820px;
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
 }
 
@@ -42,16 +46,25 @@
 }
 
 .cover {
-  height: clamp(160px, 23.4vw, 300px);
+  height: var(--cover-h);
   margin-top: 8px;
   border-radius: var(--radius-md);
+}
+
+/* The material's illustration is on a disc centered in the pattern beside the title panel. */
+.coverDisc {
+  --d: min(calc(var(--cover-h) * 0.8), calc(100% - var(--panel-w) - 64px));
+  top: 50%;
+  right: calc((100% - var(--panel-w) - var(--d)) / 2);
+  width: var(--d);
+  translate: 0 -50%;
 }
 
 /* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
 .titlePanel {
   position: relative;
-  margin-top: clamp(-118px, -9.2vw, -40px);
-  width: min(820px, 100%);
+  margin-top: calc(-1 * var(--overlap));
+  width: min(var(--panel-w), 100%);
   padding: clamp(20px, 2.5vw, 32px) clamp(16px, 3.75vw, 48px) 0 0;
   background: #fff;
   border-top-right-radius: var(--radius-md);
@@ -782,6 +795,16 @@
   min-width: 96px;
   text-align: center;
   font-size: 15px;
+}
+
+/* Too narrow to fit beside the panel: the disc moves to the corner above it. */
+@media (max-width: 1099px) {
+  .coverDisc {
+    top: 16px;
+    right: 16px;
+    width: calc(var(--cover-h) - var(--overlap) - 32px);
+    translate: none;
+  }
 }
 
 @media (max-width: 640px) {

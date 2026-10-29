@@ -38,7 +38,7 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" className={styles.heroCover} cellSize={36} />
+        <PatternCover discipline="fin" seed="home-hero" className={styles.heroCover} cellSize={72} image="home-hero" imageClassName={styles.heroDisc} />
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty
