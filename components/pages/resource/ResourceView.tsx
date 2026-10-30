@@ -35,7 +35,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
-import { hasMaterialImage, Illustration } from "@/components/site/Illustration";
+import { coverImageFor, hasMaterialImage, Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import { signInHref, verifyHref } from "@/components/site/SiteHeader";
@@ -204,7 +204,7 @@ export function ResourceView({ id }: { id: string }) {
           <ChevronRight size={14} aria-hidden />
           <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
         </nav>
-        <PatternCover discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed || res.id} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} />
+        <PatternCover discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed || res.id} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} image={coverImageFor(res.id)} imageClassName={styles.coverDisc} />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>

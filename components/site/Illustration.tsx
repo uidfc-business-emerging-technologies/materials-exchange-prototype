@@ -3,6 +3,7 @@ import styles from "./Illustration.module.css";
 
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
 export type IllustrationName =
+  | "home-hero"
   | "how-find"
   | "how-verify"
   | "how-share"
@@ -19,10 +20,13 @@ export type IllustrationName =
   | "file-locked"
   | "not-found";
 
-/** Every published resource has a 3:2 illustration named after its ID. */
+/** Every published resource has a 3:2 illustration named after its ID, and square cover art named `<ID>-cover`. */
 const WIDE = new Set(allResources().map((r) => r.id));
 
 export const hasMaterialImage = (id: string): id is `TME-${string}` => WIDE.has(id);
+
+/** The art shown on a disc over a resource's cover pattern, if the resource has one. */
+export const coverImageFor = (id: string) => (hasMaterialImage(id) ? (`${id}-cover` as const) : undefined);
 
 /**
  * Illustration: a generated spot illustration on a transparent background. Size it with

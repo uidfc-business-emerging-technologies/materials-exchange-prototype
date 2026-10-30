@@ -1,17 +1,30 @@
 .hero {
+  /* Shared by the cover, the title panel, and the disc, which keeps clear of the panel. */
+  --cover-h: clamp(200px, 37.5vw, 480px);
+  --overlap: clamp(48px, 15.6vw, 200px);
+  --panel-w: 780px;
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
 }
 
 .heroCover {
-  height: clamp(200px, 37.5vw, 480px);
+  height: var(--cover-h);
   border-radius: var(--radius-md);
+}
+
+/* The illustration's disc is centered in the pattern beside the title panel. */
+.heroDisc {
+  --d: min(calc(var(--cover-h) * 0.72), calc(100% - var(--panel-w) - 64px));
+  top: 50%;
+  right: calc((100% - var(--panel-w) - var(--d)) / 2);
+  width: var(--d);
+  translate: 0 -50%;
 }
 
 /* Text never sits on the pattern: the title panel is solid white and overlaps the cover. */
 .heroPanel {
   position: relative;
-  margin-top: clamp(-200px, -15.6vw, -48px);
-  width: min(780px, 100%);
+  margin-top: calc(-1 * var(--overlap));
+  width: min(var(--panel-w), 100%);
   padding: clamp(20px, 3.1vw, 40px) clamp(16px, 3.75vw, 48px) 0 0;
   background: #fff;
   border-top-right-radius: var(--radius-md);
@@ -308,6 +321,16 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Too narrow to fit beside the panel: the disc moves to the corner above it. */
+@media (max-width: 1099px) {
+  .heroDisc {
+    top: 16px;
+    right: 16px;
+    width: calc(var(--cover-h) - var(--overlap) - 32px);
+    translate: none;
+  }
 }
 
 @media (max-width: 480px) {

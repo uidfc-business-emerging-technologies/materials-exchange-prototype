@@ -105,11 +105,11 @@ Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/reac
 
 ## Illustrations
 
-Each public page has a spot illustration (the admin screens stay plain), each How it works step has one, and each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
+Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has two: one in the body of its page (`public/images/TME-0142.webp` and so on), and one on a white disc over its cover pattern (`TME-0142-cover.webp`). The home hero pattern has a disc too (`home-hero.webp`). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
 OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new version of one image
 ```
 
-Every resource page expects an image named after the resource's ID, so a new resource in `lib/data.ts` needs an entry in the script too.
+Every resource page expects both images named after the resource's ID, so a new resource in `lib/data.ts` needs two entries in the script too.

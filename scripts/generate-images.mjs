@@ -24,6 +24,9 @@ const WIDE = "1536x1024";
 
 /** name → [size, subject]. Names match the files components load from /images. */
 const IMAGES = {
+  // Home: on a disc over the hero pattern
+  "home-hero": [SQUARE, "A graduation mortarboard cap resting on a neat stack of case folders, with a spreadsheet card and a small bar chart card fanned out behind the stack."],
+
   // Home: How it works
   "how-find": [SQUARE, "A large magnifying glass over a small fanned stack of case documents and a spreadsheet card."],
   "how-verify": [SQUARE, "A browser window showing a faculty profile page with a round portrait avatar, and a large round check-mark badge in front of it."],
@@ -55,6 +58,19 @@ const IMAGES = {
   "TME-0166": [WIDE, "A stack of digital token coins beside a government bond certificate with a ribbon seal, joined by a short chain of small cubes."],
   "TME-0088": [WIDE, "A passenger airplane flying above a lease contract page and a desk calendar."],
   "TME-0101": [WIDE, "Two office buildings joined by a bridge, with a path that rises to a milestone flag and a balance scale in the foreground."],
+
+  // One image on a disc over each material's cover pattern, keyed by resource ID
+  "TME-0142-cover": [SQUARE, "A gym kettlebell with a price tag hanging from its handle, the tag split into three colored bands."],
+  "TME-0157-cover": [SQUARE, "A single ceramic vase with a thin zigzag crack down its side, standing on a short stack of coins."],
+  "TME-0118-cover": [SQUARE, "Two beer mugs clinking together above a small wooden barrel."],
+  "TME-0127-cover": [SQUARE, "A stylized geometric snake coiled around a closed ledger book."],
+  "TME-0133-cover": [SQUARE, "A pyramid of cardboard stock boxes with a gap where one box is missing, and a clipboard checklist leaning against it."],
+  "TME-0149-cover": [SQUARE, "A rolling suitcase with a long curling paper receipt spilling out of its front pocket."],
+  "TME-0109-cover": [SQUARE, "A shipping box and a large coin joined in a loop by two curved arrows, forming a cycle."],
+  "TME-0161-cover": [SQUARE, "A round pressure gauge with its needle in an orange zone, beside a small card showing a line chart that dips."],
+  "TME-0166-cover": [SQUARE, "A heavy bank vault door standing open, with a stack of hexagonal digital token coins inside."],
+  "TME-0088-cover": [SQUARE, "A passenger airplane seen from the side, with a large key tag hanging from its nose on a short string."],
+  "TME-0101-cover": [SQUARE, "Two hands meeting in a handshake, with a milestone flag rising behind them and a small stack of coins below."],
 };
 
 async function exists(path) {
