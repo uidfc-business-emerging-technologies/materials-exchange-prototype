@@ -51,7 +51,7 @@ export function SiteFooter() {
         {!reduced ? (
           <button type="button" className={styles.motion} aria-pressed={paused} onClick={() => setMotionPaused(!paused)}>
             {paused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}
-            {paused ? "Play pattern animations" : "Pause pattern animations"}
+            {paused ? "Play animations" : "Pause animations"}
           </button>
         ) : null}
       </nav>

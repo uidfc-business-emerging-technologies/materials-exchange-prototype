@@ -684,9 +684,8 @@
 }
 
 .relatedGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-  gap: 24px;
+  --gap-x: 48px;
+  --gap-y: 48px;
   margin-top: 20px;
 }
 

@@ -127,7 +127,7 @@ export const AUTH_BADGE: Record<Auth, { label: string; tone: "muted" | "info" | 
   verified: { label: "Verified", tone: "ok" },
 };
 
-// ---- Motion preference for the slowly changing pattern covers ----
+// ---- Motion preference for the pattern covers, hero cutouts, and How it works path ----
 
 const MOTION_KEY = "tme-motion";
 const motionListeners = new Set<() => void>();
@@ -159,7 +159,7 @@ function subscribeMotion(l: () => void) {
   };
 }
 
-/** True when covers should stay still: the user paused them or asked the OS for reduced motion. */
+/** True when animations should stay still: the user paused them or asked the OS for reduced motion. */
 export function useMotionPaused(): { paused: boolean; reduced: boolean } {
   const paused = useSyncExternalStore(subscribeMotion, readMotionPaused, () => true);
   const reduced = useSyncExternalStore(

@@ -27,13 +27,26 @@ const PHOTO =
   "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
   "No text, no letters, no numbers, no logos.";
 
+/** Hero cutouts take turns standing on the bottom edge of the home hero pattern, so each one fills its frame the same way. */
+const HERO = PHOTO + " The subject fills most of the frame, and its base touches the bottom edge of the image.";
+
 const SQUARE = "1024x1024";
 const WIDE = "1536x1024";
 
 /** name → [size, subject, style (STYLE unless given)]. Names match the files components load from /images. */
 const IMAGES = {
-  // Home: the photo cutout over the hero pattern, and the illustration it replaced
+  // Home: the photo cutouts that take turns over the hero pattern, and the illustration they replaced
   "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders in deep navy and bright orange, with a black graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO],
+  "hero-scale": [SQUARE, "A polished brass balance scale, its beam level, with a short stack of gold coins on one pan and a neat stack of plain paper documents on the other.", HERO],
+  "hero-chart": [SQUARE, "A three-dimensional bar chart sculpture made of glossy blocks in deep navy, bright orange, and mid blue, five bars rising in steps from left to right on a thin navy base.", HERO],
+  "hero-building": [SQUARE, "A white architectural scale model of a neoclassical university hall with tall columns, wide front steps, and a triangular pediment.", HERO],
+  "hero-calculator": [SQUARE, "A chunky desktop printing calculator in deep navy with bright orange keys that have no markings, a long curl of blank paper tape spilling out of the top.", HERO],
+  "hero-chip": [SQUARE, "A computer processor chip with a glossy deep navy top and rows of gold pins, resting at an angle on a small square of circuit board with fine copper traces and a few tiny orange components.", HERO],
+  "hero-magnifier": [SQUARE, "A large brass magnifying glass leaning against a stack of manila folders with blank colored index tabs in navy, orange, and blue.", HERO],
+  "hero-globe": [SQUARE, "An antique desk globe on a brass stand, its oceans deep navy and its continents in warm cream tones.", HERO],
+  "hero-server": [SQUARE, "A compact computer server tower in deep navy with rows of small glowing blue and orange status lights, and a coiled blue network cable beside it.", HERO],
+  "hero-coins": [SQUARE, "A clear glass jar filled with gold coins, with a small green seedling growing out of the coins at the top.", HERO],
+  "hero-receipts": [SQUARE, "A metal receipt spike holding a thick stack of blank paper receipts, with a wooden rubber stamp with a bright orange handle beside it.", HERO],
   "home-hero": [SQUARE, "A graduation mortarboard cap resting on a neat stack of case folders, with a spreadsheet card and a small bar chart card fanned out behind the stack."],
 
   // Home: How it works

@@ -88,7 +88,7 @@ app/
   admin/         admin screens: dashboard, verification, submissions, materials, users, emails
 components/
   ui/            Base UI wrappers: Button, Badge, controls (Checkbox, Select, RadioCards, Switch, TextField, Segmented), overlays (Menu, Modal, Tabs, Disclosure, Toast)
-  site/          SiteHeader, SiteFooter, PatternCover, Illustration, SplitArt, ResourceCard, ViewAs, Mark
+  site/          SiteHeader, SiteFooter, PatternCover, CutoutCycle, Illustration, SplitArt, ResourceCard, DividedGrid, ViewAs, Mark
   admin/         AdminShell, AdminCollection (shared table), queues, review, dashboard, emails, edit pages
   pages/         page-level views
 lib/
@@ -101,13 +101,13 @@ lib/
 
 ## Pattern covers
 
-Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photo on it stands out. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
+Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photos on it stand out. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
 
 ## Illustrations
 
 Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has two: one in the body of its page (`public/images/TME-0142.webp` and so on), and one on a white disc over its cover pattern (`TME-0142-cover.webp`). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
-The home hero is a pilot of a second style: a color photo cutout that sits straight on the pattern, with no disc (`home-hero-photo.webp`). Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
+The home hero uses a second style: color photo cutouts that sit straight on the pattern, with no disc. Eleven of them take turns in the same spot (`home-hero-photo.webp` and the `hero-*.webp` files), showing academia, institutions, and the disciplines the exchange covers. Each stays for four seconds, then sinks away as the next rises in (`CutoutCycle`). Only the current, next, and outgoing cutouts are on the page, so the rest load when their turn comes. Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The hero prompts also ask the subject to fill the frame and touch its bottom edge, so each one stands on the edge of the pattern. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
@@ -115,3 +115,7 @@ OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new versi
 ```
 
 Every resource page expects both images named after the resource's ID, so a new resource in `lib/data.ts` needs two entries in the script too.
+
+## Motion
+
+Besides the pattern covers, the hero cutouts take turns, and on the home page's How it works, the dots march along the path and each step's picture bobs. The footer's **Pause animations** button stops all of them where they are. If the visitor prefers reduced motion, they don't run at all, and the button is hidden.

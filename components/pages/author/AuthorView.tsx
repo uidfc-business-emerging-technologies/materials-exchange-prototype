@@ -7,6 +7,7 @@ import { useDemo } from "@/lib/demo";
 import { Button } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
 import { Illustration } from "@/components/site/Illustration";
+import { DividedGrid } from "@/components/site/DividedGrid";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import styles from "./Author.module.css";
 
@@ -110,9 +111,9 @@ export function AuthorView({ name }: { name: string }) {
             {usual ? " · Usually with " + usual : ""}
           </span>
         </div>
-        <div className={styles.grid}>
+        <DividedGrid min={300} className={styles.grid}>
           {works.map((r) => (r ? <ResourceCard key={r.id} resource={r} locked={auth !== "verified"} /> : null))}
-        </div>
+        </DividedGrid>
       </section>
 
       <section aria-labelledby="cite-h" className={styles.cite}>

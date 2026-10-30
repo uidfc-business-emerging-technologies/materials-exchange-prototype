@@ -13,6 +13,7 @@ import weave from "tabbied/patterns/weave";
 import type { DisciplineKey } from "@/lib/data";
 import { useMotionPaused } from "@/lib/demo";
 import { hash01, paletteFor, patternSlugFor, type PatternSlug } from "@/lib/pattern";
+import { CutoutCycle } from "./CutoutCycle";
 import { Illustration, type IllustrationName } from "./Illustration";
 import styles from "./PatternCover.module.css";
 
@@ -30,8 +31,11 @@ export interface PatternCoverProps {
   cellSize?: number;
   /** Set false to keep the cover still even when animations are on. */
   motion?: boolean;
-  /** Image over the pattern, on a white disc unless `cutout`. Place and size it with `imageClassName`. */
-  image?: IllustrationName | `TME-${string}`;
+  /**
+   * Image over the pattern, on a white disc unless `cutout`. Place and size it with `imageClassName`.
+   * A list is a set of cutouts that take turns in that spot (see `CutoutCycle`).
+   */
+  image?: IllustrationName | `TME-${string}` | IllustrationName[];
   imageClassName?: string;
   /** Show `image` straight on the pattern, without the disc. For photo cutouts. */
   cutout?: boolean;
@@ -60,8 +64,9 @@ export function PatternCover({ discipline, seed, kind, palette, cellSize = 32, m
         paused={paused}
         className={styles.pattern}
       />
-      {image && cutout ? <Illustration name={image} className={[styles.cutout, imageClassName].filter(Boolean).join(" ")} eager /> : null}
-      {image && !cutout ? (
+      {Array.isArray(image) ? <CutoutCycle names={image} className={imageClassName} /> : null}
+      {image && !Array.isArray(image) && cutout ? <Illustration name={image} className={[styles.cutout, imageClassName].filter(Boolean).join(" ")} eager /> : null}
+      {image && !Array.isArray(image) && !cutout ? (
         <div className={[styles.disc, imageClassName].filter(Boolean).join(" ")}>
           <Illustration name={image} className={styles.discImage} eager />
         </div>

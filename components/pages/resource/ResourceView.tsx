@@ -37,6 +37,7 @@ import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
 import { coverImageFor, hasMaterialImage, Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
+import { DividedGrid } from "@/components/site/DividedGrid";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import { signInHref, verifyHref } from "@/components/site/SiteHeader";
 import styles from "./Resource.module.css";
@@ -518,12 +519,12 @@ export function ResourceView({ id }: { id: string }) {
         <h2 id="rel-h" className={styles.h2}>
           Related materials
         </h2>
-        <div className={styles.relatedGrid}>
+        <DividedGrid min={300} className={styles.relatedGrid}>
           {res.related.map((rid2) => {
             const r = byId(rid2);
             return r ? <ResourceCard key={r.id} resource={r} locked={!canGated} /> : null;
           })}
-        </div>
+        </DividedGrid>
       </section>
 
       <Modal open={dialog !== null} onOpenChange={(o) => !o && setDialog(null)} title={dialogTitle} description={dialogSub} width={dialog === "preview" ? 640 : 520}>
