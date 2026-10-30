@@ -21,19 +21,27 @@ const STATS = [
   { n: "41", label: "contributing institutions" },
   { n: "1,960", label: "verified instructors" },
 ];
-/** Photo cutouts that take turns on the hero pattern, alternating subjects and colors. */
+/** Photo cutouts that rain down the hero pattern, one lane each from left to right, so neighbors differ in subject and color. */
 const HERO_CUTOUTS: IllustrationName[] = [
-  "home-hero-photo",
-  "hero-chart",
-  "hero-scale",
+  "hero-diploma",
   "hero-chip",
-  "hero-building",
-  "hero-calculator",
+  "hero-bulb",
+  "home-hero-photo",
   "hero-globe",
-  "hero-server",
-  "hero-magnifier",
-  "hero-coins",
+  "hero-abacus",
+  "hero-scale",
+  "hero-robot",
+  "hero-chart",
   "hero-receipts",
+  "hero-building",
+  "hero-pie",
+  "hero-padlock",
+  "hero-server",
+  "hero-coins",
+  "hero-calculator",
+  "hero-hourglass",
+  "hero-magnifier",
+  "hero-briefcase",
 ];
 const STEPS = [
   { n: "1", art: "how-find", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
@@ -61,7 +69,7 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72} image={HERO_CUTOUTS} imageClassName={styles.heroPhoto} />
+        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72} image={HERO_CUTOUTS} />
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty

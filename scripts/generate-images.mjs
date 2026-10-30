@@ -4,10 +4,11 @@
 //   OPENAI_API_KEY=... node scripts/generate-images.mjs how-find   # regenerate the named images
 //
 // Every illustration shares STYLE and every photo cutout shares PHOTO, so a regenerated image
-// still matches the rest.
+// still matches the rest. Images shown small are scaled down before they're saved.
 
 import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 
 const MODEL = "gpt-image-2.5-sunburst";
 const OUT_DIR = join(import.meta.dirname, "..", "public", "images");
@@ -27,26 +28,39 @@ const PHOTO =
   "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
   "No text, no letters, no numbers, no logos.";
 
-/** Hero cutouts take turns standing on the bottom edge of the home hero pattern, so each one fills its frame the same way. */
-const HERO = PHOTO + " The subject fills most of the frame, and its base touches the bottom edge of the image.";
+/** Hero cutouts rain down the home hero pattern, so each one fills its frame the same way and they read as the same scale. */
+const HERO = PHOTO + " The subject fills most of the frame.";
 
 const SQUARE = "1024x1024";
 const WIDE = "1536x1024";
+/** Width the hero cutouts are saved at. They're shown at about 130px or less. */
+const SMALL = 320;
 
-/** name → [size, subject, style (STYLE unless given)]. Names match the files components load from /images. */
+/**
+ * name → [size, subject, style (STYLE unless given), saved width (as generated unless given)].
+ * Names match the files components load from /images.
+ */
 const IMAGES = {
-  // Home: the photo cutouts that take turns over the hero pattern, and the illustration they replaced
-  "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders in deep navy and bright orange, with a black graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO],
-  "hero-scale": [SQUARE, "A polished brass balance scale, its beam level, with a short stack of gold coins on one pan and a neat stack of plain paper documents on the other.", HERO],
-  "hero-chart": [SQUARE, "A three-dimensional bar chart sculpture made of glossy blocks in deep navy, bright orange, and mid blue, five bars rising in steps from left to right on a thin navy base.", HERO],
-  "hero-building": [SQUARE, "A white architectural scale model of a neoclassical university hall with tall columns, wide front steps, and a triangular pediment.", HERO],
-  "hero-calculator": [SQUARE, "A chunky desktop printing calculator in deep navy with bright orange keys that have no markings, a long curl of blank paper tape spilling out of the top.", HERO],
-  "hero-chip": [SQUARE, "A computer processor chip with a glossy deep navy top and rows of gold pins, resting at an angle on a small square of circuit board with fine copper traces and a few tiny orange components.", HERO],
-  "hero-magnifier": [SQUARE, "A large brass magnifying glass leaning against a stack of manila folders with blank colored index tabs in navy, orange, and blue.", HERO],
-  "hero-globe": [SQUARE, "An antique desk globe on a brass stand, its oceans deep navy and its continents in warm cream tones.", HERO],
-  "hero-server": [SQUARE, "A compact computer server tower in deep navy with rows of small glowing blue and orange status lights, and a coiled blue network cable beside it.", HERO],
-  "hero-coins": [SQUARE, "A clear glass jar filled with gold coins, with a small green seedling growing out of the coins at the top.", HERO],
-  "hero-receipts": [SQUARE, "A metal receipt spike holding a thick stack of blank paper receipts, with a wooden rubber stamp with a bright orange handle beside it.", HERO],
+  // Home: the photo cutouts that rain down the hero pattern, and the illustration they replaced
+  "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders in deep navy and bright orange, with a black graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO, SMALL],
+  "hero-scale": [SQUARE, "A polished brass balance scale, its beam level, with a short stack of gold coins on one pan and a neat stack of plain paper documents on the other.", HERO, SMALL],
+  "hero-chart": [SQUARE, "A three-dimensional bar chart sculpture made of glossy blocks in deep navy, bright orange, and mid blue, five bars rising in steps from left to right on a thin navy base.", HERO, SMALL],
+  "hero-building": [SQUARE, "A white architectural scale model of a neoclassical university hall with tall columns, wide front steps, and a triangular pediment.", HERO, SMALL],
+  "hero-calculator": [SQUARE, "A chunky desktop printing calculator in deep navy with bright orange keys that have no markings, a long curl of blank paper tape spilling out of the top.", HERO, SMALL],
+  "hero-chip": [SQUARE, "A computer processor chip with a glossy deep navy top and rows of gold pins, resting at an angle on a small square of circuit board with fine copper traces and a few tiny orange components.", HERO, SMALL],
+  "hero-magnifier": [SQUARE, "A large brass magnifying glass leaning against a stack of manila folders with blank colored index tabs in navy, orange, and blue.", HERO, SMALL],
+  "hero-globe": [SQUARE, "An antique desk globe on a brass stand, its oceans deep navy and its continents in warm cream tones.", HERO, SMALL],
+  "hero-server": [SQUARE, "A compact computer server tower in deep navy with rows of small glowing blue and orange status lights, and a coiled blue network cable beside it.", HERO, SMALL],
+  "hero-coins": [SQUARE, "A clear glass jar filled with gold coins, with a small green seedling growing out of the coins at the top.", HERO, SMALL],
+  "hero-receipts": [SQUARE, "A metal receipt spike holding a thick stack of blank paper receipts, with a wooden rubber stamp with a bright orange handle beside it.", HERO, SMALL],
+  "hero-diploma": [SQUARE, "A rolled paper diploma tied around the middle with a bright orange satin ribbon and bow.", HERO, SMALL],
+  "hero-abacus": [SQUARE, "A wooden abacus with rows of deep navy and bright orange beads.", HERO, SMALL],
+  "hero-robot": [SQUARE, "A small friendly robot with a glossy white body, a deep navy face screen, and two round glowing blue eyes.", HERO, SMALL],
+  "hero-bulb": [SQUARE, "A clear glass light bulb with a glowing warm orange filament and a brass screw base.", HERO, SMALL],
+  "hero-pie": [SQUARE, "A three-dimensional pie chart made of thick glossy slices in deep navy, bright orange, and mid blue, with one orange slice pulled out from the rest.", HERO, SMALL],
+  "hero-padlock": [SQUARE, "A heavy polished brass padlock with its shackle closed.", HERO, SMALL],
+  "hero-briefcase": [SQUARE, "A deep navy leather briefcase with a top handle and two brass clasps.", HERO, SMALL],
+  "hero-hourglass": [SQUARE, "An hourglass with a dark wooden frame and bright orange sand running from the top bulb into the bottom.", HERO, SMALL],
   "home-hero": [SQUARE, "A graduation mortarboard cap resting on a neat stack of case folders, with a spreadsheet card and a small bar chart card fanned out behind the stack."],
 
   // Home: How it works
@@ -105,7 +119,7 @@ async function exists(path) {
 }
 
 async function generate(name) {
-  const [size, subject, style = STYLE] = IMAGES[name];
+  const [size, subject, style = STYLE, width] = IMAGES[name];
   const res = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
@@ -121,7 +135,9 @@ async function generate(name) {
   });
   const body = await res.json();
   if (!res.ok) throw new Error(`${name}: ${body.error?.message || res.status}`);
-  await writeFile(join(OUT_DIR, `${name}.webp`), Buffer.from(body.data[0].b64_json, "base64"));
+  let image = Buffer.from(body.data[0].b64_json, "base64");
+  if (width) image = await sharp(image).resize({ width }).webp({ quality: 80 }).toBuffer();
+  await writeFile(join(OUT_DIR, `${name}.webp`), image);
   console.log(`${name}.webp`);
 }
 

@@ -1,5 +1,5 @@
 .hero {
-  /* Shared by the cover, the title panel, and the disc, which keeps clear of the panel. */
+  /* Shared by the cover and the title panel that overlaps it. */
   --cover-h: clamp(200px, 37.5vw, 480px);
   --overlap: clamp(48px, 15.6vw, 200px);
   --panel-w: 780px;
@@ -9,14 +9,6 @@
 .heroCover {
   height: var(--cover-h);
   border-radius: var(--radius-md);
-}
-
-/* The photo stands on the bottom edge of the pattern, centered beside the title panel. */
-.heroPhoto {
-  --d: min(calc(var(--cover-h) * 0.92), calc(100% - var(--panel-w) - 64px));
-  bottom: 0;
-  right: calc((100% - var(--panel-w) - var(--d)) / 2);
-  width: var(--d);
 }
 
 /* Text never sits on the pattern: the title panel is solid white and overlaps the cover. */
@@ -432,16 +424,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-}
-
-/* Too narrow to fit beside the panel: the photo moves to the corner above it. */
-@media (max-width: 1099px) {
-  .heroPhoto {
-    top: 12px;
-    bottom: auto;
-    right: 16px;
-    width: calc(var(--cover-h) - var(--overlap) - 24px);
-  }
 }
 
 /* One column: the path gives way to a dotted line down from each step to the next. */

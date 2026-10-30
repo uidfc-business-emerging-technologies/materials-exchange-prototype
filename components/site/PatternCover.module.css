@@ -32,42 +32,64 @@
   filter: drop-shadow(0 10px 24px rgba(19, 41, 75, 0.22));
 }
 
-/* Cutouts that take turns in one spot. The caller places and sizes the square they share. */
-.cycle {
-  position: absolute;
-  aspect-ratio: 1;
-}
-
-/* Leaving: sinks toward the bottom edge and fades. */
-.cycleItem {
+/*
+ * Cutouts raining down the cover. The layer is a size container, so each drop's size and the
+ * length of its fall follow the cover's height.
+ */
+.rain {
   position: absolute;
   inset: 0;
-  transform-origin: 50% 100%;
-  transition:
-    opacity 0.45s ease,
-    transform 0.6s cubic-bezier(0.5, 0, 0.75, 0);
+  container-type: size;
+  isolation: isolate; /* keeps the drops' depth order inside the cover, under anything that overlaps it */
+  pointer-events: none;
 }
 
-.cycleItem[data-state="next"] {
-  opacity: 0;
-  transform: translateY(22%) scale(0.88) rotate(-4deg);
+/* Lanes run from edge to edge, inset by each drop's own width so none is cut off at the sides. */
+.drop {
+  --w: max(32px, calc(var(--size) * 1cqh));
+  position: absolute;
+  top: 0;
+  left: calc(var(--lane) * (100% - var(--w)) + var(--w) / 2);
+  width: var(--w);
+  animation: fall var(--fall) linear var(--delay) infinite;
 }
 
-.cycleItem[data-state="prev"] {
-  opacity: 0;
-  transform: translateY(12%) scale(0.9) rotate(3deg);
-}
-
-/* Arriving: rises a beat after the last one starts to leave, with a small overshoot. */
-.cycleItem[data-state="on"] {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 0.5s ease 0.3s,
-    transform 0.85s cubic-bezier(0.34, 1.45, 0.64, 1) 0.3s;
-}
-
-.cycleImage {
+.dropImage {
   width: 100%;
-  filter: drop-shadow(0 10px 24px rgba(19, 41, 75, 0.22));
+  filter: drop-shadow(0 6px 12px rgba(19, 41, 75, 0.2));
+}
+
+/* Starts just above the top edge, ends just below the bottom edge, turning a little on the way. */
+@keyframes fall {
+  from {
+    translate: -50% -110%;
+    rotate: calc(var(--spin) * -1);
+  }
+  to {
+    translate: -50% 100cqh;
+    rotate: var(--spin);
+  }
+}
+
+/* The footer's pause button stops every drop where it is. */
+.rainStill .drop {
+  animation-play-state: paused;
+}
+
+/* Fewer lanes on a narrow cover, so the drops don't crowd. */
+@container (max-width: 719px) {
+  .drop:nth-child(even) {
+    display: none;
+  }
+}
+
+/*
+ * Reduced motion: the drops stay still where they are. The global rule shortens every animation
+ * to almost nothing, which would scatter them at random, so keep each fall's real length.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .drop {
+    animation-duration: var(--fall) !important;
+    animation-play-state: paused;
+  }
 }
