@@ -1,9 +1,15 @@
 .top {
-  /* Shared by the cover, the title panel, and the disc, which keeps clear of the panel. */
+  /* Shared by the cover and the title panel that overlaps it. */
   --cover-h: clamp(160px, 23.4vw, 300px);
   --overlap: clamp(40px, 9.2vw, 118px);
   --panel-w: 820px;
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
+}
+
+/* A cover image is a banner: taller, with the title below it instead of over its corner. */
+.topImage {
+  --cover-h: clamp(180px, 30vw, 380px);
+  --overlap: 0px;
 }
 
 .reviewBanner {
@@ -45,9 +51,7 @@
   color: var(--action);
 }
 
-/* The material's cutouts sit in the pattern beside the title panel. */
 .cover {
-  --cutouts-inset: 0 0 0 calc(var(--panel-w) + 24px);
   height: var(--cover-h);
   margin-top: 8px;
   border-radius: var(--radius-md);
@@ -789,12 +793,6 @@
   font-size: 15px;
 }
 
-/* Too narrow to fit beside the panel: the cutouts move to the right part of the strip above it. */
-@media (max-width: 1099px) {
-  .cover {
-    --cutouts-inset: 8px 0 calc(var(--overlap) + 4px) 45%;
-  }
-}
 
 @media (max-width: 640px) {
   .fileRow {

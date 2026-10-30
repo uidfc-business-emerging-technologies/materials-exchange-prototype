@@ -1,95 +1,15 @@
-/*
- * The cutouts' box fills the cover unless the caller insets it. It's a size container, so the
- * cutouts scale with it, and its edges fade so cutouts drift in and out instead of being cut off.
- */
-.cutouts {
-  position: absolute;
-  inset: var(--cutouts-inset, 0);
+/* The caller sets the size and shape; the image fills it, cropped to fit. */
+.cover {
+  position: relative;
+  display: block;
   overflow: hidden;
-  container-type: size;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  background: var(--surface-2);
 }
 
-/*
- * The track holds four copies of the three cutouts and slides left by one copy (a quarter of its
- * width) per loop, so the loop is seamless. Cutouts are about half the box's height.
- */
-.track {
-  --w: min(52cqh, 30cqw);
+.image {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  width: max-content;
-  animation: carousel var(--loop) linear var(--start) infinite;
-}
-
-.item {
-  flex: none;
-  width: var(--w);
-  margin-right: calc(var(--w) * 0.35);
-  filter: drop-shadow(0 calc(var(--w) * 0.05) calc(var(--w) * 0.08) rgba(19, 41, 75, 0.22));
-}
-
-/* A little up and down and a little turned, so the row doesn't look like a shelf. */
-.item:nth-child(3n + 1) {
-  translate: 0 6%;
-  rotate: -6deg;
-}
-
-.item:nth-child(3n + 2) {
-  translate: 0 -6%;
-  rotate: 5deg;
-}
-
-.item:nth-child(3n) {
-  rotate: -2deg;
-}
-
-@keyframes carousel {
-  to {
-    translate: -25% 0;
-  }
-}
-
-/* The footer's pause button and covers with motion off stop the carousel where it is. */
-.still .track {
-  animation-play-state: paused;
-}
-
-/* Only shown on a small thumbnail. */
-.solo {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 86cqh;
-  translate: -50% -50%;
-  filter: drop-shadow(0 2px 4px rgba(19, 41, 75, 0.22));
-}
-
-/* A thumbnail too small for a carousel: the main cutout alone, standing still. */
-@container (max-height: 64px) {
-  .track {
-    display: none;
-  }
-
-  .solo {
-    display: block;
-  }
-}
-
-/*
- * Reduced motion: the carousel stays still where it is. The global rule shortens every animation
- * to almost nothing, which would leave it anywhere, so keep the loop's real length.
- */
-@media (prefers-reduced-motion: reduce) {
-  .track {
-    animation-duration: var(--loop) !important;
-    animation-play-state: paused;
-  }
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -216,7 +216,7 @@ export function AccountView() {
                 const f = !!follow[id];
                 return (
                   <li key={id} className={styles.row}>
-                    <MaterialCover id={r.id} discipline={r.d} className={styles.thumb} cellSize={18} />
+                    <MaterialCover id={r.id} discipline={r.d} className={styles.thumb} cellSize={18} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         {r.type} · {r.discipline}
@@ -277,7 +277,7 @@ export function AccountView() {
               <ul className={styles.list}>
                 {mine.map((m) => (
                   <li key={m.id} className={styles.row}>
-                    <MaterialCover id={m.id} discipline={m.d} className={styles.thumb} cellSize={18} />
+                    <MaterialCover id={m.id} discipline={m.d} className={styles.thumb} cellSize={18} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         {m.type} · {m.discipline}

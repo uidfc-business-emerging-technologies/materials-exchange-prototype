@@ -1,46 +1,39 @@
 "use client";
 
+import { coverFiles } from "@/lib/covers";
 import type { DisciplineKey } from "@/lib/data";
-import { useMotionPaused } from "@/lib/demo";
-import { COVER_NEUTRAL_PALETTE, hash01 } from "@/lib/pattern";
-import { cutoutsFor, Illustration } from "./Illustration";
+import { useDemo } from "@/lib/demo";
+import { COVER_NEUTRAL_PALETTE } from "@/lib/pattern";
+import { hasMaterialImage } from "./Illustration";
 import { PatternCover, type PatternCoverProps } from "./PatternCover";
 import styles from "./MaterialCover.module.css";
 
-/** Copies of the cutouts in the carousel track: enough to fill a box up to about six cutouts' height wide. */
-const COPIES = [0, 1, 2, 3];
-
 export interface MaterialCoverProps extends Pick<PatternCoverProps, "cellSize" | "motion" | "className" | "style"> {
-  /** Resource ID: picks the cutouts, and seeds the pattern unless `seed` is given. */
+  /** Resource ID: picks the cover image, and seeds the pattern unless `seed` is given. */
   id: string;
   discipline: DisciplineKey;
   seed?: string;
-  /** A contributor-chosen palette (see `palettesFor`); neutral grays otherwise. */
+  /** A contributor-chosen palette for the pattern (see `palettesFor`); neutral grays otherwise. */
   palette?: string[];
+  /** How wide the cover shows, as an `<img sizes>` value, so the browser picks the right file. */
+  sizes?: string;
 }
 
 /**
- * MaterialCover: a material's pattern cover in neutral grays, with its three color photo cutouts
- * moving slowly to the left across it in a seamless loop, fading in and out at the edges. Each
- * cover's speed and starting point come from its ID, so a grid of cards doesn't move in step. A
- * small thumbnail shows only the main cutout, standing still. Set `--cutouts-inset` on
- * `className` to keep the cutouts clear of something overlapping the cover.
+ * MaterialCover: a material's cover, sized and shaped by `className`. A published material shows
+ * its cover image, cropped to fit, in the style picked with the Covers switch (lib/covers.ts).
+ * Anything else, like a new submission, shows a Tabbied pattern in the contributor's palette or
+ * neutral grays. Decorative and hidden from assistive technology.
  */
-export function MaterialCover({ id, discipline, seed = id, palette, cellSize, motion = true, className, style }: MaterialCoverProps) {
-  const { paused, reduced } = useMotionPaused();
-  const cutouts = cutoutsFor(id);
-  const seconds = 14 + hash01(id + "-carousel") * 4;
-  const vars = { "--loop": `${seconds.toFixed(2)}s`, "--start": `${(-hash01(id) * seconds).toFixed(2)}s` } as React.CSSProperties;
+export function MaterialCover({ id, discipline, seed = id, palette, cellSize, motion, className, style, sizes = "400px" }: MaterialCoverProps) {
+  const { covers } = useDemo();
+  if (!hasMaterialImage(id)) {
+    return <PatternCover discipline={discipline} seed={seed} palette={palette || COVER_NEUTRAL_PALETTE} cellSize={cellSize} motion={motion} className={className} style={style} />;
+  }
+  const { src, small } = coverFiles(id, covers);
   return (
-    <PatternCover discipline={discipline} seed={seed} palette={palette || COVER_NEUTRAL_PALETTE} cellSize={cellSize} motion={motion} className={className} style={style}>
-      {cutouts.length ? (
-        <div className={[styles.cutouts, paused || reduced || !motion ? styles.still : ""].filter(Boolean).join(" ")} style={vars}>
-          <Illustration name={cutouts[0]} className={styles.solo} />
-          <div className={styles.track}>
-            {COPIES.map((copy) => cutouts.map((name) => <Illustration key={`${copy}-${name}`} name={name} className={styles.item} />))}
-          </div>
-        </div>
-      ) : null}
-    </PatternCover>
+    <div aria-hidden="true" className={[styles.cover, className].filter(Boolean).join(" ")} style={style}>
+      <img src={src} srcSet={`${small} 640w, ${src} 1280w`} sizes={sizes} alt="" loading="lazy" decoding="async" className={styles.image} />
+    </div>
   );
 }

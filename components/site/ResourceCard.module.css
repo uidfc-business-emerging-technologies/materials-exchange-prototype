@@ -8,7 +8,7 @@
 
 .cover {
   position: relative;
-  height: 140px;
+  aspect-ratio: 2 / 1;
   flex: none;
   border-radius: var(--radius-md);
 }

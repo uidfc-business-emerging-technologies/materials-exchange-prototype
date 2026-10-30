@@ -186,7 +186,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={styles.top}>
+      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />
@@ -205,7 +205,7 @@ export function ResourceView({ id }: { id: string }) {
           <ChevronRight size={14} aria-hidden />
           <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
         </nav>
-        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} />
+        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 1280px) 100vw, 1200px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>

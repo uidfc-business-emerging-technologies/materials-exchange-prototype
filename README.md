@@ -53,9 +53,9 @@ Each Preview keeps its own copy of the build settings it was created with. If yo
 
 ## Demo state
 
-There is no backend. Use the **View as** switch (bottom right, or in the admin sidebar) to see the site as a guest, a verified instructor, or an admin.
+There is no backend. Use the **View as** switch (bottom right, or in the admin sidebar) to see the site as a guest, a verified instructor, or an admin. The **Covers** picker beside it shows every material cover in one of the cover styles (see Material covers).
 
-- Who you are signed in as lives in a `tme-demo` cookie, so pages render the right access state on the server.
+- Who you are signed in as lives in a `tme-demo` cookie, so pages render the right access state on the server. The cover style lives in a `tme-covers` cookie for the same reason.
 - Everything else you do (saves, downloads, drafts, admin edits) lives in `localStorage` on your browser.
 - Signing out resets the demo.
 
@@ -79,6 +79,7 @@ There is no backend. Use the **View as** switch (bottom right, or in the admin s
 | `/admin/materials`, `/admin/materials/TME-0142` | Materials and edit material |
 | `/admin/users`, `/admin/users/praman` | Users and edit user |
 | `/admin/emails` | Every email the exchange sends (`?t=ver-ok` opens one) |
+| `/library` | Image library: the material cover styles side by side, and every 3D object image (linked from the footer) |
 
 ## Layout
 
@@ -97,15 +98,16 @@ lib/
   emails.ts      every email template shown on the admin Emails page
   demo.tsx       demo state provider
   pattern.ts     discipline to Tabbied design and palette mapping
+  covers.ts      material cover styles and the Covers cookie
 ```
 
 ## Pattern covers
 
-Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the resource ID is the seed, so the same resource always gets the same cover. Covers that show color photos are in grays, so the photos stand out:
+[Tabbied](https://tabbied.com) patterns (`tabbied/react`) fill the home hero, the art beside forms like sign-in, and the cover of any material without a cover image, such as a new submission. The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the seed (usually the resource ID) keeps the same pattern for the same thing:
 
-- The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`).
-- Material covers (`MaterialCover`) use slightly deeper grays (`COVER_NEUTRAL_PALETTE`). They're small, have no border, and several designs are thin lines, which the lighter grays would lose against the white page. A contributor can still pick a colored palette for a new submission's cover.
-- Other patterns, such as the art beside the sign-in form, keep their discipline's colors.
+- The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photos on it stand out.
+- A material without a cover image uses slightly deeper grays (`COVER_NEUTRAL_PALETTE`), unless its contributor picked a colored palette.
+- The art beside forms keeps its discipline's colors.
 
 Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
 
@@ -119,15 +121,23 @@ The same photo style is used in two more places:
 
 - **Stats:** each number in the home page's stats row has one cutout beside it (`stat-*.webp`).
 - **Disciplines:** each tile in Browse by discipline is a cutout (`disc-fin.webp` and so on) instead of a pattern.
-- **Material covers:** each resource has three cutouts (`TME-0142-a.webp` to `TME-0142-c.webp`, the main one first). They move slowly to the left across its cover in a seamless loop, about half the cover's height, and fade in and out at the edges. Each cover's speed and starting point come from the resource ID, so a grid of cards doesn't move in step. A thumbnail under 64px tall shows only the main cutout, standing still. On the resource page, the cutouts keep clear of the title panel.
+- **Materials:** each resource has three cutouts (`TME-0142-a.webp` to `TME-0142-c.webp`). They were on its cover and aren't on the site right now, but they're kept for reuse.
+
+`/library` lists every one of these 3D objects with its file name. Show one with `<Illustration name="…" />`. A new one matches the rest if its script entry uses the `HERO` style line.
+
+### Material covers
+
+Each published material's cover (cards, list rows, its page, and thumbnails in the account, verify, and admin screens) is a full-bleed image. Every material has one in each of five styles, so the styles can be compared: minimal photo, line, risograph, watercolor, and cut paper (`TME-0142-riso.webp` and so on, `COVER_STYLES` in `lib/covers.ts`). The site shows one style at a time, risograph unless the visitor picks another with the Covers picker or on `/library`. Each image is saved 1280px wide with a 640px copy (`-sm`) for thumbnails, and every cover tells the browser how wide it shows (`sizes`) so it loads the smaller file where that's enough.
+
+All five styles share one composition line: the subject sits in a band across the middle, with plain background above and below, so the image crops cleanly to a card (2:1) or a page banner (about 3:1). On a material's page the cover is a banner with the title below it. Covers aren't transparent, unlike the illustrations and cutouts.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
 OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new version of one image
 ```
 
-Every resource expects four images named after its ID (the illustration and three cutouts), so a new resource in `lib/data.ts` needs four entries in the script too.
+Every resource expects images named after its ID: the illustration, three cutouts, and a cover in each style. A new resource in `lib/data.ts` needs an illustration and cutouts entry in the script, and a subject in `COVER_SUBJECTS`, which makes its covers in every style.
 
 ## Motion
 
-Besides the pattern covers, the hero cutouts rain down, material covers' cutouts move across them, and on the home page's How it works, the dots march along the path and each step's picture bobs. The footer's **Pause animations** button stops all of them where they are. If the visitor prefers reduced motion, they don't run at all, and the button is hidden.
+Besides the patterns, the hero cutouts rain down, and on the home page's How it works, the dots march along the path and each step's picture bobs. The footer's **Pause animations** button stops all of them where they are. If the visitor prefers reduced motion, they don't run at all, and the button is hidden.

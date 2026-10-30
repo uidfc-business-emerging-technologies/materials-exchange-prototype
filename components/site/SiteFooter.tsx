@@ -48,6 +48,9 @@ export function SiteFooter() {
         <Link href="/admin" className={styles.link}>
           Admin
         </Link>
+        <Link href="/library" className={styles.link}>
+          Image library
+        </Link>
         {!reduced ? (
           <button type="button" className={styles.motion} aria-pressed={paused} onClick={() => setMotionPaused(!paused)}>
             {paused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}

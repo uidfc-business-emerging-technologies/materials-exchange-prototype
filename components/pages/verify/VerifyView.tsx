@@ -183,7 +183,7 @@ export function VerifyView() {
             </p>
             {ret ? (
               <div className={styles.returnCard}>
-                <MaterialCover id={ret.id} discipline={ret.d} className={styles.returnCover} cellSize={20} />
+                <MaterialCover id={ret.id} discipline={ret.d} className={styles.returnCover} cellSize={20} sizes="56px" />
                 <div className={styles.returnText}>
                   <span className={styles.returnHint}>After this, you&apos;ll go back to</span>
                   <span className={styles.returnTitle}>{ret.short}</span>

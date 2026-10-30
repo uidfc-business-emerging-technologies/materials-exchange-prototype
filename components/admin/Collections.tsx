@@ -33,7 +33,7 @@ import { MaterialCover } from "@/components/site/MaterialCover";
 import { AdminCollection, type ActionSpec } from "./AdminCollection";
 import a from "./admin.module.css";
 
-const Thumb = ({ d, id, seed }: { d: DisciplineKey; id: string; seed?: string }) => <MaterialCover id={id} discipline={d} seed={seed} className={a.thumb} cellSize={14} motion={false} />;
+const Thumb = ({ d, id, seed }: { d: DisciplineKey; id: string; seed?: string }) => <MaterialCover id={id} discipline={d} seed={seed} className={a.thumb} cellSize={14} motion={false} sizes="48px" />;
 
 // ---------- Submissions ----------
 
