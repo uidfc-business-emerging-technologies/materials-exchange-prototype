@@ -101,13 +101,13 @@ lib/
 
 ## Pattern covers
 
-Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
+Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photo on it stands out. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
 
 ## Illustrations
 
 Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has two: one in the body of its page (`public/images/TME-0142.webp` and so on), and one on a white disc over its cover pattern (`TME-0142-cover.webp`). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
-The home hero is a pilot of a second style: a black-and-white photo cutout that sits straight on the pattern, with no disc (`home-hero-photo.webp`). Photo prompts share their own style line, which asks for a grayscale studio photo cut out like a collage element. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
+The home hero is a pilot of a second style: a color photo cutout that sits straight on the pattern, with no disc (`home-hero-photo.webp`). Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing

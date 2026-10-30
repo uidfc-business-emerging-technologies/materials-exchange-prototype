@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { disciplines, filterDefs, resources } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
+import { NEUTRAL_PALETTE } from "@/lib/pattern";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
 import { Illustration } from "@/components/site/Illustration";
@@ -38,7 +39,7 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" className={styles.heroCover} cellSize={72} image="home-hero-photo" imageClassName={styles.heroPhoto} cutout />
+        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72} image="home-hero-photo" imageClassName={styles.heroPhoto} cutout />
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty

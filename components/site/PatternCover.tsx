@@ -5,6 +5,7 @@ import bloks from "tabbied/patterns/bloks";
 import comet from "tabbied/patterns/comet";
 import maze from "tabbied/patterns/maze";
 import metro from "tabbied/patterns/metro";
+import mixtape from "tabbied/patterns/mixtape";
 import terrain from "tabbied/patterns/terrain";
 import tesserae from "tabbied/patterns/tesserae";
 import trigram from "tabbied/patterns/trigram";
@@ -15,7 +16,7 @@ import { hash01, paletteFor, patternSlugFor, type PatternSlug } from "@/lib/patt
 import { Illustration, type IllustrationName } from "./Illustration";
 import styles from "./PatternCover.module.css";
 
-const DESIGNS = { bloks, comet, maze, metro, terrain, tesserae, trigram, weave } satisfies Record<PatternSlug, unknown>;
+const DESIGNS = { bloks, comet, maze, metro, mixtape, terrain, tesserae, trigram, weave } satisfies Record<PatternSlug, unknown>;
 
 export interface PatternCoverProps {
   discipline: DisciplineKey;
@@ -23,7 +24,7 @@ export interface PatternCoverProps {
   seed: string;
   /** Overrides the discipline's design. */
   kind?: PatternSlug;
-  /** Contributor-chosen palette, ground first (see `palettesFor`). */
+  /** Contributor-chosen or fixed palette, ground first (see `palettesFor` and `NEUTRAL_PALETTE`). */
   palette?: string[];
   /** Target cell size in px. Small thumbnails read better with smaller cells. */
   cellSize?: number;

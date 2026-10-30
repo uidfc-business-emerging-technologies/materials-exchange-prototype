@@ -3,7 +3,7 @@
 // resource gets the same cover on cards, its resource page, and in the admin.
 import type { DisciplineKey } from "./data";
 
-export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae";
+export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape";
 
 /** Editorial direction: Illini navy and orange with the discipline's signature color, on white. */
 export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: string[] }> = {
@@ -18,11 +18,14 @@ export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: strin
 };
 
 export const PATTERN_LABEL: Record<PatternSlug, string> = {
-  bloks: "Bloks", maze: "Maze", trigram: "Trigram", metro: "Metro", weave: "Weave", terrain: "Terrain", comet: "Comet", tesserae: "Tesserae",
+  bloks: "Bloks", maze: "Maze", trigram: "Trigram", metro: "Metro", weave: "Weave", terrain: "Terrain", comet: "Comet", tesserae: "Tesserae", mixtape: "Mixtape",
 };
 
 /** Cover ground. Text never sits on the pattern, so the ground stays plain white. */
 export const COVER_GROUND = "#FFFFFF";
+
+/** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
+export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];
 
 export const patternSlugFor = (d: DisciplineKey): PatternSlug => (PATTERN_MAP[d] || PATTERN_MAP.other).slug;
 

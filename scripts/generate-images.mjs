@@ -20,9 +20,9 @@ const STYLE =
   "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
   "No text, no letters, no numbers, no logos.";
 
-/** Single-saturation photo cutouts, shown straight on a pattern instead of on a disc. */
+/** Photo cutouts, shown straight on a pattern instead of on a disc. */
 const PHOTO =
-  "Black-and-white studio photograph, fully desaturated grayscale with no color at all. High contrast, sharp focus, soft even lighting. " +
+  "Full-color studio photograph with natural, true-to-life colors. Sharp focus, soft even lighting. " +
   "A single isolated subject, centered, cut out cleanly like a magazine collage element, with crisp edges. " +
   "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
   "No text, no letters, no numbers, no logos.";
@@ -33,7 +33,7 @@ const WIDE = "1536x1024";
 /** name → [size, subject, style (STYLE unless given)]. Names match the files components load from /images. */
 const IMAGES = {
   // Home: the photo cutout over the hero pattern, and the illustration it replaced
-  "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders, with a graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO],
+  "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders in deep navy and bright orange, with a black graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO],
   "home-hero": [SQUARE, "A graduation mortarboard cap resting on a neat stack of case folders, with a spreadsheet card and a small bar chart card fanned out behind the stack."],
 
   // Home: How it works
