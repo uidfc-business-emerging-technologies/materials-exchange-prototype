@@ -3,7 +3,8 @@
 //   OPENAI_API_KEY=... node scripts/generate-images.mjs            # only images that don't exist yet
 //   OPENAI_API_KEY=... node scripts/generate-images.mjs how-find   # regenerate the named images
 //
-// Every image shares STYLE, so a regenerated image still matches the rest.
+// Every illustration shares STYLE and every photo cutout shares PHOTO, so a regenerated image
+// still matches the rest.
 
 import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
@@ -19,12 +20,20 @@ const STYLE =
   "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
   "No text, no letters, no numbers, no logos.";
 
+/** Single-saturation photo cutouts, shown straight on a pattern instead of on a disc. */
+const PHOTO =
+  "Black-and-white studio photograph, fully desaturated grayscale with no color at all. High contrast, sharp focus, soft even lighting. " +
+  "A single isolated subject, centered, cut out cleanly like a magazine collage element, with crisp edges. " +
+  "Fully transparent background with no backdrop, no floor, and no cast shadow outside the subject. " +
+  "No text, no letters, no numbers, no logos.";
+
 const SQUARE = "1024x1024";
 const WIDE = "1536x1024";
 
-/** name → [size, subject]. Names match the files components load from /images. */
+/** name → [size, subject, style (STYLE unless given)]. Names match the files components load from /images. */
 const IMAGES = {
-  // Home: on a disc over the hero pattern
+  // Home: the photo cutout over the hero pattern, and the illustration it replaced
+  "home-hero-photo": [SQUARE, "A tall stack of worn hardcover textbooks and ring binders, with a graduation mortarboard cap resting on top and a pair of reading glasses folded beside the cap.", PHOTO],
   "home-hero": [SQUARE, "A graduation mortarboard cap resting on a neat stack of case folders, with a spreadsheet card and a small bar chart card fanned out behind the stack."],
 
   // Home: How it works
@@ -83,13 +92,13 @@ async function exists(path) {
 }
 
 async function generate(name) {
-  const [size, subject] = IMAGES[name];
+  const [size, subject, style = STYLE] = IMAGES[name];
   const res = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: MODEL,
-      prompt: `${subject} ${STYLE}`,
+      prompt: `${subject} ${style}`,
       size,
       quality: "low",
       background: "transparent",
