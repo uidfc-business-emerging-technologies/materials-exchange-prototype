@@ -4,6 +4,7 @@ import styles from "./Illustration.module.css";
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
 export type IllustrationName =
   | "home-hero"
+  | "home-hero-photo"
   | "how-find"
   | "how-verify"
   | "how-share"

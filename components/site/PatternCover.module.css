@@ -25,3 +25,9 @@
 .discImage {
   width: 74%;
 }
+
+/* A photo cutout straight on the pattern. The shadow lifts it off the pattern. */
+.cutout {
+  position: absolute;
+  filter: drop-shadow(0 10px 24px rgba(19, 41, 75, 0.22));
+}

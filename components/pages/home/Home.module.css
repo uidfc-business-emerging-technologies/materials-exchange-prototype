@@ -11,13 +11,12 @@
   border-radius: var(--radius-md);
 }
 
-/* The illustration's disc is centered in the pattern beside the title panel. */
-.heroDisc {
-  --d: min(calc(var(--cover-h) * 0.72), calc(100% - var(--panel-w) - 64px));
-  top: 50%;
+/* The photo stands on the bottom edge of the pattern, centered beside the title panel. */
+.heroPhoto {
+  --d: min(calc(var(--cover-h) * 0.92), calc(100% - var(--panel-w) - 64px));
+  bottom: 0;
   right: calc((100% - var(--panel-w) - var(--d)) / 2);
   width: var(--d);
-  translate: 0 -50%;
 }
 
 /* Text never sits on the pattern: the title panel is solid white and overlaps the cover. */
@@ -323,13 +322,13 @@
   gap: 12px;
 }
 
-/* Too narrow to fit beside the panel: the disc moves to the corner above it. */
+/* Too narrow to fit beside the panel: the photo moves to the corner above it. */
 @media (max-width: 1099px) {
-  .heroDisc {
-    top: 16px;
+  .heroPhoto {
+    top: 12px;
+    bottom: auto;
     right: 16px;
-    width: calc(var(--cover-h) - var(--overlap) - 32px);
-    translate: none;
+    width: calc(var(--cover-h) - var(--overlap) - 24px);
   }
 }
 

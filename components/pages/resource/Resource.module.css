@@ -53,7 +53,7 @@
 
 /* The material's illustration is on a disc centered in the pattern beside the title panel. */
 .coverDisc {
-  --d: min(calc(var(--cover-h) * 0.8), calc(100% - var(--panel-w) - 64px));
+  --d: min(calc(var(--cover-h) * 0.6), calc(100% - var(--panel-w) - 64px));
   top: 50%;
   right: calc((100% - var(--panel-w) - var(--d)) / 2);
   width: var(--d);
@@ -802,7 +802,7 @@
   .coverDisc {
     top: 16px;
     right: 16px;
-    width: calc(var(--cover-h) - var(--overlap) - 32px);
+    width: calc((var(--cover-h) - var(--overlap) - 32px) * 0.8);
     translate: none;
   }
 }
