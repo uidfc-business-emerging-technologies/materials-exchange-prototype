@@ -1,0 +1,15 @@
+/* The caller sets the size and shape; the image fills it, cropped to fit. */
+.cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

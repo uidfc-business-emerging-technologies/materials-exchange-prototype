@@ -12,7 +12,7 @@ import { RadioCards, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
 import { Illustration } from "@/components/site/Illustration";
-import { PatternCover } from "@/components/site/PatternCover";
+import { MaterialCover } from "@/components/site/MaterialCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Verify.module.css";
 
@@ -183,7 +183,7 @@ export function VerifyView() {
             </p>
             {ret ? (
               <div className={styles.returnCard}>
-                <PatternCover discipline={ret.d} seed={ret.id} className={styles.returnCover} cellSize={20} />
+                <MaterialCover id={ret.id} discipline={ret.d} className={styles.returnCover} cellSize={20} sizes="56px" />
                 <div className={styles.returnText}>
                   <span className={styles.returnHint}>After this, you&apos;ll go back to</span>
                   <span className={styles.returnTitle}>{ret.short}</span>

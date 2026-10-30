@@ -1,0 +1,43 @@
+/*
+ * Consumers set margins and --gap-x / --gap-y, and can set --divider (line color) and
+ * --row-divider (the lines between rows; transparent drops them). Nothing here competes with
+ * their class.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--min)), 1fr));
+  gap: var(--gap-y, 40px) var(--gap-x, 40px);
+  overflow: hidden;
+}
+
+.grid > * {
+  position: relative;
+}
+
+/*
+ * Every item draws a line down the middle of the gap on its left and across the middle of the
+ * gap above it. The grid clips the ones left of the first column and above the first row, so
+ * lines only ever sit between items, however many columns fit.
+ */
+.grid > *::before,
+.grid > *::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.grid > *::before {
+  background: var(--divider, var(--border));
+  top: calc(var(--gap-y, 40px) / -2);
+  bottom: calc(var(--gap-y, 40px) / -2);
+  left: calc(var(--gap-x, 40px) / -2);
+  width: 1px;
+}
+
+.grid > *::after {
+  background: var(--row-divider, var(--divider, var(--border)));
+  top: calc(var(--gap-y, 40px) / -2);
+  left: calc(var(--gap-x, 40px) / -2);
+  right: calc(var(--gap-x, 40px) / -2);
+  height: 1px;
+}

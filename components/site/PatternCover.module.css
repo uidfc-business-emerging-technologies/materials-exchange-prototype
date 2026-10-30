@@ -11,23 +11,64 @@
   inset: 0;
 }
 
-/* An illustration on a white disc over the pattern. The caller places and sizes the disc. */
-.disc {
+/*
+ * Cutouts raining down the cover. The layer is a size container, so each drop's size and the
+ * length of its fall follow the cover's height.
+ */
+.rain {
   position: absolute;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--shadow-pop);
+  inset: 0;
+  container-type: size;
+  isolation: isolate; /* keeps the drops' depth order inside the cover, under anything that overlaps it */
+  pointer-events: none;
 }
 
-.discImage {
-  width: 74%;
+/* Lanes run from edge to edge, inset by each drop's own width so none is cut off at the sides. */
+.drop {
+  --w: max(32px, calc(var(--size) * 1cqh));
+  position: absolute;
+  top: 0;
+  left: calc(var(--lane) * (100% - var(--w)) + var(--w) / 2);
+  width: var(--w);
+  animation: fall var(--fall) linear var(--delay) infinite;
 }
 
-/* A photo cutout straight on the pattern. The shadow lifts it off the pattern. */
-.cutout {
-  position: absolute;
-  filter: drop-shadow(0 10px 24px rgba(19, 41, 75, 0.22));
+.dropImage {
+  width: 100%;
+  filter: drop-shadow(0 6px 12px rgba(19, 41, 75, 0.2));
+}
+
+/* Starts just above the top edge, ends just below the bottom edge, turning a little on the way. */
+@keyframes fall {
+  from {
+    translate: -50% -110%;
+    rotate: calc(var(--spin) * -1);
+  }
+  to {
+    translate: -50% 100cqh;
+    rotate: var(--spin);
+  }
+}
+
+/* The footer's pause button stops every drop where it is. */
+.rainStill .drop {
+  animation-play-state: paused;
+}
+
+/* Fewer lanes on a narrow cover, so the drops don't crowd. */
+@container (max-width: 719px) {
+  .drop:nth-child(even) {
+    display: none;
+  }
+}
+
+/*
+ * Reduced motion: the drops stay still where they are. The global rule shortens every animation
+ * to almost nothing, which would scatter them at random, so keep each fall's real length.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .drop {
+    animation-duration: var(--fall) !important;
+    animation-play-state: paused;
+  }
 }

@@ -1,10 +1,39 @@
-import { allResources } from "@/lib/data";
+import { allResources, type DisciplineKey } from "@/lib/data";
 import styles from "./Illustration.module.css";
+
+/**
+ * Photo cutouts: 3D-looking objects on transparent backgrounds, shown in the hero rain, the stats
+ * row, and Browse by discipline, and listed on /library for reuse.
+ */
+export const HERO_OBJECTS = [
+  "home-hero-photo",
+  "hero-scale",
+  "hero-chart",
+  "hero-building",
+  "hero-calculator",
+  "hero-chip",
+  "hero-magnifier",
+  "hero-globe",
+  "hero-server",
+  "hero-coins",
+  "hero-receipts",
+  "hero-diploma",
+  "hero-abacus",
+  "hero-robot",
+  "hero-bulb",
+  "hero-pie",
+  "hero-padlock",
+  "hero-briefcase",
+  "hero-hourglass",
+] as const;
+export const STAT_OBJECTS = ["stat-resources", "stat-institutions", "stat-instructors"] as const;
 
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
 export type IllustrationName =
+  | (typeof HERO_OBJECTS)[number]
+  | (typeof STAT_OBJECTS)[number]
+  | `disc-${DisciplineKey}`
   | "home-hero"
-  | "home-hero-photo"
   | "how-find"
   | "how-verify"
   | "how-share"
@@ -21,13 +50,16 @@ export type IllustrationName =
   | "file-locked"
   | "not-found";
 
-/** Every published resource has a 3:2 illustration named after its ID, and square cover art named `<ID>-cover`. */
+/**
+ * Every published resource has a 3:2 illustration named after its ID, cover images in each style
+ * (lib/covers.ts), and three square photo cutouts named `<ID>-a` to `<ID>-c`.
+ */
 const WIDE = new Set(allResources().map((r) => r.id));
 
 export const hasMaterialImage = (id: string): id is `TME-${string}` => WIDE.has(id);
 
-/** The art shown on a disc over a resource's cover pattern, if the resource has one. */
-export const coverImageFor = (id: string) => (hasMaterialImage(id) ? (`${id}-cover` as const) : undefined);
+/** A resource's three photo cutouts, main one first, if it has them. No longer on its cover; kept for reuse. */
+export const cutoutsFor = (id: string): `TME-${string}`[] => (hasMaterialImage(id) ? [`${id}-a`, `${id}-b`, `${id}-c`] : []);
 
 /**
  * Illustration: a generated spot illustration on a transparent background. Size it with

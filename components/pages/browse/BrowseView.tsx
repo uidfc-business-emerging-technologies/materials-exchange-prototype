@@ -9,6 +9,7 @@ import { useDemo } from "@/lib/demo";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Checkbox, Segmented, Select } from "@/components/ui/controls";
 import { infoToast, Modal } from "@/components/ui/overlays";
+import { DividedGrid } from "@/components/site/DividedGrid";
 import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard, ResourceCardSkeleton } from "@/components/site/ResourceCard";
@@ -49,6 +50,11 @@ function scorer(query: string) {
     const hay = [r.title, r.summary, r.discipline, r.type, r.tools.join(" "), r.authors, r.level].join(" ").toLowerCase();
     return words.filter((w) => hay.indexOf(w) > -1).length;
   };
+}
+
+/** List rows carry their own rules; grid cards get lines between them. */
+function ResultsWrap({ list, className, ...rest }: { list: boolean } & React.HTMLAttributes<HTMLElement>) {
+  return list ? <div {...rest} className={[styles.listWrap, className].filter(Boolean).join(" ")} /> : <DividedGrid {...rest} min={260} className={[styles.grid, className].filter(Boolean).join(" ")} />;
 }
 
 export function BrowseView() {
@@ -244,11 +250,11 @@ export function BrowseView() {
           ) : null}
 
           {loading ? (
-            <div aria-hidden="true" className={list ? styles.listWrap : styles.grid}>
+            <ResultsWrap list={list} aria-hidden="true">
               {Array.from({ length: phone ? 3 : 6 }, (_, i) => (
                 <ResourceCardSkeleton key={i} variant={list ? "list" : "grid"} />
               ))}
-            </div>
+            </ResultsWrap>
           ) : isEmpty ? (
             <div className={styles.empty}>
               <PatternCover discipline="other" seed="empty-search" className={styles.emptyCover} cellSize={24} />
@@ -278,11 +284,11 @@ export function BrowseView() {
               </div>
             </div>
           ) : (
-            <div aria-busy={refreshing} className={[list ? styles.listWrap : styles.grid, refreshing ? styles.refreshing : ""].join(" ")}>
+            <ResultsWrap list={list} aria-busy={refreshing} className={refreshing ? styles.refreshing : undefined}>
               {results.map((r) => (
                 <ResourceCard key={r.id} resource={r} locked={locked} variant={list ? "list" : "grid"} />
               ))}
-            </div>
+            </ResultsWrap>
           )}
         </div>
       </div>

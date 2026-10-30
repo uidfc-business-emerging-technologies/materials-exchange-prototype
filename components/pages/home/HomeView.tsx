@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { disciplines, filterDefs, resources } from "@/lib/data";
-import { useDemo } from "@/lib/demo";
+import { useDemo, useMotionPaused } from "@/lib/demo";
 import { NEUTRAL_PALETTE } from "@/lib/pattern";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
+import { DividedGrid } from "@/components/site/DividedGrid";
+import { CutoutRain, type RainDrop } from "@/components/site/CutoutRain";
 import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard } from "@/components/site/ResourceCard";
@@ -16,15 +18,46 @@ import styles from "./Home.module.css";
 
 const TRIES = ["revenue recognition", "audit analytics", "Power BI"];
 const STATS = [
-  { n: "128", label: "resources" },
-  { n: "41", label: "contributing institutions" },
-  { n: "1,960", label: "verified instructors" },
+  { n: "128", label: "resources", art: "stat-resources" },
+  { n: "41", label: "contributing institutions", art: "stat-institutions" },
+  { n: "1,960", label: "verified instructors", art: "stat-instructors" },
+] as const;
+/**
+ * Photo cutouts that rain down the hero pattern, one lane each from left to right, so neighbors
+ * differ in subject and color. A number scales a cutout that looks too big or small at its depth.
+ */
+const HERO_CUTOUTS: RainDrop[] = [
+  "hero-diploma",
+  "hero-chip",
+  "hero-bulb",
+  "home-hero-photo",
+  "hero-globe",
+  "hero-abacus",
+  "hero-scale",
+  "hero-robot",
+  "hero-chart",
+  "hero-receipts",
+  "hero-building",
+  "hero-pie",
+  ["hero-padlock", 0.85],
+  ["hero-server", 1.75],
+  "hero-coins",
+  ["hero-calculator", 0.7],
+  "hero-hourglass",
+  "hero-magnifier",
+  "hero-briefcase",
 ];
 const STEPS = [
   { n: "1", art: "how-find", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
   { n: "2", art: "how-verify", title: "Verify", text: "Paste the link to your faculty page. Most instructors are verified in a few seconds, and teaching notes and solutions unlock." },
   { n: "3", art: "how-share", title: "Share", text: "Upload your own materials under a Creative Commons license, with credit and usage counts you can cite." },
 ] as const;
+/**
+ * The dotted path through the steps, in a 100 by 100 box stretched over the list. It comes in
+ * from the left, passes behind each picture (a quarter or three quarters across, in the middle
+ * of its row), and leaves on the right.
+ */
+const HOW_PATH = "M 0 5 C 12 5, 25 1, 25 16.7 C 25 36, 75 30, 75 50 C 75 70, 25 64, 25 83.3 C 25 97, 86 100, 100 96";
 
 const searchHref = (q: string) => "/browse" + (q ? "?q=" + encodeURIComponent(q) : "");
 export const browseFilterHref = (key: string, label: string) => "/browse?" + new URLSearchParams({ [key]: label }).toString();
@@ -32,6 +65,7 @@ export const browseFilterHref = (key: string, label: string) => "/browse?" + new
 export function HomeView() {
   const router = useRouter();
   const { auth } = useDemo();
+  const { paused } = useMotionPaused();
   const [q, setQ] = useState("");
   const fresh = resources.slice().sort((a, b) => b.added - a.added).slice(0, 3);
   const counts = Object.fromEntries(filterDefs[0].options.map((o) => [o.label, o.count]));
@@ -39,7 +73,9 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72} image="home-hero-photo" imageClassName={styles.heroPhoto} cutout />
+        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72}>
+          <CutoutRain drops={HERO_CUTOUTS} />
+        </PatternCover>
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty
@@ -75,8 +111,11 @@ export function HomeView() {
       <section aria-label="The exchange in numbers" className={styles.stats}>
         {STATS.map((s) => (
           <div key={s.label} className={styles.stat}>
-            <span className={styles.statN}>{s.n}</span>
-            <span className={styles.statLabel}>{s.label}</span>
+            <Illustration name={s.art} className={styles.statArt} />
+            <span className={styles.statText}>
+              <span className={styles.statN}>{s.n}</span>
+              <span className={styles.statLabel}>{s.label}</span>
+            </span>
           </div>
         ))}
       </section>
@@ -91,22 +130,24 @@ export function HomeView() {
             <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
-        <div className={styles.cards}>
+        <DividedGrid min={300} className={styles.cards}>
           {fresh.map((r) => (
             <ResourceCard key={r.id} resource={r} locked={auth !== "verified"} />
           ))}
-        </div>
+        </DividedGrid>
       </section>
 
       <section aria-labelledby="disc-h" className={styles.section}>
         <h2 id="disc-h" className={styles.h2}>
           Browse by discipline
         </h2>
-        <ul className={styles.disciplines}>
+        <DividedGrid as="ul" min={250} className={styles.disciplines}>
           {disciplines.map((d) => (
             <li key={d.d}>
               <Link href={browseFilterHref("disc", d.label)} className={styles.discipline}>
-                <PatternCover discipline={d.d} seed={"disc-" + d.d} className={styles.discCover} cellSize={24} />
+                <span className={styles.discArt}>
+                  <Illustration name={`disc-${d.d}`} className={styles.discImage} />
+                </span>
                 <span className={styles.discText}>
                   <span className={styles.discLabel}>{d.label}</span>
                   <span className={styles.discCount}>{counts[d.label] || 0} resources</span>
@@ -114,23 +155,31 @@ export function HomeView() {
               </Link>
             </li>
           ))}
-        </ul>
+        </DividedGrid>
       </section>
 
-      <section aria-labelledby="how-h" className={styles.how}>
-        <PatternCover discipline="ais" seed="how-it-works" className={styles.howCover} />
-        <div className={styles.howBody}>
+      <section aria-labelledby="how-h" className={[styles.how, paused ? styles.howStill : ""].join(" ")}>
+        <div className={styles.howHead}>
           <h2 id="how-h" className={styles.h2}>
             How it works
           </h2>
+          <p className={styles.howLead}>From finding a case to sharing your own, in three steps.</p>
+        </div>
+        <div className={styles.howPath}>
+          <svg className={styles.pathLine} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path className={styles.pathGlow} d={HOW_PATH} vectorEffect="non-scaling-stroke" />
+            <path className={styles.pathDots} d={HOW_PATH} vectorEffect="non-scaling-stroke" />
+          </svg>
           <ol className={styles.steps}>
-            {STEPS.map((s) => (
-              <li key={s.n} className={styles.step}>
-                <Illustration name={s.art} className={styles.stepArt} />
-                <span aria-hidden="true" className={styles.stepN}>
-                  {s.n}
-                </span>
-                <div>
+            {STEPS.map((s, i) => (
+              <li key={s.n} className={styles.step} style={{ "--i": i } as React.CSSProperties}>
+                <div className={styles.stepArt}>
+                  <Illustration name={s.art} className={styles.stepImage} />
+                  <span aria-hidden="true" className={styles.stepN}>
+                    {s.n}
+                  </span>
+                </div>
+                <div className={styles.stepBody}>
                   <h3 className={styles.stepTitle}>{s.title}</h3>
                   <p className={styles.stepText}>{s.text}</p>
                 </div>

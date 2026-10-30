@@ -1,9 +1,15 @@
 .top {
-  /* Shared by the cover, the title panel, and the disc, which keeps clear of the panel. */
+  /* Shared by the cover and the title panel that overlaps it. */
   --cover-h: clamp(160px, 23.4vw, 300px);
   --overlap: clamp(40px, 9.2vw, 118px);
   --panel-w: 820px;
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
+}
+
+/* A cover image is a banner: taller, with the title below it instead of over its corner. */
+.topImage {
+  --cover-h: clamp(180px, 30vw, 380px);
+  --overlap: 0px;
 }
 
 .reviewBanner {
@@ -49,15 +55,6 @@
   height: var(--cover-h);
   margin-top: 8px;
   border-radius: var(--radius-md);
-}
-
-/* The material's illustration is on a disc centered in the pattern beside the title panel. */
-.coverDisc {
-  --d: min(calc(var(--cover-h) * 0.6), calc(100% - var(--panel-w) - 64px));
-  top: 50%;
-  right: calc((100% - var(--panel-w) - var(--d)) / 2);
-  width: var(--d);
-  translate: 0 -50%;
 }
 
 /* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
@@ -684,9 +681,8 @@
 }
 
 .relatedGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-  gap: 24px;
+  --gap-x: 48px;
+  --gap-y: 48px;
   margin-top: 20px;
 }
 
@@ -797,15 +793,6 @@
   font-size: 15px;
 }
 
-/* Too narrow to fit beside the panel: the disc moves to the corner above it. */
-@media (max-width: 1099px) {
-  .coverDisc {
-    top: 16px;
-    right: 16px;
-    width: calc((var(--cover-h) - var(--overlap) - 32px) * 0.8);
-    translate: none;
-  }
-}
 
 @media (max-width: 640px) {
   .fileRow {

@@ -35,8 +35,9 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
-import { coverImageFor, hasMaterialImage, Illustration } from "@/components/site/Illustration";
-import { PatternCover } from "@/components/site/PatternCover";
+import { hasMaterialImage, Illustration } from "@/components/site/Illustration";
+import { MaterialCover } from "@/components/site/MaterialCover";
+import { DividedGrid } from "@/components/site/DividedGrid";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import { signInHref, verifyHref } from "@/components/site/SiteHeader";
 import styles from "./Resource.module.css";
@@ -185,7 +186,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={styles.top}>
+      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />
@@ -204,7 +205,7 @@ export function ResourceView({ id }: { id: string }) {
           <ChevronRight size={14} aria-hidden />
           <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
         </nav>
-        <PatternCover discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed || res.id} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} image={coverImageFor(res.id)} imageClassName={styles.coverDisc} />
+        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 1280px) 100vw, 1200px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>
@@ -518,12 +519,12 @@ export function ResourceView({ id }: { id: string }) {
         <h2 id="rel-h" className={styles.h2}>
           Related materials
         </h2>
-        <div className={styles.relatedGrid}>
+        <DividedGrid min={300} className={styles.relatedGrid}>
           {res.related.map((rid2) => {
             const r = byId(rid2);
             return r ? <ResourceCard key={r.id} resource={r} locked={!canGated} /> : null;
           })}
-        </div>
+        </DividedGrid>
       </section>
 
       <Modal open={dialog !== null} onOpenChange={(o) => !o && setDialog(null)} title={dialogTitle} description={dialogSub} width={dialog === "preview" ? 640 : 520}>

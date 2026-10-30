@@ -13,7 +13,6 @@ import weave from "tabbied/patterns/weave";
 import type { DisciplineKey } from "@/lib/data";
 import { useMotionPaused } from "@/lib/demo";
 import { hash01, paletteFor, patternSlugFor, type PatternSlug } from "@/lib/pattern";
-import { Illustration, type IllustrationName } from "./Illustration";
 import styles from "./PatternCover.module.css";
 
 const DESIGNS = { bloks, comet, maze, metro, mixtape, terrain, tesserae, trigram, weave } satisfies Record<PatternSlug, unknown>;
@@ -30,11 +29,8 @@ export interface PatternCoverProps {
   cellSize?: number;
   /** Set false to keep the cover still even when animations are on. */
   motion?: boolean;
-  /** Image over the pattern, on a white disc unless `cutout`. Place and size it with `imageClassName`. */
-  image?: IllustrationName | `TME-${string}`;
-  imageClassName?: string;
-  /** Show `image` straight on the pattern, without the disc. For photo cutouts. */
-  cutout?: boolean;
+  /** Shown over the pattern, such as photo cutouts (`CutoutRain`, `MaterialCover`). */
+  children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -43,7 +39,7 @@ export interface PatternCoverProps {
  * PatternCover: a Tabbied generative pattern sized by its box (set width and height with
  * `className` or `style`). Decorative and hidden from assistive technology.
  */
-export function PatternCover({ discipline, seed, kind, palette, cellSize = 32, motion = true, image, imageClassName, cutout = false, className, style }: PatternCoverProps) {
+export function PatternCover({ discipline, seed, kind, palette, cellSize = 32, motion = true, children, className, style }: PatternCoverProps) {
   const { paused } = useMotionPaused();
   const slug = kind || patternSlugFor(discipline);
   // Covers slowly drift to a new arrangement, like a live Tabbied pattern. Tabbied skips
@@ -60,12 +56,7 @@ export function PatternCover({ discipline, seed, kind, palette, cellSize = 32, m
         paused={paused}
         className={styles.pattern}
       />
-      {image && cutout ? <Illustration name={image} className={[styles.cutout, imageClassName].filter(Boolean).join(" ")} eager /> : null}
-      {image && !cutout ? (
-        <div className={[styles.disc, imageClassName].filter(Boolean).join(" ")}>
-          <Illustration name={image} className={styles.discImage} eager />
-        </div>
-      ) : null}
+      {children}
     </div>
   );
 }

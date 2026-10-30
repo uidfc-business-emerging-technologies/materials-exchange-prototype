@@ -27,6 +27,12 @@ export const COVER_GROUND = "#FFFFFF";
 /** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
 export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];
 
+/**
+ * Deeper neutral grays for material covers. They're small and have no border, and several designs
+ * are thin lines, which the hero's lighter grays would lose against the white page.
+ */
+export const COVER_NEUTRAL_PALETTE = [COVER_GROUND, "#E4E5E4", "#D2D4D3", "#C2C4C3", "#B1B3B2"];
+
 export const patternSlugFor = (d: DisciplineKey): PatternSlug => (PATTERN_MAP[d] || PATTERN_MAP.other).slug;
 
 /**
