@@ -88,7 +88,7 @@ app/
   admin/         admin screens: dashboard, verification, submissions, materials, users, emails
 components/
   ui/            Base UI wrappers: Button, Badge, controls (Checkbox, Select, RadioCards, Switch, TextField, Segmented), overlays (Menu, Modal, Tabs, Disclosure, Toast)
-  site/          SiteHeader, SiteFooter, PatternCover, CutoutRain, Illustration, SplitArt, ResourceCard, DividedGrid, ViewAs, Mark
+  site/          SiteHeader, SiteFooter, PatternCover, MaterialCover, CutoutRain, Illustration, SplitArt, ResourceCard, DividedGrid, ViewAs, Mark
   admin/         AdminShell, AdminCollection (shared table), queues, review, dashboard, emails, edit pages
   pages/         page-level views
 lib/
@@ -101,20 +101,31 @@ lib/
 
 ## Pattern covers
 
-Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae) and palette; the resource ID is the seed, so the same resource always gets the same cover. The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photos on it stand out. Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
+Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the resource ID is the seed, so the same resource always gets the same cover. Covers that show color photos are in grays, so the photos stand out:
+
+- The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`).
+- Material covers (`MaterialCover`) and the home page's discipline tiles use slightly deeper grays (`COVER_NEUTRAL_PALETTE`). They're small, have no border, and several designs are thin lines, which the lighter grays would lose against the white page. A contributor can still pick a colored palette for a new submission's cover.
+- Other patterns, such as the art beside the sign-in form, keep their discipline's colors.
+
+Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
 
 ## Illustrations
 
-Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has two: one in the body of its page (`public/images/TME-0142.webp` and so on), and one on a white disc over its cover pattern (`TME-0142-cover.webp`). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
+Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's `gpt-image-2.5-sunburst` at low quality. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
 The home hero uses a second style: color photo cutouts that sit straight on the pattern, with no disc. Nineteen of them rain down the pattern (`home-hero-photo.webp` and the `hero-*.webp` files), showing academia, institutions, and the disciplines the exchange covers. Each falls in its own lane, left to right in the order of `HERO_CUTOUTS` in `HomeView.tsx`, and passes behind the title panel (`CutoutRain`). Drops come in three sizes, and the bigger ones fall faster, which gives the rain some depth. On a narrow screen, every other lane is left out. Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The hero prompts also ask each subject to fill its frame, so the cutouts look the same scale. They're shown at about 130px or less, so the script saves them 320px wide. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
+
+The same photo style is used in two more places:
+
+- **Stats:** each number in the home page's stats row has one cutout beside it (`stat-*.webp`).
+- **Material covers:** each resource has three cutouts on its cover (`TME-0142-a.webp` to `TME-0142-c.webp`, the main one first). They sit in a row in the middle of the cover, with the main one in front, and scale with the cover. A thumbnail under 64px tall shows only the main one. On the resource page they keep clear of the title panel.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
 OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new version of one image
 ```
 
-Every resource page expects both images named after the resource's ID, so a new resource in `lib/data.ts` needs two entries in the script too.
+Every resource expects four images named after its ID (the illustration and three cutouts), so a new resource in `lib/data.ts` needs four entries in the script too.
 
 ## Motion
 

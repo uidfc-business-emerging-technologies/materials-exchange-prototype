@@ -1,0 +1,51 @@
+/*
+ * The cutouts' box fills the cover unless the caller insets it. It's a size container, so the
+ * cutouts scale with it: --u is a hundredth of its height, or less where it's narrow.
+ */
+.cutouts {
+  position: absolute;
+  inset: var(--cutouts-inset, 0);
+  display: flex;
+  align-items: center;
+  justify-content: var(--cutouts-align, center);
+  container-type: size;
+  pointer-events: none;
+}
+
+/* Side cutouts tuck behind the main one, one a little lower and one a little higher. --lift raises all three, for hover. */
+.cutout {
+  --u: min(1cqh, 0.5cqw);
+  flex: none;
+  width: calc(var(--u) * 56);
+  margin: 0 calc(var(--u) * -6);
+  translate: 0 calc(var(--dy, 0%) - var(--lift, 0px));
+  filter: drop-shadow(0 calc(var(--u) * 3) calc(var(--u) * 6) rgba(19, 41, 75, 0.22));
+  transition: translate 0.25s ease;
+}
+
+.left {
+  --dy: 8%;
+  rotate: -8deg;
+}
+
+.main {
+  z-index: 1;
+  width: calc(var(--u) * 78);
+}
+
+.right {
+  --dy: -6%;
+  rotate: 7deg;
+}
+
+/* A thumbnail too small for three: the main cutout alone, filling most of the height. */
+@container (max-height: 64px) {
+  .left,
+  .right {
+    display: none;
+  }
+
+  .main {
+    width: 86cqh;
+  }
+}

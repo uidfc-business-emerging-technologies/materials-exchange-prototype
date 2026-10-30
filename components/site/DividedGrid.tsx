@@ -8,7 +8,8 @@ export interface DividedGridProps extends React.HTMLAttributes<HTMLElement> {
 
 /**
  * DividedGrid: a responsive grid with hairlines between its items instead of borders around them.
- * Set the gaps with `--gap-x` and `--gap-y` in `className`. Lines that would fall on the outer
+ * Set the gaps with `--gap-x` and `--gap-y` in `className`, and the line colors with `--divider` and
+ * `--row-divider` (`transparent` keeps only the lines between columns). Lines that would fall on the outer
  * edges are clipped, so keep each item's focus style inside the item.
  */
 export function DividedGrid({ as: Tag = "div", min, className, style, ...rest }: DividedGridProps) {

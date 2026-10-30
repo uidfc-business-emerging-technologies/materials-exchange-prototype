@@ -6,23 +6,27 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { disciplines, filterDefs, resources } from "@/lib/data";
 import { useDemo, useMotionPaused } from "@/lib/demo";
-import { NEUTRAL_PALETTE } from "@/lib/pattern";
+import { COVER_NEUTRAL_PALETTE, NEUTRAL_PALETTE } from "@/lib/pattern";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
 import { DividedGrid } from "@/components/site/DividedGrid";
-import { Illustration, type IllustrationName } from "@/components/site/Illustration";
+import { CutoutRain, type RainDrop } from "@/components/site/CutoutRain";
+import { Illustration } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { ResourceCard } from "@/components/site/ResourceCard";
 import styles from "./Home.module.css";
 
 const TRIES = ["revenue recognition", "audit analytics", "Power BI"];
 const STATS = [
-  { n: "128", label: "resources" },
-  { n: "41", label: "contributing institutions" },
-  { n: "1,960", label: "verified instructors" },
-];
-/** Photo cutouts that rain down the hero pattern, one lane each from left to right, so neighbors differ in subject and color. */
-const HERO_CUTOUTS: IllustrationName[] = [
+  { n: "128", label: "resources", art: "stat-resources" },
+  { n: "41", label: "contributing institutions", art: "stat-institutions" },
+  { n: "1,960", label: "verified instructors", art: "stat-instructors" },
+] as const;
+/**
+ * Photo cutouts that rain down the hero pattern, one lane each from left to right, so neighbors
+ * differ in subject and color. A number scales a cutout that looks too big or small at its depth.
+ */
+const HERO_CUTOUTS: RainDrop[] = [
   "hero-diploma",
   "hero-chip",
   "hero-bulb",
@@ -35,10 +39,10 @@ const HERO_CUTOUTS: IllustrationName[] = [
   "hero-receipts",
   "hero-building",
   "hero-pie",
-  "hero-padlock",
-  "hero-server",
+  ["hero-padlock", 0.85],
+  ["hero-server", 1.75],
   "hero-coins",
-  "hero-calculator",
+  ["hero-calculator", 0.7],
   "hero-hourglass",
   "hero-magnifier",
   "hero-briefcase",
@@ -69,7 +73,9 @@ export function HomeView() {
   return (
     <>
       <section aria-labelledby="hero-h" className={styles.hero}>
-        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72} image={HERO_CUTOUTS} />
+        <PatternCover discipline="fin" seed="home-hero" kind="mixtape" palette={NEUTRAL_PALETTE} className={styles.heroCover} cellSize={72}>
+          <CutoutRain drops={HERO_CUTOUTS} />
+        </PatternCover>
         <div className={styles.heroPanel}>
           <h1 id="hero-h" className={styles.heroTitle}>
             Free, classroom-ready teaching materials from business school faculty
@@ -105,8 +111,11 @@ export function HomeView() {
       <section aria-label="The exchange in numbers" className={styles.stats}>
         {STATS.map((s) => (
           <div key={s.label} className={styles.stat}>
-            <span className={styles.statN}>{s.n}</span>
-            <span className={styles.statLabel}>{s.label}</span>
+            <Illustration name={s.art} className={styles.statArt} />
+            <span className={styles.statText}>
+              <span className={styles.statN}>{s.n}</span>
+              <span className={styles.statLabel}>{s.label}</span>
+            </span>
           </div>
         ))}
       </section>
@@ -136,7 +145,7 @@ export function HomeView() {
           {disciplines.map((d) => (
             <li key={d.d}>
               <Link href={browseFilterHref("disc", d.label)} className={styles.discipline}>
-                <PatternCover discipline={d.d} seed={"disc-" + d.d} className={styles.discCover} cellSize={24} />
+                <PatternCover discipline={d.d} seed={"disc-" + d.d} palette={COVER_NEUTRAL_PALETTE} className={styles.discCover} cellSize={24} />
                 <span className={styles.discText}>
                   <span className={styles.discLabel}>{d.label}</span>
                   <span className={styles.discCount}>{counts[d.label] || 0} resources</span>

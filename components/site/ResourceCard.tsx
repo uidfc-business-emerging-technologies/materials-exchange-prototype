@@ -2,7 +2,7 @@ import { Building2, GraduationCap, Lock, User, Users } from "lucide-react";
 import Link from "next/link";
 import { authorHref, resourceHref, type Resource } from "@/lib/data";
 import { DataIcon } from "@/components/ui/DataIcon";
-import { PatternCover } from "./PatternCover";
+import { MaterialCover } from "./MaterialCover";
 import styles from "./ResourceCard.module.css";
 
 export interface ResourceCardProps {
@@ -44,7 +44,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   if (variant === "list") {
     return (
       <article className={styles.listCard}>
-        <PatternCover discipline={r.d} seed={r.id} className={styles.listCover} cellSize={24} />
+        <MaterialCover id={r.id} discipline={r.d} className={styles.listCover} cellSize={24} />
         <div className={styles.listBody}>
           <span className={styles.kicker}>
             {r.type} · {r.discipline}
@@ -109,7 +109,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   const tools = r.tools;
   return (
     <article className={styles.card}>
-      <PatternCover discipline={r.d} seed={r.id} className={styles.cover} />
+      <MaterialCover id={r.id} discipline={r.d} className={styles.cover} />
       <div className={styles.body}>
         <span className={styles.kicker}>
           {r.type} · {r.discipline}

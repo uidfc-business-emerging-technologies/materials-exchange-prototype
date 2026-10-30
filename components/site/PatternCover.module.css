@@ -11,27 +11,6 @@
   inset: 0;
 }
 
-/* An illustration on a white disc over the pattern. The caller places and sizes the disc. */
-.disc {
-  position: absolute;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--shadow-pop);
-}
-
-.discImage {
-  width: 74%;
-}
-
-/* A photo cutout straight on the pattern. The shadow lifts it off the pattern. */
-.cutout {
-  position: absolute;
-  filter: drop-shadow(0 10px 24px rgba(19, 41, 75, 0.22));
-}
-
 /*
  * Cutouts raining down the cover. The layer is a size container, so each drop's size and the
  * length of its fall follow the cover's height.

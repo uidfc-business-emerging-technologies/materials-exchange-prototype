@@ -2,7 +2,6 @@
   position: relative;
   z-index: 30;
   border-top: 4px solid var(--orange);
-  border-bottom: 1px solid var(--border);
   background: #fff;
   color: var(--ink);
 }

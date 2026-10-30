@@ -1,4 +1,8 @@
-/* Consumers set margins and --gap-x / --gap-y; nothing here competes with their class. */
+/*
+ * Consumers set margins and --gap-x / --gap-y, and can set --divider (line color) and
+ * --row-divider (the lines between rows; transparent drops them). Nothing here competes with
+ * their class.
+ */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--min)), 1fr));
@@ -19,11 +23,11 @@
 .grid > *::after {
   content: "";
   position: absolute;
-  background: var(--border);
   pointer-events: none;
 }
 
 .grid > *::before {
+  background: var(--divider, var(--border));
   top: calc(var(--gap-y, 40px) / -2);
   bottom: calc(var(--gap-y, 40px) / -2);
   left: calc(var(--gap-x, 40px) / -2);
@@ -31,6 +35,7 @@
 }
 
 .grid > *::after {
+  background: var(--row-divider, var(--divider, var(--border)));
   top: calc(var(--gap-y, 40px) / -2);
   left: calc(var(--gap-x, 40px) / -2);
   right: calc(var(--gap-x, 40px) / -2);

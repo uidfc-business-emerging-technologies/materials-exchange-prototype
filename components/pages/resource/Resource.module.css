@@ -45,19 +45,12 @@
   color: var(--action);
 }
 
+/* The material's cutouts sit in the pattern beside the title panel. */
 .cover {
+  --cutouts-inset: 0 0 0 calc(var(--panel-w) + 24px);
   height: var(--cover-h);
   margin-top: 8px;
   border-radius: var(--radius-md);
-}
-
-/* The material's illustration is on a disc centered in the pattern beside the title panel. */
-.coverDisc {
-  --d: min(calc(var(--cover-h) * 0.6), calc(100% - var(--panel-w) - 64px));
-  top: 50%;
-  right: calc((100% - var(--panel-w) - var(--d)) / 2);
-  width: var(--d);
-  translate: 0 -50%;
 }
 
 /* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
@@ -796,13 +789,11 @@
   font-size: 15px;
 }
 
-/* Too narrow to fit beside the panel: the disc moves to the corner above it. */
+/* Too narrow to fit beside the panel: the cutouts move to the right, above it. */
 @media (max-width: 1099px) {
-  .coverDisc {
-    top: 16px;
-    right: 16px;
-    width: calc((var(--cover-h) - var(--overlap) - 32px) * 0.8);
-    translate: none;
+  .cover {
+    --cutouts-inset: 8px 16px calc(var(--overlap) + 4px) 16px;
+    --cutouts-align: flex-end;
   }
 }
 

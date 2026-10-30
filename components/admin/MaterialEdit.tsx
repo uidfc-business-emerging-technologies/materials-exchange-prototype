@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { RadioCards, Select, Switch, TextField } from "@/components/ui/controls";
 import { errorFor, type FormError } from "@/components/ui/ErrorSummary";
 import { infoToast } from "@/components/ui/overlays";
-import { PatternCover } from "@/components/site/PatternCover";
+import { MaterialCover } from "@/components/site/MaterialCover";
 import { useCollection } from "./AdminCollection";
 import { coverSeed, MAT_STATUS, materialsSeed, type Material } from "./Collections";
 import { DangerZone, EditHeader, Errors, History, SaveBar, Section, useDeleted, useEditForm } from "./EditParts";
@@ -132,7 +132,7 @@ export function MaterialEdit({ id }: { id: string }) {
         title={m.title}
         badge={<StatusBadge status={MAT_STATUS[f.status]} />}
         sub={f.type + " · " + f.authors.map((x) => x.name).filter(Boolean).join(", ")}
-        lead={<PatternCover discipline={m.d} seed={coverSeed(m)} className={s.headCover} cellSize={20} motion={false} />}
+        lead={<MaterialCover id={m.id} discipline={m.d} seed={coverSeed(m)} className={s.headCover} cellSize={20} motion={false} />}
         open={open}
       />
       <Errors errors={errors} />
@@ -267,7 +267,7 @@ export function MaterialEdit({ id }: { id: string }) {
         />
         {f.status === "published" ? <Switch className={s.feature} checked={f.featured} onCheckedChange={(v) => ed.set("featured", v)} label="Feature on the home page" /> : null}
         <div className={s.coverRow}>
-          <PatternCover discipline={coverD} seed={coverSeed({ id: m.id, cover: f.cover })} className={s.cover} />
+          <MaterialCover id={m.id} discipline={coverD} seed={coverSeed({ id: m.id, cover: f.cover })} className={s.cover} />
           <div>
             <p className={s.coverTitle}>Cover</p>
             <p className={s.coverHint}>Uses the first discipline&apos;s pattern.</p>

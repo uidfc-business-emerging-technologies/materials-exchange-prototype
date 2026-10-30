@@ -29,11 +29,11 @@ import Link from "next/link";
 import { allResources, authorHref, detailFor, resourceHref, type DisciplineKey, type LicenseName } from "@/lib/data";
 import { ADMIN_ID, KNOWN_SUBMISSIONS, SUBMISSIONS, USERS, type AdminUser, type Submission } from "@/lib/admin-data";
 import { Badge, StatusBadge, type Tone } from "@/components/ui/Badge";
-import { PatternCover } from "@/components/site/PatternCover";
+import { MaterialCover } from "@/components/site/MaterialCover";
 import { AdminCollection, type ActionSpec } from "./AdminCollection";
 import a from "./admin.module.css";
 
-const Thumb = ({ d, id }: { d: DisciplineKey; id: string }) => <PatternCover discipline={d} seed={id} className={a.thumb} cellSize={14} motion={false} />;
+const Thumb = ({ d, id, seed }: { d: DisciplineKey; id: string; seed?: string }) => <MaterialCover id={id} discipline={d} seed={seed} className={a.thumb} cellSize={14} motion={false} />;
 
 // ---------- Submissions ----------
 
@@ -214,7 +214,7 @@ export function MaterialsTable() {
           Icon: BookOpen,
           render: (m) => (
             <div className={a.withThumb}>
-              <Thumb d={m.d} id={coverSeed(m)} />
+              <Thumb d={m.d} id={m.id} seed={coverSeed(m)} />
               <div>
                 <Link href={"/admin/materials/" + m.id} className={a.cellLink}>
                   {m.title}

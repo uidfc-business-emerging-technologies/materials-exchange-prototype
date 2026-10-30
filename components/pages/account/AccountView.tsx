@@ -11,7 +11,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/controls";
 import { infoToast, toast } from "@/components/ui/overlays";
 import { Illustration } from "@/components/site/Illustration";
-import { PatternCover } from "@/components/site/PatternCover";
+import { MaterialCover } from "@/components/site/MaterialCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Account.module.css";
 
@@ -216,7 +216,7 @@ export function AccountView() {
                 const f = !!follow[id];
                 return (
                   <li key={id} className={styles.row}>
-                    <PatternCover discipline={r.d} seed={r.id} className={styles.thumb} cellSize={18} />
+                    <MaterialCover id={r.id} discipline={r.d} className={styles.thumb} cellSize={18} />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         {r.type} · {r.discipline}
@@ -277,7 +277,7 @@ export function AccountView() {
               <ul className={styles.list}>
                 {mine.map((m) => (
                   <li key={m.id} className={styles.row}>
-                    <PatternCover discipline={m.d} seed={m.id} className={styles.thumb} cellSize={18} />
+                    <MaterialCover id={m.id} discipline={m.d} className={styles.thumb} cellSize={18} />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         {m.type} · {m.discipline}

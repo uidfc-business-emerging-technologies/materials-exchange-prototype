@@ -23,6 +23,9 @@ export type IllustrationName =
   | "hero-padlock"
   | "hero-briefcase"
   | "hero-hourglass"
+  | "stat-resources"
+  | "stat-institutions"
+  | "stat-instructors"
   | "how-find"
   | "how-verify"
   | "how-share"
@@ -39,13 +42,13 @@ export type IllustrationName =
   | "file-locked"
   | "not-found";
 
-/** Every published resource has a 3:2 illustration named after its ID, and square cover art named `<ID>-cover`. */
+/** Every published resource has a 3:2 illustration named after its ID, and three square cover cutouts named `<ID>-a` to `<ID>-c`. */
 const WIDE = new Set(allResources().map((r) => r.id));
 
 export const hasMaterialImage = (id: string): id is `TME-${string}` => WIDE.has(id);
 
-/** The art shown on a disc over a resource's cover pattern, if the resource has one. */
-export const coverImageFor = (id: string) => (hasMaterialImage(id) ? (`${id}-cover` as const) : undefined);
+/** The photo cutouts on a resource's cover, main one first, if the resource has them. */
+export const cutoutsFor = (id: string): `TME-${string}`[] => (hasMaterialImage(id) ? [`${id}-a`, `${id}-b`, `${id}-c`] : []);
 
 /**
  * Illustration: a generated spot illustration on a transparent background. Size it with
