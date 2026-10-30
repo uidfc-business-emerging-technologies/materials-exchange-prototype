@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { disciplines, filterDefs, resources } from "@/lib/data";
 import { useDemo, useMotionPaused } from "@/lib/demo";
-import { COVER_NEUTRAL_PALETTE, NEUTRAL_PALETTE } from "@/lib/pattern";
+import { NEUTRAL_PALETTE } from "@/lib/pattern";
 import { ButtonLink } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
 import { DividedGrid } from "@/components/site/DividedGrid";
@@ -145,7 +145,9 @@ export function HomeView() {
           {disciplines.map((d) => (
             <li key={d.d}>
               <Link href={browseFilterHref("disc", d.label)} className={styles.discipline}>
-                <PatternCover discipline={d.d} seed={"disc-" + d.d} palette={COVER_NEUTRAL_PALETTE} className={styles.discCover} cellSize={24} />
+                <span className={styles.discArt}>
+                  <Illustration name={`disc-${d.d}`} className={styles.discImage} />
+                </span>
                 <span className={styles.discText}>
                   <span className={styles.discLabel}>{d.label}</span>
                   <span className={styles.discCount}>{counts[d.label] || 0} resources</span>

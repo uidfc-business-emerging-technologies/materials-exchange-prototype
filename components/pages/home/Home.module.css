@@ -190,7 +190,7 @@
   list-style: none;
 }
 
-/* No box around each discipline: the grid draws lines between them, and the cover takes the focus ring. */
+/* No box around each discipline: the grid draws lines between them, and the picture takes the focus ring. */
 .discipline {
   display: flex;
   align-items: center;
@@ -209,14 +209,25 @@
   text-underline-offset: 3px;
 }
 
-.discCover {
+.discArt {
+  position: relative;
   flex: none;
   width: 72px;
   height: 72px;
   border-radius: var(--radius);
 }
 
-.discipline:focus-visible .discCover::after {
+.discImage {
+  width: 100%;
+  filter: drop-shadow(0 4px 8px rgba(19, 41, 75, 0.18));
+  transition: translate 0.2s ease;
+}
+
+.discipline:hover .discImage {
+  translate: 0 -3px;
+}
+
+.discipline:focus-visible .discArt::after {
   content: "";
   position: absolute;
   inset: 0;

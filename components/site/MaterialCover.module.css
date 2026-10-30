@@ -1,51 +1,95 @@
 /*
  * The cutouts' box fills the cover unless the caller insets it. It's a size container, so the
- * cutouts scale with it: --u is a hundredth of its height, or less where it's narrow.
+ * cutouts scale with it, and its edges fade so cutouts drift in and out instead of being cut off.
  */
 .cutouts {
   position: absolute;
   inset: var(--cutouts-inset, 0);
-  display: flex;
-  align-items: center;
-  justify-content: var(--cutouts-align, center);
+  overflow: hidden;
   container-type: size;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
 }
 
-/* Side cutouts tuck behind the main one, one a little lower and one a little higher. --lift raises all three, for hover. */
-.cutout {
-  --u: min(1cqh, 0.5cqw);
+/*
+ * The track holds four copies of the three cutouts and slides left by one copy (a quarter of its
+ * width) per loop, so the loop is seamless. Cutouts are about half the box's height.
+ */
+.track {
+  --w: min(52cqh, 30cqw);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: carousel var(--loop) linear var(--start) infinite;
+}
+
+.item {
   flex: none;
-  width: calc(var(--u) * 56);
-  margin: 0 calc(var(--u) * -6);
-  translate: 0 calc(var(--dy, 0%) - var(--lift, 0px));
-  filter: drop-shadow(0 calc(var(--u) * 3) calc(var(--u) * 6) rgba(19, 41, 75, 0.22));
-  transition: translate 0.25s ease;
+  width: var(--w);
+  margin-right: calc(var(--w) * 0.35);
+  filter: drop-shadow(0 calc(var(--w) * 0.05) calc(var(--w) * 0.08) rgba(19, 41, 75, 0.22));
 }
 
-.left {
-  --dy: 8%;
-  rotate: -8deg;
+/* A little up and down and a little turned, so the row doesn't look like a shelf. */
+.item:nth-child(3n + 1) {
+  translate: 0 6%;
+  rotate: -6deg;
 }
 
-.main {
-  z-index: 1;
-  width: calc(var(--u) * 78);
+.item:nth-child(3n + 2) {
+  translate: 0 -6%;
+  rotate: 5deg;
 }
 
-.right {
-  --dy: -6%;
-  rotate: 7deg;
+.item:nth-child(3n) {
+  rotate: -2deg;
 }
 
-/* A thumbnail too small for three: the main cutout alone, filling most of the height. */
+@keyframes carousel {
+  to {
+    translate: -25% 0;
+  }
+}
+
+/* The footer's pause button and covers with motion off stop the carousel where it is. */
+.still .track {
+  animation-play-state: paused;
+}
+
+/* Only shown on a small thumbnail. */
+.solo {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 86cqh;
+  translate: -50% -50%;
+  filter: drop-shadow(0 2px 4px rgba(19, 41, 75, 0.22));
+}
+
+/* A thumbnail too small for a carousel: the main cutout alone, standing still. */
 @container (max-height: 64px) {
-  .left,
-  .right {
+  .track {
     display: none;
   }
 
-  .main {
-    width: 86cqh;
+  .solo {
+    display: block;
+  }
+}
+
+/*
+ * Reduced motion: the carousel stays still where it is. The global rule shortens every animation
+ * to almost nothing, which would leave it anywhere, so keep the loop's real length.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation-duration: var(--loop) !important;
+    animation-play-state: paused;
   }
 }

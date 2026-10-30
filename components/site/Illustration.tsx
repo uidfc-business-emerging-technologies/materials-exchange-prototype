@@ -1,4 +1,4 @@
-import { allResources } from "@/lib/data";
+import { allResources, type DisciplineKey } from "@/lib/data";
 import styles from "./Illustration.module.css";
 
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
@@ -26,6 +26,7 @@ export type IllustrationName =
   | "stat-resources"
   | "stat-institutions"
   | "stat-instructors"
+  | `disc-${DisciplineKey}`
   | "how-find"
   | "how-verify"
   | "how-share"

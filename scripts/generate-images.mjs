@@ -100,7 +100,17 @@ const IMAGES = {
   "stat-institutions": [SQUARE, "Three small architectural scale models of different university buildings standing close together: a brick clock tower, a white domed library, and a stone hall with columns.", HERO, SMALL],
   "stat-instructors": [SQUARE, "A faculty ID badge on a deep navy lanyard, with a blank photo square and a large round orange check-mark seal on the badge.", HERO, SMALL],
 
-  // Three photo cutouts on each material's cover pattern, keyed by resource ID: the middle one first
+  // Home: one photo cutout per discipline in Browse by discipline, keyed by discipline
+  "disc-fin": [SQUARE, "A closed hardcover ledger book in deep navy with a gold ribbon bookmark, with a short stack of gold coins beside it.", HERO, SMALL],
+  "disc-audit": [SQUARE, "A clipboard holding a blank checklist with bright orange check marks and no writing, with a large brass magnifying glass leaning against it.", HERO, SMALL],
+  "disc-tax": [SQUARE, "A neat stack of blank paper forms held together with a large black binder clip, with a sharpened bright orange pencil lying across the top.", HERO, SMALL],
+  "disc-ais": [SQUARE, "A stack of three glossy deep navy database disks with softly glowing blue edges, like a three-dimensional database icon.", HERO, SMALL],
+  "disc-mgmt": [SQUARE, "Three interlocking gears, one deep navy, one bright orange, and one natural wood.", HERO, SMALL],
+  "disc-data": [SQUARE, "A glossy three-dimensional line graph: a mid blue ribbon rising and dipping across a deep navy grid base, with bright orange spheres at its data points.", HERO, SMALL],
+  "disc-emtech": [SQUARE, "A virtual reality headset in white and deep navy with a soft blue glow on its front panel.", HERO, SMALL],
+  "disc-other": [SQUARE, "Four jigsaw puzzle pieces fitted together, in deep navy, bright orange, mid blue, and cream.", HERO, SMALL],
+
+  // Three photo cutouts that move across each material's cover pattern, keyed by resource ID: the main one first
   "TME-0142-a": [SQUARE, "A cast-iron kettlebell in deep navy with a bright orange handle.", HERO, SMALL],
   "TME-0142-b": [SQUARE, "A plain gym membership key card in bright orange on a short navy lanyard, with no markings.", HERO, SMALL],
   "TME-0142-c": [SQUARE, "A rolled-up deep navy yoga mat tied with an orange strap.", HERO, SMALL],

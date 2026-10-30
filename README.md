@@ -104,7 +104,7 @@ lib/
 Each resource gets a [Tabbied](https://tabbied.com) pattern cover (`tabbied/react`). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the resource ID is the seed, so the same resource always gets the same cover. Covers that show color photos are in grays, so the photos stand out:
 
 - The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`).
-- Material covers (`MaterialCover`) and the home page's discipline tiles use slightly deeper grays (`COVER_NEUTRAL_PALETTE`). They're small, have no border, and several designs are thin lines, which the lighter grays would lose against the white page. A contributor can still pick a colored palette for a new submission's cover.
+- Material covers (`MaterialCover`) use slightly deeper grays (`COVER_NEUTRAL_PALETTE`). They're small, have no border, and several designs are thin lines, which the lighter grays would lose against the white page. A contributor can still pick a colored palette for a new submission's cover.
 - Other patterns, such as the art beside the sign-in form, keep their discipline's colors.
 
 Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
@@ -118,7 +118,8 @@ The home hero uses a second style: color photo cutouts that sit straight on the 
 The same photo style is used in two more places:
 
 - **Stats:** each number in the home page's stats row has one cutout beside it (`stat-*.webp`).
-- **Material covers:** each resource has three cutouts on its cover (`TME-0142-a.webp` to `TME-0142-c.webp`, the main one first). They sit in a row in the middle of the cover, with the main one in front, and scale with the cover. A thumbnail under 64px tall shows only the main one. On the resource page they keep clear of the title panel.
+- **Disciplines:** each tile in Browse by discipline is a cutout (`disc-fin.webp` and so on) instead of a pattern.
+- **Material covers:** each resource has three cutouts (`TME-0142-a.webp` to `TME-0142-c.webp`, the main one first). They move slowly to the left across its cover in a seamless loop, about half the cover's height, and fade in and out at the edges. Each cover's speed and starting point come from the resource ID, so a grid of cards doesn't move in step. A thumbnail under 64px tall shows only the main cutout, standing still. On the resource page, the cutouts keep clear of the title panel.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing
@@ -129,4 +130,4 @@ Every resource expects four images named after its ID (the illustration and thre
 
 ## Motion
 
-Besides the pattern covers, the hero cutouts rain down, and on the home page's How it works, the dots march along the path and each step's picture bobs. The footer's **Pause animations** button stops all of them where they are. If the visitor prefers reduced motion, they don't run at all, and the button is hidden.
+Besides the pattern covers, the hero cutouts rain down, material covers' cutouts move across them, and on the home page's How it works, the dots march along the path and each step's picture bobs. The footer's **Pause animations** button stops all of them where they are. If the visitor prefers reduced motion, they don't run at all, and the button is hidden.

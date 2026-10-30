@@ -13,11 +13,6 @@
   border-radius: var(--radius-md);
 }
 
-/* On hover, the cover's cutouts lift a little (see MaterialCover). */
-.card:hover .cover {
-  --lift: 5px;
-}
-
 .body {
   display: flex;
   flex-direction: column;

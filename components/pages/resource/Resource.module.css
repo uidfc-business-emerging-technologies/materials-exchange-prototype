@@ -789,11 +789,10 @@
   font-size: 15px;
 }
 
-/* Too narrow to fit beside the panel: the cutouts move to the right, above it. */
+/* Too narrow to fit beside the panel: the cutouts move to the right part of the strip above it. */
 @media (max-width: 1099px) {
   .cover {
-    --cutouts-inset: 8px 16px calc(var(--overlap) + 4px) 16px;
-    --cutouts-align: flex-end;
+    --cutouts-inset: 8px 0 calc(var(--overlap) + 4px) 45%;
   }
 }
 
