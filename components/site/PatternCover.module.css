@@ -5,6 +5,11 @@
   background: #fff;
 }
 
+/* A see-through ground: the page (or whatever the caller puts behind) shows between the shapes. */
+.clear {
+  background: transparent;
+}
+
 /* The pattern fills the cover box, whatever sets its size (height, flex, or grid). */
 .pattern {
   position: absolute !important;

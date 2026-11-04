@@ -6,9 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { disciplines, filterDefs, resources } from "@/lib/data";
 import { useDemo, useMotionPaused } from "@/lib/demo";
-import { NEUTRAL_PALETTE } from "@/lib/pattern";
-import { ButtonLink } from "@/components/ui/Button";
-import { infoToast } from "@/components/ui/overlays";
+import { KERF_PALETTE, NEUTRAL_PALETTE } from "@/lib/pattern";
 import { DividedGrid } from "@/components/site/DividedGrid";
 import { CutoutRain, type RainDrop } from "@/components/site/CutoutRain";
 import { Illustration } from "@/components/site/Illustration";
@@ -137,7 +135,7 @@ export function HomeView() {
         </DividedGrid>
       </section>
 
-      <section aria-labelledby="disc-h" className={styles.section}>
+      <section aria-labelledby="disc-h" className={[styles.section, styles.discSection].join(" ")}>
         <h2 id="disc-h" className={styles.h2}>
           Browse by discipline
         </h2>
@@ -158,6 +156,11 @@ export function HomeView() {
         </DividedGrid>
       </section>
 
+      {/* A decorative band of pale Kerf blocks between the two sections, edge to edge. */}
+      <div aria-hidden="true" className={styles.band}>
+        <PatternCover discipline="fin" seed="home-band" kind="kerf" palette={KERF_PALETTE} transparent options={{ frequency: 0.8 }} cellSize={48} className={styles.bandPattern} />
+      </div>
+
       <section aria-labelledby="how-h" className={[styles.how, paused ? styles.howStill : ""].join(" ")}>
         <div className={styles.howHead}>
           <h2 id="how-h" className={styles.h2}>
@@ -176,7 +179,7 @@ export function HomeView() {
                 <div className={styles.stepArt}>
                   <Illustration name={s.art} className={styles.stepImage} />
                   <span aria-hidden="true" className={styles.stepN}>
-                    {s.n}
+                    <span className={styles.stepDigit}>{s.n}</span>
                   </span>
                 </div>
                 <div className={styles.stepBody}>
@@ -189,30 +192,31 @@ export function HomeView() {
         </div>
       </section>
 
-      <section aria-labelledby="share-h" className={styles.share}>
-        <Illustration name="home-share" className={styles.shareArt} />
-        <div className={styles.shareText}>
-          <h2 id="share-h" className={styles.h2}>
-            Share what works in your classroom
+      {/* The call to action fades from white into the pale blue-gray the footer sits on. */}
+      <section aria-labelledby="share-h" className={[styles.cta, paused ? styles.ctaStill : ""].join(" ")}>
+        <div className={styles.ctaText}>
+          <h2 id="share-h" className={styles.ctaTitle}>
+            Share what works in your classroom.
+            <span className={styles.ctaTitleSoft}> Publish your next case on the exchange today.</span>
           </h2>
-          <p className={styles.shareLead}>Upload a case, dataset, or teaching module. It&apos;s published under a Creative Commons license with your name on it, and you can see where it&apos;s used.</p>
+          <div className={styles.ctaActions}>
+            <Link href="/contribute" className={styles.ctaButton}>
+              <Upload size={18} aria-hidden />
+              Share your materials
+            </Link>
+            <Link href="/licenses" className={styles.ctaSecondary}>
+              How licensing works
+              <ArrowRight size={16} aria-hidden />
+            </Link>
+          </div>
         </div>
-        <div className={styles.shareActions}>
-          <ButtonLink href="/contribute" size="lg">
-            <Upload size={17} aria-hidden />
-            Share your materials
-          </ButtonLink>
-          <ButtonLink
-            href="#licenses"
-            variant="secondary"
-            size="lg"
-            onClick={(e) => {
-              e.preventDefault();
-              infoToast("The Licenses page explains each Creative Commons option.");
-            }}
-          >
-            How licensing works
-          </ButtonLink>
+        <div aria-hidden="true" className={styles.ctaArt}>
+          <span className={[styles.float, styles.floatCap].join(" ")}>
+            <Illustration name="cta-cap" className={styles.floatImage} />
+          </span>
+          <span className={[styles.float, styles.floatPlane].join(" ")}>
+            <Illustration name="cta-plane" className={styles.floatImage} />
+          </span>
         </div>
       </section>
     </>

@@ -42,51 +42,24 @@
   color: var(--text-3);
 }
 
-/* ---------- Cover styles: materials down the side, styles across the top ---------- */
-/* Scrolls sideways on a narrow screen instead of squeezing the covers. */
-.tableWrap {
-  margin-top: 20px;
-  overflow-x: auto;
+/* ---------- Covers: a grid of every material's watercolor ---------- */
+.covers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 28px 20px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.table {
-  width: 100%;
-  min-width: 1040px;
-  border-collapse: collapse;
-  table-layout: fixed;
+.coverItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.table th,
-.table td {
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--border-soft);
-  text-align: left;
-  vertical-align: top;
-}
-
-.table thead th {
-  border-bottom-color: var(--border);
-}
-
-.materialCol {
-  width: 200px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-3);
-}
-
-.styleName {
-  display: block;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.use {
-  margin-top: 8px;
-}
-
-.table tbody th {
-  font-weight: 400;
+.coverItem .cover {
+  margin-bottom: 6px;
 }
 
 .id {
@@ -113,7 +86,7 @@
   display: block;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--surface-2);
+  background: var(--cover-ground);
 }
 
 .cover img {
@@ -121,6 +94,53 @@
   height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
+}
+
+/* ---------- Author portraits ---------- */
+.portraits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 24px 16px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+  text-align: center;
+  text-decoration: none;
+}
+
+.portraitArt {
+  display: block;
+  width: 112px;
+  height: 112px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--action-tint);
+}
+
+.portraitArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portraitName {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.portrait:hover .portraitName {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ---------- 3D objects ---------- */

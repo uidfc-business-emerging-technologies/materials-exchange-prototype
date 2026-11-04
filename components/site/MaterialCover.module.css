@@ -1,9 +1,9 @@
-/* The caller sets the size and shape; the image fills it, cropped to fit. */
+/* The caller sets the size and shape; the image fills it, cropped to fit. The watercolor is transparent, so the ground shows around it. */
 .cover {
   position: relative;
   display: block;
   overflow: hidden;
-  background: var(--surface-2);
+  background: var(--cover-ground);
 }
 
 .image {

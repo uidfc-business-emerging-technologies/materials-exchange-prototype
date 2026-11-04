@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import { COVERS_COOKIE, parseCoverStyle } from "@/lib/covers";
 import { DemoProvider } from "@/lib/demo";
 import { DEMO_COOKIE, parseIdentity } from "@/lib/demo-shared";
 import { ToastProvider } from "@/components/ui/overlays";
@@ -20,7 +19,6 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const jar = await cookies();
   const identity = parseIdentity(jar.get(DEMO_COOKIE)?.value);
-  const covers = parseCoverStyle(jar.get(COVERS_COOKIE)?.value);
   return (
     <html lang="en">
       <head>
@@ -32,7 +30,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         />
       </head>
       <body>
-        <DemoProvider initial={identity} initialCovers={covers}>
+        <DemoProvider initial={identity}>
           <ToastProvider>{children}</ToastProvider>
         </DemoProvider>
       </body>

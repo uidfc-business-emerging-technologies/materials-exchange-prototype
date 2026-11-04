@@ -13,7 +13,7 @@ import sharp from "sharp";
 
 const MODEL = "gpt-image-2.5-sunburst";
 const OUT_DIR = join(import.meta.dirname, "..", "public", "images");
-const CONCURRENCY = 4;
+const CONCURRENCY = 6;
 
 const STYLE =
   "Flat editorial spot illustration. Clean geometric shapes, crisp edges, minimal detail. " +
@@ -32,15 +32,22 @@ const PHOTO =
 /** Hero cutouts rain down the home hero pattern, so each one fills its frame the same way and they read as the same scale. */
 const HERO = PHOTO + " The subject fills most of the frame.";
 
+/** Frosted objects that float beside the home call to action: almost white, so they glow on the pale band. */
+const FROSTED =
+  "Soft 3D render. Matte frosted white material with a faint pale blue-gray tint and a soft inner glow, gently rounded edges, soft diffuse lighting with subtle highlights. Minimal and clean. " +
+  "A single isolated object, centered, filling most of the frame. Fully transparent background with no backdrop, no floor, and no cast shadow outside the object. No text, no letters, no numbers, no logos.";
+
 const SQUARE = "1024x1024";
 const WIDE = "1536x1024";
 /** Photo cutouts are shown at about 130px or less, so they're saved 320px wide. */
 const CUTOUT = { width: 320 };
+/** The call to action's frosted objects are shown at about 176px or less. */
+const CTA_SIZE = { width: 400 };
 
 /**
  * name → [size, subject, style (STYLE unless given), output (saved as generated unless given)].
  * Output can set `width` to scale the image down, `small` to also save a smaller copy as
- * `<name>-sm.webp`, and `opaque` for an image with its own background. Names match the files
+ * `<name>-sm.webp`. Every image has a transparent background. Names match the files
  * components load from /images.
  */
 const IMAGES = {
@@ -84,6 +91,17 @@ const IMAGES = {
   "file-download": [SQUARE, "A spreadsheet document with a large downward arrow pointing into an open tray."],
   "file-locked": [SQUARE, "A document page with a large orange padlock in front of it."],
   "not-found": [SQUARE, "An empty open folder with a single paper airplane flying away from it."],
+
+  // Licenses page: one for the page, one per license, and one for giving credit
+  licenses: [SQUARE, "Two hands passing a document page between them, the page marked with a round ribbon seal."],
+  "license-by": [SQUARE, "A document page with a large name tag clipped to its top corner, the tag showing a simple person silhouette."],
+  "license-nc": [SQUARE, "A document page beside a short stack of coins, with a bold diagonal line crossing out the coins."],
+  "license-sa": [SQUARE, "Two identical document pages side by side, joined by two curved arrows that form a loop between them."],
+  "license-credit": [SQUARE, "A document page with a small card pinned to its bottom edge by a thumbtack, and a pen lying beside it."],
+
+  // Home: frosted 3D objects that float beside the call to action above the footer
+  "cta-cap": [SQUARE, "A graduation mortarboard cap with a short tassel, seen from slightly above and tilted at a gentle angle.", FROSTED, CTA_SIZE],
+  "cta-plane": [SQUARE, "A folded paper airplane in flight, angled slightly upward, with crisp folds.", FROSTED, CTA_SIZE],
 
   // One image in the body of each material, keyed by resource ID
   "TME-0142": [WIDE, "A gym kettlebell, a membership card, a water bottle, and a wall calendar page with four days circled."],
@@ -149,22 +167,55 @@ const IMAGES = {
   "TME-0101-c": [SQUARE, "A large glossy water drop in clear mid blue.", HERO, CUTOUT],
 };
 
-/**
- * Material covers: one full-bleed image per material in each style, so the styles can be
- * compared on the site (the Covers switch) and on /library. Named `<ID>-<style>`, with a 640px
- * copy for thumbnails. Keep the keys in step with COVER_STYLES in lib/covers.ts.
- */
-const COVER_STYLES = {
-  photo: "Minimal editorial still-life photograph. Real objects on a plain warm off-white surface against a plain off-white wall, soft natural window light with gentle shadows, muted natural colors with small accents of deep navy and orange, lots of empty space.",
-  line: "Minimal line illustration: thin, even deep navy (#13294B) ink lines on a plain off-white background, with a few small flat fills of orange (#FF5F05) and pale blue (#E8EEF6). No shading, no gradients, lots of empty space.",
-  riso: "Risograph print illustration in two inks, deep navy blue and fluorescent orange, on off-white paper. Flat simple shapes with grainy texture, halftone dots, and slight misregistration between the inks.",
-  watercolor: "Loose watercolor illustration on white cold-press paper: soft washes of deep navy, mid blue, and orange with gently bleeding edges, visible paper texture, and light pencil lines, lots of white space.",
-  collage: "Cut-paper collage illustration: layered flat paper shapes in deep navy, orange, mid blue, and cream with subtle paper grain and soft shadows between the layers, on a plain cream background.",
+// Author portraits: one head-and-shoulders photo per author, keyed `author-<slug>` (authorSlug in
+// lib/data.ts). Shown in circles from about 20px (cards) to 160px (author pages), so saved 400px wide.
+const PORTRAIT =
+  "Professional faculty headshot photograph: head and shoulders, facing the camera with a warm, natural expression. " +
+  "The face sits in the upper middle of the frame and the shoulders reach the bottom edge. " +
+  "Soft even studio lighting, natural true-to-life colors, sharp focus. Cut out cleanly with crisp edges around the hair and shoulders. " +
+  "Fully transparent background with no backdrop and no shadow. No text, no logos.";
+const PORTRAIT_SIZE = { width: 400 };
+const AUTHORS = {
+  "Dana Whitfield": "A woman in her late forties with shoulder-length auburn hair, wearing a navy blazer over a cream blouse.",
+  "Marcus Osei": "A Black man in his late thirties with short cropped hair and a trimmed beard, wearing a gray blazer over a light blue open-collar shirt.",
+  "Ruth Abernathy": "A woman in her early sixties with short silver hair and tortoiseshell glasses, wearing a dark green cardigan.",
+  "Kenji Sato": "A Japanese man in his mid thirties with short black hair and thin metal-framed glasses, wearing a navy sweater over a white collared shirt.",
+  "Theo Brandt": "A man in his fifties with graying blond hair and a short beard, wearing a charcoal blazer and a light blue shirt.",
+  "Priya Raman": "A South Asian woman in her early thirties with long dark hair, wearing a deep teal blouse.",
+  "Jordan Lee": "A Chinese American person in their late twenties with short dark hair, wearing a plain gray crewneck sweater.",
+  "Omar Haddad": "A Middle Eastern man in his forties with short dark wavy hair and a neat beard, wearing a navy suit jacket and an open-collar white shirt.",
+  "Grace Okafor": "A Nigerian American woman in her thirties with natural hair pulled back, wearing an orange blouse and small gold earrings.",
+  "Martin Duval": "A man in his late fifties with receding gray hair, wearing a brown tweed jacket and a burgundy tie.",
+  "Lena Park": "A Korean American woman in her early thirties with a dark bob haircut, wearing a black turtleneck.",
+  "Elena Fischer": "A woman in her mid forties with light brown hair in a low bun, wearing a navy blazer and a pale blue blouse.",
+  "Sam Ortega": "A Latino man in his late thirties with short dark hair and a friendly smile, wearing a light gray quarter-zip sweater.",
+  "Adaeze Nwosu": "A Nigerian woman in her forties with long braids pulled up, wearing a mustard-yellow blazer.",
+  "Henrik Lund": "A Scandinavian man in his sixties with white hair, a short white beard, and round glasses, wearing a navy crewneck sweater.",
+  "Sofia Marquez": "A Latina woman in her thirties with long wavy dark brown hair, wearing a white blouse and a navy blazer.",
+  "Daniel Cho": "A Korean American man in his early thirties with short black hair, wearing a dark green henley shirt.",
+  "Fatima Al-Sayed": "A woman in her forties wearing a navy hijab and a cream blazer.",
+  "Rebecca Thornton": "A woman in her fifties with chin-length straight gray-blond hair, wearing a burgundy cardigan and a simple pearl necklace.",
+  "Mateo Reyes": "A Latino man in his early thirties with short curly black hair, wearing a rust-brown corduroy jacket over a white t-shirt.",
+  "Mei Zhao": "A Chinese woman in her late thirties with shoulder-length straight black hair, wearing a light gray blazer.",
+  "Isaac Feldman": "A man in his sixties with short curly gray hair and glasses, wearing a navy cardigan over a checked shirt.",
+  "Nora Byrne": "A woman in her late twenties with freckles and red hair in a ponytail, wearing a navy sweater.",
+  "Kwame Mensah": "A Ghanaian American man in his forties with a shaved head and a warm smile, wearing a navy blazer and a light blue shirt.",
+  "Arjun Mehta": "An Indian American man in his early thirties with short black hair and a trimmed beard, wearing a white oxford shirt.",
 };
+const authorSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+for (const [name, look] of Object.entries(AUTHORS)) IMAGES[`author-${authorSlug(name)}`] = [SQUARE, look, PORTRAIT, PORTRAIT_SIZE];
+
+/**
+ * Material covers: one full-bleed watercolor per material, named `<ID>-watercolor` (lib/covers.ts),
+ * with a 640px copy for thumbnails. Transparent, so the washes sit straight on the page.
+ */
+const WATERCOLOR =
+  "Loose watercolor illustration: soft washes of deep navy, mid blue, and orange with gently bleeding edges, light pencil lines, and a little pigment granulation. " +
+  "The washes fade out softly at their edges. Fully transparent background: no paper, no backdrop, no frame, no border.";
 const BANNER =
-  "Wide horizontal composition: the subject sits in a band across the middle of the frame, centered, with only plain background above and below, so the image can be cropped to a wide banner. " +
+  "Wide horizontal composition: the subject sits in a band across the middle of the frame, centered, with empty transparent space above and below, so the image can be cropped to a wide banner. " +
   "No text, no letters, no numbers, no logos.";
-const COVER = { width: 1280, small: 640, opaque: true };
+const COVER = { width: 1280, small: 640 };
 const COVER_SUBJECTS = {
   "TME-0142": "A gym membership bundle laid out in a row: a kettlebell, a rolled yoga mat, a water bottle, and a membership key card on a lanyard.",
   "TME-0157": "A row of handmade ceramic vases and bowls on a potter's workbench, one vase with a thin crack, and a short stack of coins at the end of the row.",
@@ -178,9 +229,41 @@ const COVER_SUBJECTS = {
   "TME-0088": "A regional passenger airplane parked beside an open hangar, with a large brass key in the foreground.",
   "TME-0101": "Two office buildings on either side of a calm river, joined by a small footbridge, with a milestone flag on the far bank.",
 };
-for (const [id, subject] of Object.entries(COVER_SUBJECTS)) {
-  for (const [style, line] of Object.entries(COVER_STYLES)) IMAGES[`${id}-${style}`] = [WIDE, subject, `${line} ${BANNER}`, COVER];
+/**
+ * Materials added later have a cover and a body illustration made from the same subject, and no
+ * photo cutouts.
+ */
+const MATERIAL_SUBJECTS = {
+  "TME-0072": "A rack of seasonal outdoor jackets and wool hats, a few items hung with bright clearance tags, beside a folded stack of sweaters.",
+  "TME-0075": "A veterinary exam table with a small dog sitting calmly, a stethoscope beside it, and a row of medicine bottles on a shelf behind.",
+  "TME-0079": "Two coffee mugs on a small office table with a wrapped gift box between them and an open notebook.",
+  "TME-0083": "Tall hardware store shelves with paint cans, boxed tools, and coils of rope, and a clipboard count sheet resting on a step ladder.",
+  "TME-0091": "A camera on a home office desk beside a laptop, a car key, and a neat stack of blank receipts.",
+  "TME-0094": "A large grid of small square tiles like a permissions matrix, a few tiles highlighted, beside a desktop monitor and a ring of keys.",
+  "TME-0097": "Hospital supply shelves stocked with boxes of gloves and folded gowns, with a gently rising line drawn in the air above them.",
+  "TME-0104": "A desk with a neatly folded letter, a fountain pen, an envelope, and a short stack of reports tied with string.",
+  "TME-0106": "A row of shipping pallets stacked with boxes, joined by a chain of small glowing cubes leading to a stack of coins.",
+  "TME-0112": "Three food trucks parked in a row with their awnings open and a small chalkboard sign standing in front.",
+  "TME-0115": "A folded outdoor jacket, a pair of hiking boots, and a small potted pine seedling, with a shipping container in the distance.",
+  "TME-0121": "The front of a small brick bank branch with its door open and a potted plant at the entrance, and a few people walking away down the sidewalk.",
+  "TME-0124": "Rolling farmland with a barn and a tractor, and a wooden fence gate in the foreground.",
+  "TME-0130": "A seaside hotel building with balconies, and a row of closed beach umbrellas on the sand in front of it.",
+  "TME-0136": "A stack of paper invoices feeding into a small friendly robot arm on a desk, with a delivery van in the background.",
+  "TME-0139": "Two identical stacks of paper checks side by side with a magnifying glass between them, and a laptop showing rows of a table.",
+  "TME-0145": "An easel holding a flip chart with a bar chart on it, some bars crossed out and redrawn, with markers on the easel tray.",
+  "TME-0147": "A bicycle frame on a workshop repair stand, with a toolbox and a few spare wheels leaning against the wall.",
+  "TME-0151": "An open laptop with a large speech bubble floating above it, beside a printed bar chart and an orange pencil.",
+  "TME-0153": "A campus bookstore counter with stacks of textbooks, a cash register, and a canvas tote bag.",
+  "TME-0155": "Five folded report booklets fanned out in a row, each tied with a ribbon of a different color.",
+  "TME-0159": "A loading dock with a truck backed up to the door, boxes on a pallet, and a large wall clock beside the door.",
+  "TME-0163": "An online candle shop: a laptop beside rows of jar candles and a stack of small shipping boxes ready to mail.",
+  "TME-0164": "A small drone hovering in front of tall warehouse racking stacked with pallets.",
+};
+for (const [id, subject] of Object.entries(MATERIAL_SUBJECTS)) {
+  IMAGES[id] = [WIDE, subject];
+  COVER_SUBJECTS[id] = subject;
 }
+for (const [id, subject] of Object.entries(COVER_SUBJECTS)) IMAGES[`${id}-watercolor`] = [WIDE, subject, `${WATERCOLOR} ${BANNER}`, COVER];
 
 async function exists(path) {
   try {
@@ -192,7 +275,7 @@ async function exists(path) {
 }
 
 async function generate(name) {
-  const [size, subject, style = STYLE, { width, small, opaque = false } = {}] = IMAGES[name];
+  const [size, subject, style = STYLE, { width, small } = {}] = IMAGES[name];
   const res = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
@@ -201,7 +284,7 @@ async function generate(name) {
       prompt: `${subject} ${style}`,
       size,
       quality: "low",
-      background: opaque ? "opaque" : "transparent",
+      background: "transparent",
       output_format: "webp",
       output_compression: 80,
     }),

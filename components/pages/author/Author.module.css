@@ -12,6 +12,24 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* Portrait beside the name; it stacks above the name on a phone. */
+.who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px clamp(20px, 2.5vw, 32px);
+  min-width: 0;
+}
+
+.whoText {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.portrait {
+  box-shadow: 0 10px 28px rgba(19, 41, 75, 0.14);
+}
+
 .eyebrow {
   font-size: 14px;
   font-weight: 600;
@@ -58,17 +76,6 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-}
-
-/* Beside the name, the picture sits over the right end of the totals. */
-@media (min-width: 900px) {
-  .headSide {
-    align-items: flex-end;
-  }
-}
-
-.headArt {
-  width: clamp(96px, 10vw, 136px);
 }
 
 .totals {
