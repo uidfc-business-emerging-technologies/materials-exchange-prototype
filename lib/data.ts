@@ -50,21 +50,46 @@ function R(o: Omit<Resource, "includes">): Resource {
 }
 
 export const resources: Resource[] = [
-  R({ id: "TME-0142", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Revenue Recognition at Lakeside Fitness: A Membership Bundle Case", summary: "Find the performance obligations in a bundled gym membership, allocate the price, and build the revenue schedule.", authors: "Dana Whitfield, Marcus Osei", inst: "Riverbend State University, University of Illinois Urbana-Champaign", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 9, license: "CC BY 4.0", added: 12 }),
-  R({ id: "TME-0157", d: "audit", disc: "Audit", discipline: "Audit", type: "Case", title: "Going Concern Judgments at Northfield Ceramics", summary: "Weigh a liquidity forecast, a covenant breach, and management’s plans to decide whether substantial doubt exists.", authors: "Ruth Abernathy, Kenji Sato", inst: "Eastmoor University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 7, license: "CC BY 4.0", added: 15 }),
-  R({ id: "TME-0118", d: "tax", disc: "Tax", discipline: "Tax", type: "Case", title: "Partnership Basis at Harlow Brewing", summary: "Track inside and outside basis through three years of contributions, distributions, and a partner buyout.", authors: "Theo Brandt", inst: "Eastmoor University", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 6, license: "CC BY-NC 4.0", added: 3 }),
-  R({ id: "TME-0127", d: "audit", disc: "Audit", discipline: "Audit and analytics", type: "Data exercise", title: "Testing Journal Entries with Python", summary: "Screen a year of journal entries for unusual timing, round amounts, and unexpected posters in Jupyter.", authors: "Priya Raman", inst: "Riverbend State University", level: "Graduate", time: "Two class sessions", tools: ["Python", "Jupyter", "pandas"], inc: ["dataset", "note", "sol"], used: 5, license: "CC BY-NC 4.0", added: 8 }),
-  R({ id: "TME-0133", d: "mgmt", disc: "Managerial accounting", discipline: "Managerial accounting and analytics", type: "Data exercise", title: "Inventory Shrinkage Dashboard in Power BI", summary: "Build a store-level shrinkage dashboard and explain which locations need a closer look.", authors: "Jordan Lee", inst: "Riverbend State University", level: "Introductory undergraduate", time: "50 minutes", tools: ["Power BI", "Excel"], inc: ["dataset", "sol"], used: 4, license: "CC BY-NC-SA 4.0", added: 10 }),
-  R({ id: "TME-0149", d: "data", disc: "Data analytics", discipline: "Data analytics", type: "Data exercise", title: "Benford's Law on Travel and Expense Claims", summary: "Compare first-digit frequencies across 40,000 expense claims and decide which departments to sample.", authors: "Omar Haddad", inst: "Kessler College", level: "Upper undergraduate", time: "75 minutes", tools: ["Python", "pandas", "Jupyter", "Tableau"], inc: ["dataset", "note", "sol"], used: 4, license: "CC BY 4.0", added: 14 }),
-  R({ id: "TME-0109", d: "ais", disc: "Accounting information systems", discipline: "Accounting information systems", type: "Teaching module", title: "Mapping Order-to-Cash at Copperline Supply", summary: "Diagram the order-to-cash process from interview notes, then find the gaps in its controls.", authors: "Grace Okafor", inst: "Prairie Lakes College", level: "Introductory undergraduate", time: "50 minutes", tools: ["Lucidchart"], inc: ["note", "sol"], used: 3, license: "CC BY 4.0", added: 2 }),
-  R({ id: "TME-0161", d: "other", disc: "Other", discipline: "Other", type: "Teaching module", title: "Earnings Guidance Under Pressure: A Role-Play", summary: "Students play the CFO, the audit partner, and an analyst in the week before a missed quarter.", authors: "Martin Duval", inst: "Riverbend State University", level: "MBA", time: "90 minutes", tools: [], inc: ["note"], used: 2, license: "CC BY 4.0", added: 16 }),
-  R({ id: "TME-0166", d: "emtech", disc: "Emerging technology", discipline: "Emerging technology", type: "Case", title: "Tokenized Treasury Bills on the Balance Sheet", summary: "Decide how a mid-size manufacturer should classify and measure tokenized T-bills it holds for cash management.", authors: "Lena Park", inst: "Kessler College", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 1, license: "CC BY 4.0", added: 17 }),
+  R({ id: "TME-0142", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Revenue Recognition at Lakeside Fitness: A Membership Bundle Case", summary: "Find the performance obligations in a bundled gym membership, allocate the price, and build the revenue schedule.", authors: "Dana Whitfield, Marcus Osei", inst: "Riverbend State University, University of Illinois Urbana-Champaign", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 9, license: "CC BY 4.0", added: 23 }),
+  R({ id: "TME-0157", d: "audit", disc: "Audit", discipline: "Audit", type: "Case", title: "Going Concern Judgments at Northfield Ceramics", summary: "Weigh a liquidity forecast, a covenant breach, and management’s plans to decide whether substantial doubt exists.", authors: "Ruth Abernathy, Kenji Sato", inst: "Eastmoor University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 7, license: "CC BY 4.0", added: 30 }),
+  R({ id: "TME-0118", d: "tax", disc: "Tax", discipline: "Tax", type: "Case", title: "Partnership Basis at Harlow Brewing", summary: "Track inside and outside basis through three years of contributions, distributions, and a partner buyout.", authors: "Theo Brandt", inst: "Eastmoor University", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 6, license: "CC BY-NC 4.0", added: 10 }),
+  R({ id: "TME-0127", d: "audit", disc: "Audit", discipline: "Audit and analytics", type: "Data exercise", title: "Testing Journal Entries with Python", summary: "Screen a year of journal entries for unusual timing, round amounts, and unexpected posters in Jupyter.", authors: "Priya Raman", inst: "Riverbend State University", level: "Graduate", time: "Two class sessions", tools: ["Python", "Jupyter", "pandas"], inc: ["dataset", "note", "sol"], used: 5, license: "CC BY-NC 4.0", added: 18 }),
+  R({ id: "TME-0133", d: "mgmt", disc: "Managerial accounting", discipline: "Managerial accounting and analytics", type: "Data exercise", title: "Inventory Shrinkage Dashboard in Power BI", summary: "Build a store-level shrinkage dashboard and explain which locations need a closer look.", authors: "Jordan Lee", inst: "Riverbend State University", level: "Introductory undergraduate", time: "50 minutes", tools: ["Power BI", "Excel"], inc: ["dataset", "sol"], used: 4, license: "CC BY-NC-SA 4.0", added: 20 }),
+  R({ id: "TME-0149", d: "data", disc: "Data analytics", discipline: "Data analytics", type: "Data exercise", title: "Benford's Law on Travel and Expense Claims", summary: "Compare first-digit frequencies across 40,000 expense claims and decide which departments to sample.", authors: "Omar Haddad", inst: "Kessler College", level: "Upper undergraduate", time: "75 minutes", tools: ["Python", "pandas", "Jupyter", "Tableau"], inc: ["dataset", "note", "sol"], used: 4, license: "CC BY 4.0", added: 26 }),
+  R({ id: "TME-0109", d: "ais", disc: "Accounting information systems", discipline: "Accounting information systems", type: "Teaching module", title: "Mapping Order-to-Cash at Copperline Supply", summary: "Diagram the order-to-cash process from interview notes, then find the gaps in its controls.", authors: "Grace Okafor", inst: "Prairie Lakes College", level: "Introductory undergraduate", time: "50 minutes", tools: ["Lucidchart"], inc: ["note", "sol"], used: 3, license: "CC BY 4.0", added: 9 }),
+  R({ id: "TME-0161", d: "other", disc: "Other", discipline: "Other", type: "Teaching module", title: "Earnings Guidance Under Pressure: A Role-Play", summary: "Students play the CFO, the audit partner, and an analyst in the week before a missed quarter.", authors: "Martin Duval", inst: "Riverbend State University", level: "MBA", time: "90 minutes", tools: [], inc: ["note"], used: 2, license: "CC BY 4.0", added: 32 }),
+  R({ id: "TME-0166", d: "emtech", disc: "Emerging technology", discipline: "Emerging technology", type: "Case", title: "Tokenized Treasury Bills on the Balance Sheet", summary: "Decide how a mid-size manufacturer should classify and measure tokenized T-bills it holds for cash management.", authors: "Lena Park", inst: "Kessler College", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 1, license: "CC BY 4.0", added: 35 }),
+  // Added for a fuller catalog: covers and illustrations, no photo cutouts.
+  R({ id: "TME-0072", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Inventory Write-Downs at Alder & Finch Outfitters", summary: "Apply lower of cost and net realizable value to a seasonal apparel inventory and draft the disclosure note.", authors: "Kwame Mensah", inst: "Eastmoor University", level: "Upper undergraduate", time: "50 minutes", tools: ["Excel"], inc: ["dataset", "sol"], used: 6, license: "CC BY 4.0", added: 1 }),
+  R({ id: "TME-0075", d: "mgmt", disc: "Managerial accounting", discipline: "Managerial accounting", type: "Case", title: "Activity-Based Costing at Maplewood Animal Clinic", summary: "Rebuild a veterinary clinic’s service costs with activity-based costing and rethink what it charges.", authors: "Sofia Marquez", inst: "Lakemont University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 10, license: "CC BY 4.0", added: 2 }),
+  R({ id: "TME-0079", d: "other", disc: "Other", discipline: "Ethics", type: "Teaching module", title: "Ethics Dilemmas for New Staff Accountants", summary: "Short scenarios on gifts, overtime, and pressure from a senior, for small-group discussion.", authors: "Rebecca Thornton", inst: "Halden University", level: "Introductory undergraduate", time: "50 minutes", tools: [], inc: ["note"], used: 12, license: "CC BY 4.0", added: 3 }),
+  R({ id: "TME-0083", d: "audit", disc: "Audit", discipline: "Audit", type: "Case", title: "Inventory Observation at Granite Peak Hardware", summary: "Plan a year-end inventory count across three stores, then evaluate the exceptions the count teams found.", authors: "Ruth Abernathy, Kwame Mensah", inst: "Eastmoor University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 8, license: "CC BY 4.0", added: 4 }),
+  R({ id: "TME-0091", d: "tax", disc: "Tax", discipline: "Tax", type: "Case", title: "Schedule C for a Freelance Photographer", summary: "Prepare a sole proprietor’s Schedule C and decide which home office and vehicle costs qualify.", authors: "Isaac Feldman", inst: "Kessler College", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 9, license: "CC BY 4.0", added: 6 }),
+  R({ id: "TME-0094", d: "ais", disc: "Accounting information systems", discipline: "Accounting information systems", type: "Teaching module", title: "Segregation of Duties in an ERP Role Matrix", summary: "Review user roles in a mid-size ERP system and find the conflicts an auditor would flag.", authors: "Mei Zhao", inst: "Riverbend State University", level: "Upper undergraduate", time: "50 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 7, license: "CC BY 4.0", added: 7 }),
+  R({ id: "TME-0097", d: "data", disc: "Data analytics", discipline: "Data analytics", type: "Data exercise", title: "Forecasting Hospital Supply Demand in R", summary: "Fit and compare simple time series models to forecast monthly glove and gown use at a regional hospital.", authors: "Daniel Cho", inst: "Northgate State University", level: "Graduate", time: "Two class sessions", tools: ["R"], inc: ["dataset", "note", "sol"], used: 5, license: "CC BY 4.0", added: 8 }),
+  R({ id: "TME-0104", d: "other", disc: "Other", discipline: "Communication", type: "Teaching module", title: "Writing a Management Letter That Gets Read", summary: "Turn a list of control findings into a clear, prioritized letter to a small nonprofit’s board.", authors: "Nora Byrne, Fatima Al-Sayed", inst: "Wrenfield College", level: "Upper undergraduate", time: "75 minutes", tools: [], inc: ["note", "sol"], used: 5, license: "CC BY-NC-SA 4.0", added: 12 }),
+  R({ id: "TME-0106", d: "emtech", disc: "Emerging technology", discipline: "Emerging technology", type: "Case", title: "Smart Contracts for Supplier Rebates", summary: "Decide whether a smart contract that pays volume rebates on its own changes the revenue, the controls, and the audit evidence.", authors: "Lena Park, Arjun Mehta", inst: "Kessler College, University of Illinois Urbana-Champaign", level: "Graduate", time: "75 minutes", tools: [], inc: ["note", "sol"], used: 3, license: "CC BY 4.0", added: 13 }),
+  R({ id: "TME-0112", d: "mgmt", disc: "Managerial accounting", discipline: "Managerial accounting and analytics", type: "Data exercise", title: "Budget Variances for a Food Truck Fleet", summary: "Build flexible budgets for six food trucks and explain the price, volume, and mix variances in Power BI.", authors: "Jordan Lee, Mateo Reyes", inst: "Riverbend State University, Lakemont University", level: "Introductory undergraduate", time: "50 minutes", tools: ["Power BI", "Excel"], inc: ["dataset", "sol"], used: 6, license: "CC BY-NC 4.0", added: 14 }),
+  R({ id: "TME-0115", d: "other", disc: "Other", discipline: "Sustainability reporting", type: "Case", title: "Measuring Scope 3 Emissions at Thistle Outdoor Gear", summary: "Estimate supplier emissions from spend data and decide what a first sustainability report can honestly claim.", authors: "Adaeze Nwosu, Henrik Lund", inst: "Northgate State University, Halden University", level: "MBA", time: "90 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 4, license: "CC BY 4.0", added: 15 }),
+  R({ id: "TME-0121", d: "data", disc: "Data analytics", discipline: "Data analytics", type: "Data exercise", title: "Member Churn at a Regional Credit Union", summary: "Explore member data in Tableau, then build a simple model to predict who will close their accounts.", authors: "Omar Haddad, Daniel Cho", inst: "Kessler College, Northgate State University", level: "Upper undergraduate", time: "75 minutes", tools: ["Tableau", "Python"], inc: ["dataset", "note", "sol"], used: 6, license: "CC BY-NC 4.0", added: 16 }),
+  R({ id: "TME-0124", d: "tax", disc: "Tax", discipline: "Tax", type: "Case", title: "Like-Kind Exchange at Ridgeview Farms", summary: "Work out the gain recognized and the new basis when a family farm trades land and equipment with boot.", authors: "Theo Brandt", inst: "Eastmoor University", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 4, license: "CC BY-NC 4.0", added: 17 }),
+  R({ id: "TME-0130", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Impairment Testing at Saltmarsh Hotels", summary: "Test a hotel portfolio for impairment after a weak tourist season, from cash flow forecasts to the journal entry.", authors: "Henrik Lund, Rebecca Thornton", inst: "Halden University", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 5, license: "CC BY 4.0", added: 19 }),
+  R({ id: "TME-0136", d: "ais", disc: "Accounting information systems", discipline: "Accounting information systems", type: "Case", title: "Automating Accounts Payable at Kettle Creek Logistics", summary: "Decide which steps of invoice approval a software bot should take on, and which controls have to change.", authors: "Sam Ortega, Grace Okafor", inst: "Prairie Lakes College", level: "Graduate", time: "75 minutes", tools: ["UiPath", "Lucidchart"], inc: ["note", "sol"], used: 3, license: "CC BY-NC-SA 4.0", added: 21 }),
+  R({ id: "TME-0139", d: "audit", disc: "Audit", discipline: "Audit and analytics", type: "Data exercise", title: "Duplicate Payment Testing with SQL", summary: "Write SQL queries to find duplicate and split vendor payments in a year of accounts payable data.", authors: "Mei Zhao", inst: "Riverbend State University", level: "Graduate", time: "Two class sessions", tools: ["SQL", "Excel"], inc: ["dataset", "note", "sol"], used: 6, license: "CC BY-NC 4.0", added: 22 }),
+  R({ id: "TME-0145", d: "data", disc: "Data analytics", discipline: "Data analytics", type: "Teaching module", title: "Fixing Misleading Charts in a Board Deck", summary: "Critique six charts from a fictional board deck, then redesign each one so it tells the truth.", authors: "Fatima Al-Sayed", inst: "Wrenfield College", level: "Introductory undergraduate", time: "50 minutes", tools: ["Excel", "Tableau"], inc: ["note", "sol"], used: 9, license: "CC BY 4.0", added: 24 }),
+  R({ id: "TME-0147", d: "mgmt", disc: "Managerial accounting", discipline: "Managerial accounting", type: "Case", title: "Make or Buy at Tamarack Bicycles", summary: "Weigh outsourcing a carbon frame against spare capacity, quality, and the risks a spreadsheet misses.", authors: "Mateo Reyes", inst: "Lakemont University", level: "MBA", time: "90 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 4, license: "CC BY 4.0", added: 25 }),
+  R({ id: "TME-0151", d: "emtech", disc: "Emerging technology", discipline: "Emerging technology", type: "Teaching module", title: "Prompting Generative AI for Variance Commentary", summary: "Draft, test, and fact-check AI-written variance explanations against the general ledger.", authors: "Arjun Mehta", inst: "University of Illinois Urbana-Champaign", level: "Upper undergraduate", time: "50 minutes", tools: ["Generative AI", "Excel"], inc: ["dataset", "note"], used: 7, license: "CC BY 4.0", added: 27 }),
+  R({ id: "TME-0153", d: "ais", disc: "Accounting information systems", discipline: "Accounting information systems", type: "Data exercise", title: "A Relational Database for a Campus Bookstore", summary: "Model sales, returns, and textbook rentals as a relational database, then answer the manager’s questions in SQL.", authors: "Daniel Cho", inst: "Northgate State University", level: "Introductory undergraduate", time: "Two class sessions", tools: ["SQL"], inc: ["dataset", "sol"], used: 5, license: "CC BY 4.0", added: 28 }),
+  R({ id: "TME-0155", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Teaching module", title: "Reading the Cash Flow Statement: A Five-Company Sprint", summary: "Match five unlabeled cash flow statements to the companies that produced them, then defend each match.", authors: "Dana Whitfield", inst: "Riverbend State University", level: "Introductory undergraduate", time: "50 minutes", tools: [], inc: ["note", "sol"], used: 11, license: "CC BY 4.0", added: 29 }),
+  R({ id: "TME-0159", d: "audit", disc: "Audit", discipline: "Audit", type: "Teaching module", title: "Professional Skepticism and Revenue Cutoff", summary: "Review shipping documents from around year-end and decide which sales belong in the next period.", authors: "Kenji Sato", inst: "Eastmoor University", level: "Upper undergraduate", time: "50 minutes", tools: [], inc: ["note", "sol"], used: 3, license: "CC BY 4.0", added: 31 }),
+  R({ id: "TME-0163", d: "tax", disc: "Tax", discipline: "Tax and analytics", type: "Data exercise", title: "Sales Tax Nexus for an Online Candle Shop", summary: "Use a year of order data to find the states where an online shop crossed economic nexus thresholds.", authors: "Isaac Feldman, Nora Byrne", inst: "Kessler College, Wrenfield College", level: "Upper undergraduate", time: "50 minutes", tools: ["Excel", "Tableau"], inc: ["dataset", "sol"], used: 2, license: "CC BY 4.0", added: 33 }),
+  R({ id: "TME-0164", d: "emtech", disc: "Emerging technology", discipline: "Emerging technology and audit", type: "Case", title: "Drones in the Inventory Count at Coldwater Distribution", summary: "Decide whether drone scans of high-bay racking give the auditor enough evidence, and what else to test.", authors: "Adaeze Nwosu", inst: "Northgate State University", level: "Upper undergraduate", time: "75 minutes", tools: [], inc: ["note", "sol"], used: 1, license: "CC BY-NC 4.0", added: 34 }),
 ];
 
 /** Published resources that appear on author pages but not in the default browse set. */
 export const extraResources: Resource[] = [
-  R({ id: "TME-0088", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Lease Modifications at Corvid Air", summary: "Remeasure a regional airline’s aircraft leases after a fleet renegotiation and explain the effect on the balance sheet.", authors: "Dana Whitfield", inst: "Riverbend State University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 8, license: "CC BY 4.0", added: 1 }),
-  R({ id: "TME-0101", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Contingent Consideration in the Brightwater Acquisition", summary: "Measure an earnout at acquisition and at each reporting date, then trace the changes through the income statement.", authors: "Dana Whitfield, Marcus Osei", inst: "Riverbend State University, University of Illinois Urbana-Champaign", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 4, license: "CC BY 4.0", added: 4 }),
+  R({ id: "TME-0088", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Lease Modifications at Corvid Air", summary: "Remeasure a regional airline’s aircraft leases after a fleet renegotiation and explain the effect on the balance sheet.", authors: "Dana Whitfield", inst: "Riverbend State University", level: "Upper undergraduate", time: "75 minutes", tools: ["Excel"], inc: ["dataset", "note", "sol"], used: 8, license: "CC BY 4.0", added: 5 }),
+  R({ id: "TME-0101", d: "fin", disc: "Financial accounting", discipline: "Financial accounting", type: "Case", title: "Contingent Consideration in the Brightwater Acquisition", summary: "Measure an earnout at acquisition and at each reporting date, then trace the changes through the income statement.", authors: "Dana Whitfield, Marcus Osei", inst: "Riverbend State University, University of Illinois Urbana-Champaign", level: "Graduate", time: "75 minutes", tools: ["Excel"], inc: ["note", "sol"], used: 4, license: "CC BY 4.0", added: 11 }),
 ];
 
 export const allResources = (): Resource[] => resources.concat(extraResources);
@@ -190,7 +215,6 @@ const genaiPublished: ResourceDetail = {
 
 export const details = { lakeside, genai, genaiPublished };
 
-const TITLES: Record<string, string> = { "Priya Raman": "Assistant Professor of Accountancy", "Jordan Lee": "Lecturer" };
 
 const SPECIAL_FILES: Record<string, FileEntry[]> = {
   "TME-0127": [
@@ -209,12 +233,27 @@ const SPECIAL_FILES: Record<string, FileEntry[]> = {
 
 const DOWNLOADS: Record<string, number> = { "TME-0127": 268, "TME-0133": 155 };
 
-const sentence = (t: string) =>
-  t.charAt(0) +
-  t
-    .slice(1)
+/** Names that keep their capitals in a sentence-case (APA) title. */
+const PROPER_NOUNS = [
+  "python", "power bi", "benford's", "t-bills", "copperline supply", "harlow brewing", "northfield ceramics", "lakeside fitness", "jupyter",
+  "corvid air", "brightwater",
+  "alder & finch outfitters", "maplewood animal clinic", "granite peak hardware", "schedule c", "r", "ridgeview farms",
+  "saltmarsh hotels", "kettle creek logistics", "tamarack bicycles", "coldwater distribution", "thistle outdoor gear", "scope 3",
+];
+const PROPER_RE = new RegExp("\\b(" + PROPER_NOUNS.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")\\b", "gi");
+
+/** Abbreviations that stay in capitals. */
+const ACRONYM_RE = /\b(ai|bi|erp|sql)\b/gi;
+
+/** A title in sentence case for an APA citation: names keep their capitals, and so does the first word after a colon. */
+const sentence = (t: string) => {
+  const s = t
     .toLowerCase()
-    .replace(/\b(python|power bi|benford's|t-bills|copperline|harlow|northfield|lakeside|jupyter)\b/gi, (m) => m.replace(/\b\w/g, (c) => c.toUpperCase()));
+    .replace(PROPER_RE, (m) => m.replace(/(^|[\s-])(\w)/g, (_, sep: string, c: string) => sep + c.toUpperCase()))
+    .replace(ACRONYM_RE, (m) => m.toUpperCase())
+    .replace(/: (\w)/g, (_, c: string) => ": " + c.toUpperCase());
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
 
 /** Full resource page content. Falls back to the Lakeside case for unknown IDs. */
 export function detailFor(id?: string, opts: { published?: boolean } = {}): ResourceDetail {
@@ -258,7 +297,7 @@ export function detailFor(id?: string, opts: { published?: boolean } = {}): Reso
     title: r.title, summary: r.summary, byline,
     meta: "Updated 2026 · Version 1 · " + r.license,
     about: r.summary, objectives: [], time: r.time, level: r.level, tested: "Spring 2026", tools: r.tools,
-    authors: names.map((n, i) => ({ initials: n.split(" ").map((p) => p[0]).join(""), name: n, title: TITLES[n] || "", inst: insts[i] })),
+    authors: names.map((n, i) => ({ initials: initialsOf(n), name: n, title: AUTHORS[n]?.title || "", inst: insts[i] })),
     files, totalAll: files.length + " files", allLabel: "Download all " + files.length + " files", allMeta: "One ZIP file", publicMeta: pub + " files in one ZIP",
     cite: { lead: apaStr + " (2026). ", italic: sentence(r.title), tail: " (Version 1) [Teaching " + r.type.toLowerCase() + "]. Teaching Materials Exchange. https://tme.illinois.edu/r/" + r.id.slice(4) },
     license: r.license, downloads: DOWNLOADS[id] || r.used * 38 + 21, courses: r.used, versions: "1 version",
@@ -348,6 +387,60 @@ export const resourceIdFromSlug = (slug: string) => (slug.startsWith("TME-") ? s
 
 export const authorSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 export const authorHref = (name: string) => "/authors/" + authorSlug(name);
+
+export const initialsOf = (name: string) =>
+  name
+    .split(" ")
+    .map((p) => p[0])
+    .join("");
+
+export interface AuthorProfile {
+  title: string;
+  orcid?: string;
+  /** First year contributing. */
+  since: number;
+}
+
+/**
+ * Every author of a published material. Each has a portrait, `author-<slug>.webp`, made by
+ * scripts/generate-images.mjs (AUTHORS there has one line per author describing the photo).
+ */
+export const AUTHORS: Record<string, AuthorProfile> = {
+  "Dana Whitfield": { title: "Associate Professor of Accountancy", orcid: "0000-0001-5532-0418", since: 2025 },
+  "Marcus Osei": { title: "Clinical Assistant Professor", since: 2025 },
+  "Ruth Abernathy": { title: "Professor of Accountancy", since: 2026 },
+  "Kenji Sato": { title: "Assistant Professor of Accountancy", since: 2026 },
+  "Theo Brandt": { title: "Clinical Professor of Taxation", since: 2025 },
+  "Priya Raman": { title: "Assistant Professor of Accountancy", since: 2026 },
+  "Jordan Lee": { title: "Lecturer", since: 2026 },
+  "Omar Haddad": { title: "Associate Professor of Business Analytics", since: 2026 },
+  "Grace Okafor": { title: "Assistant Professor of Accounting", since: 2025 },
+  "Martin Duval": { title: "Clinical Professor of Accountancy", since: 2026 },
+  "Lena Park": { title: "Assistant Professor of Accounting", since: 2026 },
+  "Elena Fischer": { title: "Associate Professor of Accounting", orcid: "0000-0002-7134-5580", since: 2026 },
+  "Sam Ortega": { title: "Assistant Professor of Information Systems", since: 2026 },
+  "Adaeze Nwosu": { title: "Associate Professor of Accounting", since: 2025 },
+  "Henrik Lund": { title: "Professor of Accounting", since: 2025 },
+  "Sofia Marquez": { title: "Assistant Professor of Accountancy", since: 2025 },
+  "Daniel Cho": { title: "Assistant Professor of Data Analytics", since: 2025 },
+  "Fatima Al-Sayed": { title: "Associate Professor of Accounting", since: 2025 },
+  "Rebecca Thornton": { title: "Senior Lecturer in Accounting", since: 2025 },
+  "Mateo Reyes": { title: "Clinical Assistant Professor of Accountancy", since: 2025 },
+  "Mei Zhao": { title: "Assistant Professor of Accounting Information Systems", since: 2025 },
+  "Isaac Feldman": { title: "Professor of Taxation", since: 2025 },
+  "Nora Byrne": { title: "Lecturer in Accounting", since: 2026 },
+  "Kwame Mensah": { title: "Associate Professor of Accountancy", since: 2025 },
+  "Arjun Mehta": { title: "Teaching Assistant Professor of Accountancy", since: 2026 },
+};
+
+/** An author's portrait, or undefined for someone without one (like a co-author typed into a new submission). */
+export const authorPhoto = (name: string) => (AUTHORS[name] ? `/images/author-${authorSlug(name)}.webp` : undefined);
+
+/** When a material was last updated, from its recency rank: the newest on October 30, 2026, each one before it five days earlier. */
+export function updatedOn(r: Pick<Resource, "added">) {
+  const newest = Math.max(...allResources().map((x) => x.added));
+  return new Date(Date.UTC(2026, 9, 30 - (newest - r.added) * 5));
+}
 
 export interface Person {
   key: "priya" | "elena";

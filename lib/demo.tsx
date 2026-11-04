@@ -1,10 +1,9 @@
 "use client";
 
-// Demo state for the clickable prototype. There is no backend: who you are signed in as, and the
-// material cover style you're trying, live in cookies (so pages render them on the server), and
-// everything else you do (saves, downloads, drafts, admin edits) lives in localStorage on this browser.
+// Demo state for the clickable prototype. There is no backend: who you are signed in as lives in a
+// cookie (so pages render it on the server), and everything else you do (saves, downloads, drafts,
+// admin edits) lives in localStorage on this browser.
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { COVERS_COOKIE, type CoverStyle } from "./covers";
 import { PEOPLE, type Person } from "./data";
 import { DEMO_COOKIE, type Auth, type DemoIdentity, type Who } from "./demo-shared";
 
@@ -24,9 +23,6 @@ interface DemoContextValue {
   get<T>(key: string, fallback: T): T;
   set(patch: Data): void;
   setIdentity(next: Partial<DemoIdentity>): void;
-  /** The style every material cover is shown in (see lib/covers.ts). */
-  covers: CoverStyle;
-  setCovers(style: CoverStyle): void;
   /** Signs out and clears every demo change. */
   reset(): void;
 }
@@ -46,9 +42,8 @@ function readStore(): Data {
   }
 }
 
-export function DemoProvider({ initial, initialCovers, children }: { initial: DemoIdentity; initialCovers: CoverStyle; children: React.ReactNode }) {
+export function DemoProvider({ initial, children }: { initial: DemoIdentity; children: React.ReactNode }) {
   const [identity, setIdentityState] = useState<DemoIdentity>(initial);
-  const [covers, setCoversState] = useState<CoverStyle>(initialCovers);
   const [data, setData] = useState<Data>({});
   const [ready, setReady] = useState(false);
 
@@ -82,11 +77,6 @@ export function DemoProvider({ initial, initialCovers, children }: { initial: De
     });
   }, []);
 
-  const setCovers = useCallback((style: CoverStyle) => {
-    document.cookie = `${COVERS_COOKIE}=${style}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    setCoversState(style);
-  }, []);
-
   const reset = useCallback(() => {
     try {
       localStorage.removeItem(STORE_KEY);
@@ -114,11 +104,9 @@ export function DemoProvider({ initial, initialCovers, children }: { initial: De
       },
       set,
       setIdentity,
-      covers,
-      setCovers,
       reset,
     }),
-    [identity, covers, ready, data, set, setIdentity, setCovers, reset],
+    [identity, ready, data, set, setIdentity, reset],
   );
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;

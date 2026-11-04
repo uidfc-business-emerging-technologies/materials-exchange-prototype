@@ -1,7 +1,8 @@
-import { Building2, GraduationCap, Lock, User, Users } from "lucide-react";
+import { Building2, GraduationCap, Lock } from "lucide-react";
 import Link from "next/link";
 import { authorHref, resourceHref, type Resource } from "@/lib/data";
 import { DataIcon } from "@/components/ui/DataIcon";
+import { AuthorStack } from "./AuthorAvatar";
 import { MaterialCover } from "./MaterialCover";
 import styles from "./ResourceCard.module.css";
 
@@ -37,7 +38,6 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   const H = `h${headingLevel}` as "h2" | "h3";
   const names = r.authors.split(", ").filter(Boolean);
   const many = names.length > 1;
-  const AuthorIcon = many ? Users : User;
   const link = href || resourceHref(r.id);
   const showLockKey = locked && r.includes.some((i) => i.gated);
 
@@ -55,8 +55,8 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
             </Link>
           </H>
           <div className={styles.listMeta}>
-            <span className={styles.metaItem}>
-              <AuthorIcon size={15} className={styles.metaIcon} aria-hidden />
+            <span className={[styles.metaItem, styles.authorItem].join(" ")}>
+              <AuthorStack names={names} size={22} />
               <span className="sr-only">{many ? "Authors" : "Author"}: </span>
               <span className={styles.authors}>
                 <Authors names={names} />
@@ -121,8 +121,8 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
         </H>
         <p className={styles.summary}>{r.summary}</p>
         <ul className={styles.meta}>
-          <li>
-            <AuthorIcon size={16} className={styles.metaIcon} aria-hidden />
+          <li className={styles.authorItem}>
+            <AuthorStack names={names} size={24} />
             <span className="sr-only">{many ? "Authors" : "Author"}: </span>
             <span className={styles.authors}>
               <Authors names={names} />

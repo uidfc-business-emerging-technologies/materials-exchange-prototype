@@ -27,11 +27,14 @@ export const HERO_OBJECTS = [
   "hero-hourglass",
 ] as const;
 export const STAT_OBJECTS = ["stat-resources", "stat-institutions", "stat-instructors"] as const;
+/** Frosted objects that float beside the call to action above the footer. */
+export const CTA_OBJECTS = ["cta-cap", "cta-plane"] as const;
 
 /** Files in public/images, made by scripts/generate-images.mjs. Square unless listed in WIDE. */
 export type IllustrationName =
   | (typeof HERO_OBJECTS)[number]
   | (typeof STAT_OBJECTS)[number]
+  | (typeof CTA_OBJECTS)[number]
   | `disc-${DisciplineKey}`
   | "home-hero"
   | "how-find"
@@ -48,18 +51,24 @@ export type IllustrationName =
   | "author"
   | "file-download"
   | "file-locked"
-  | "not-found";
+  | "not-found"
+  | "licenses"
+  | "license-by"
+  | "license-nc"
+  | "license-sa"
+  | "license-credit";
 
 /**
- * Every published resource has a 3:2 illustration named after its ID, cover images in each style
- * (lib/covers.ts), and three square photo cutouts named `<ID>-a` to `<ID>-c`.
+ * Every published resource has a 3:2 illustration named after its ID and a watercolor cover
+ * (lib/covers.ts). The first eleven also have three square photo cutouts, `<ID>-a` to `<ID>-c`.
  */
 const WIDE = new Set(allResources().map((r) => r.id));
+const WITH_CUTOUTS = new Set(["TME-0088", "TME-0101", "TME-0109", "TME-0118", "TME-0127", "TME-0133", "TME-0142", "TME-0149", "TME-0157", "TME-0161", "TME-0166"]);
 
 export const hasMaterialImage = (id: string): id is `TME-${string}` => WIDE.has(id);
 
-/** A resource's three photo cutouts, main one first, if it has them. No longer on its cover; kept for reuse. */
-export const cutoutsFor = (id: string): `TME-${string}`[] => (hasMaterialImage(id) ? [`${id}-a`, `${id}-b`, `${id}-c`] : []);
+/** A resource's three photo cutouts, main one first, if it has them. Not on the site; kept for reuse. */
+export const cutoutsFor = (id: string): `TME-${string}`[] => (hasMaterialImage(id) && WITH_CUTOUTS.has(id) ? [`${id}-a`, `${id}-b`, `${id}-c`] : []);
 
 /**
  * Illustration: a generated spot illustration on a transparent background. Size it with

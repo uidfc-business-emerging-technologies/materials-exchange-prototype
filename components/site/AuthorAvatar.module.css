@@ -1,0 +1,39 @@
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--action-tint);
+  color: var(--navy);
+  font-size: calc(var(--size) * 0.38);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Each portrait after the first tucks under the one before it, with a white ring between them. */
+.stack {
+  flex: none;
+  display: inline-flex;
+}
+
+.stackItem {
+  position: relative;
+  display: inline-flex;
+}
+
+.stackItem + .stackItem {
+  margin-left: -7px;
+}
+
+.stacked {
+  box-shadow: 0 0 0 2px #fff;
+}

@@ -113,6 +113,12 @@
   color: var(--text-4);
 }
 
+/* Author portraits sit where the other rows have an icon, centered on the names. */
+.meta li.authorItem,
+.metaItem.authorItem {
+  align-items: center;
+}
+
 .authors {
   font-weight: 500;
 }

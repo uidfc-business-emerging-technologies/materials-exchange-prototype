@@ -3,6 +3,7 @@
 import { TabbiedPattern } from "tabbied/react";
 import bloks from "tabbied/patterns/bloks";
 import comet from "tabbied/patterns/comet";
+import kerf from "tabbied/patterns/kerf";
 import maze from "tabbied/patterns/maze";
 import metro from "tabbied/patterns/metro";
 import mixtape from "tabbied/patterns/mixtape";
@@ -15,7 +16,7 @@ import { useMotionPaused } from "@/lib/demo";
 import { hash01, paletteFor, patternSlugFor, type PatternSlug } from "@/lib/pattern";
 import styles from "./PatternCover.module.css";
 
-const DESIGNS = { bloks, comet, maze, metro, mixtape, terrain, tesserae, trigram, weave } satisfies Record<PatternSlug, unknown>;
+const DESIGNS = { bloks, comet, kerf, maze, metro, mixtape, terrain, tesserae, trigram, weave } satisfies Record<PatternSlug, unknown>;
 
 export interface PatternCoverProps {
   discipline: DisciplineKey;
@@ -25,6 +26,10 @@ export interface PatternCoverProps {
   kind?: PatternSlug;
   /** Contributor-chosen or fixed palette, ground first (see `palettesFor` and `NEUTRAL_PALETTE`). */
   palette?: string[];
+  /** Set true to leave the ground see-through, so whatever is behind the cover shows between the shapes. */
+  transparent?: boolean;
+  /** Tabbied option values for the design, keyed by option id (such as Kerf's `frequency`). */
+  options?: Record<string, string | number | boolean>;
   /** Target cell size in px. Small thumbnails read better with smaller cells. */
   cellSize?: number;
   /** Set false to keep the cover still even when animations are on. */
@@ -39,18 +44,20 @@ export interface PatternCoverProps {
  * PatternCover: a Tabbied generative pattern sized by its box (set width and height with
  * `className` or `style`). Decorative and hidden from assistive technology.
  */
-export function PatternCover({ discipline, seed, kind, palette, cellSize = 32, motion = true, children, className, style }: PatternCoverProps) {
+export function PatternCover({ discipline, seed, kind, palette, transparent = false, options, cellSize = 32, motion = true, children, className, style }: PatternCoverProps) {
   const { paused } = useMotionPaused();
   const slug = kind || patternSlugFor(discipline);
   // Covers slowly drift to a new arrangement, like a live Tabbied pattern. Tabbied skips
   // this under prefers-reduced-motion, and the footer toggle pauses it.
   const interval = motion ? Math.round(6000 + hash01(seed) * 5000) : undefined;
+  const colors = paletteFor(discipline, palette);
   return (
-    <div aria-hidden="true" className={[styles.cover, className].filter(Boolean).join(" ")} style={style}>
+    <div aria-hidden="true" className={[styles.cover, transparent ? styles.clear : "", className].filter(Boolean).join(" ")} style={style}>
       <TabbiedPattern
         pattern={DESIGNS[slug]}
         seed={seed}
-        palette={paletteFor(discipline, palette)}
+        palette={transparent ? ["transparent", ...colors.slice(1)] : colors}
+        options={options}
         cellSize={cellSize}
         redrawInterval={interval}
         paused={paused}

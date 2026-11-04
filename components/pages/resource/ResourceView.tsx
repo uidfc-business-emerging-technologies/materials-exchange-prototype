@@ -35,6 +35,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
+import { AuthorAvatar } from "@/components/site/AuthorAvatar";
 import { hasMaterialImage, Illustration } from "@/components/site/Illustration";
 import { MaterialCover } from "@/components/site/MaterialCover";
 import { DividedGrid } from "@/components/site/DividedGrid";
@@ -423,9 +424,7 @@ export function ResourceView({ id }: { id: string }) {
             <div className={styles.authors}>
               {res.authors.map((a) => (
                 <div key={a.name} className={styles.authorCard}>
-                  <span className={styles.initials} aria-hidden="true">
-                    {a.initials}
-                  </span>
+                  <AuthorAvatar name={a.name} size={56} />
                   <div className={styles.authorText}>
                     <Link href={authorHref(a.name)} className={styles.authorName}>
                       {a.name}
@@ -469,15 +468,7 @@ export function ResourceView({ id }: { id: string }) {
               <CreativeCommons />
               <p>
                 <strong>{res.license}.</strong> {LICENSE_LINES[res.license]}{" "}
-                <a
-                  href="https://creativecommons.org/licenses/"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    infoToast("The full license text opens on creativecommons.org.");
-                  }}
-                >
-                  About this license
-                </a>
+                <Link href="/licenses">About this license</Link>
               </p>
             </div>
           </section>

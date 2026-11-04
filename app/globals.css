@@ -17,6 +17,10 @@
   --surface: #ffffff;
   --surface-2: #f4f4f4;
   --surface-3: #f8f8f8;
+  /* Behind the transparent watercolor covers: a cool paper white */
+  --cover-ground: #f3f6fa;
+  /* The pale blue-gray the home page fades into above the footer, and the footer itself */
+  --bottom-tint: #e6ebf3;
 
   /* Action and brand */
   --action: #1d58a7;

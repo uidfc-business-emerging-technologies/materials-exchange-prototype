@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { SITE } from "@/lib/data";
 import { useDemo, type Auth } from "@/lib/demo";
 import { MenuHeader, MenuItem, MenuLinkItem, MenuPopup, MenuRoot, MenuSeparator, MenuTrigger, toast } from "@/components/ui/overlays";
+import { AuthorAvatar } from "./AuthorAvatar";
 import { Mark } from "./Mark";
 import styles from "./SiteHeader.module.css";
 
@@ -116,7 +117,7 @@ export function SiteHeader() {
           ) : (
             <MenuRoot modal={false}>
               <MenuTrigger className={styles.account} aria-label={`Account menu, ${badge?.label}`}>
-                <span className={styles.avatar}>{demo.me.initials}</span>
+                <AuthorAvatar name={demo.me.name} size={30} className={styles.avatar} />
                 {badge ? (
                   <span className={[styles.badge, badge.cls].join(" ")}>
                     <badge.Icon size={16} aria-hidden />
@@ -164,7 +165,7 @@ export function SiteHeader() {
             </Link>
           ) : (
             <button type="button" className={[styles.accountMobile, badge?.cls].join(" ")} aria-label={`Account menu, ${badge?.label}`} aria-expanded={mobileOpen} onClick={() => setMobileOpen((o) => !o)}>
-              <span className={styles.avatarMobile}>{demo.me.initials}</span>
+              <AuthorAvatar name={demo.me.name} size={32} className={styles.avatarMobile} />
               {badge ? <badge.Icon size={18} aria-hidden /> : null}
             </button>
           )}

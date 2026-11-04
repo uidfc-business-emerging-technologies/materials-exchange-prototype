@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { COVER_STYLES, coverFiles } from "@/lib/covers";
-import { allResources, disciplines, resourceHref } from "@/lib/data";
-import { useDemo } from "@/lib/demo";
-import { Button } from "@/components/ui/Button";
-import { cutoutsFor, hasMaterialImage, HERO_OBJECTS, STAT_OBJECTS } from "@/components/site/Illustration";
+import { coverFiles } from "@/lib/covers";
+import { allResources, AUTHORS, authorHref, authorPhoto, authorSlug, disciplines, resourceHref } from "@/lib/data";
+import { CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, STAT_OBJECTS } from "@/components/site/Illustration";
 import styles from "./Library.module.css";
 
-const MATERIALS = allResources().filter((r) => hasMaterialImage(r.id));
+const MATERIALS = allResources()
+  .filter((r) => hasMaterialImage(r.id))
+  .sort((a, b) => a.id.localeCompare(b.id));
+const WITH_CUTOUTS = MATERIALS.filter((r) => cutoutsFor(r.id).length);
 
 /** A row of 3D objects, each linking to its file. */
 function Objects({ names }: { names: readonly string[] }) {
@@ -29,64 +30,62 @@ function Objects({ names }: { names: readonly string[] }) {
 }
 
 /**
- * Image library: every material cover style side by side, with a way to use one across the site,
- * and every generated 3D object, so they can be found and reused.
+ * Image library: every material cover, author portrait, and generated 3D object, so they can be
+ * found and reused.
  */
 export function LibraryView() {
-  const { covers, setCovers } = useDemo();
   return (
     <div className={styles.page}>
       <h1 className={styles.h1}>Image library</h1>
       <p className={styles.lead}>
-        Every picture on the exchange is made with OpenAI&apos;s gpt-image-2.5-sunburst by <code>scripts/generate-images.mjs</code>. Compare the material cover styles, and find the 3D objects to reuse.
+        Every picture on the exchange is made with OpenAI&apos;s GPT Image 2.5 (<code>gpt-image-2.5-sunburst</code>, low quality, transparent background) by <code>scripts/generate-images.mjs</code>. Find the covers, portraits, and 3D objects to reuse.
       </p>
 
       <section aria-labelledby="covers-h" className={styles.section}>
         <h2 id="covers-h" className={styles.h2}>
-          Material cover styles
+          Material covers
         </h2>
-        <p className={styles.note}>Each published material has a cover in every style. The site shows one style at a time: pick it here, or with Covers in the demo control at the bottom of the page.</p>
-        <div className={styles.tableWrap} role="region" aria-labelledby="covers-h" tabIndex={0}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th scope="col" className={styles.materialCol}>
-                  Material
-                </th>
-                {COVER_STYLES.map((s) => (
-                  <th key={s.key} scope="col">
-                    <span className={styles.styleName}>{s.label}</span>
-                    <Button size="sm" variant={covers === s.key ? "primary" : "secondary"} aria-pressed={covers === s.key} onClick={() => setCovers(s.key)} className={styles.use}>
-                      {covers === s.key ? "On the site" : "Use on the site"}
-                    </Button>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {MATERIALS.map((r) => (
-                <tr key={r.id}>
-                  <th scope="row">
-                    <span className={styles.id}>{r.id}</span>
-                    <Link href={resourceHref(r.id)} className={styles.title}>
-                      {r.title}
-                    </Link>
-                  </th>
-                  {COVER_STYLES.map((s) => {
-                    const { src, small } = coverFiles(r.id, s.key);
-                    return (
-                      <td key={s.key}>
-                        <a href={src} target="_blank" rel="noreferrer" className={styles.cover}>
-                          <img src={small} alt={`${s.label} cover`} width={640} height={427} loading="lazy" decoding="async" />
-                        </a>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <p className={styles.note}>
+          One loose watercolor per published material, with its subject in a band across the middle so it crops cleanly to a card or a page banner. Saved 1280px wide with a 640px copy (<code>-sm</code>) for thumbnails.
+        </p>
+        <ul className={styles.covers}>
+          {MATERIALS.map((r) => {
+            const { src, small } = coverFiles(r.id);
+            return (
+              <li key={r.id} className={styles.coverItem}>
+                <a href={src} target="_blank" rel="noreferrer" className={styles.cover}>
+                  <img src={small} alt="" width={640} height={427} loading="lazy" decoding="async" />
+                </a>
+                <span className={styles.id}>{r.id}</span>
+                <Link href={resourceHref(r.id)} className={styles.title}>
+                  {r.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section aria-labelledby="authors-h" className={styles.section}>
+        <h2 id="authors-h" className={styles.h2}>
+          Author portraits
+        </h2>
+        <p className={styles.note}>
+          A head-and-shoulders photo of each author, saved 400px wide. Shown in a circle on cards, material pages, author pages, and the account menu. Every person is fictional.
+        </p>
+        <ul className={styles.portraits}>
+          {Object.keys(AUTHORS).map((name) => (
+            <li key={name}>
+              <Link href={authorHref(name)} className={styles.portrait}>
+                <span className={styles.portraitArt}>
+                  <img src={authorPhoto(name)} alt="" width={400} height={400} loading="lazy" decoding="async" />
+                </span>
+                <span className={styles.portraitName}>{name}</span>
+                <span className={styles.file}>author-{authorSlug(name)}.webp</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="objects-h" className={styles.section}>
@@ -105,9 +104,12 @@ export function LibraryView() {
         <h3 className={styles.h3}>Disciplines</h3>
         <p className={styles.where}>The tiles in Browse by discipline.</p>
         <Objects names={disciplines.map((d) => `disc-${d.d}`)} />
+        <h3 className={styles.h3}>Call to action</h3>
+        <p className={styles.where}>Frosted objects that float beside the call to action above the footer (the <code>FROSTED</code> style line), saved 400px wide.</p>
+        <Objects names={CTA_OBJECTS} />
         <h3 className={styles.h3}>Materials</h3>
-        <p className={styles.where}>Three per material. Not on the site right now.</p>
-        {MATERIALS.map((r) => (
+        <p className={styles.where}>Three each for the first eleven materials. Not on the site right now.</p>
+        {WITH_CUTOUTS.map((r) => (
           <div key={r.id} className={styles.material}>
             <p className={styles.materialName}>
               <span className={styles.id}>{r.id}</span> {r.title}

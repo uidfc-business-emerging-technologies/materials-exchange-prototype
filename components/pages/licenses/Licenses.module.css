@@ -1,0 +1,379 @@
+.page {
+  padding: clamp(28px, 3.75vw, 48px) var(--gutter) clamp(72px, 9vw, 128px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 48px;
+  padding-bottom: clamp(28px, 3.5vw, 44px);
+  border-bottom: 1px solid var(--border);
+}
+
+.headText {
+  flex: 1 1 520px;
+  min-width: 0;
+  max-width: 780px;
+}
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.h1 {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.lead {
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.headArt {
+  flex: none;
+  width: clamp(140px, 17vw, 240px);
+}
+
+.section {
+  margin-top: clamp(48px, 6vw, 80px);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.5vw, 32px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.h3 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.body {
+  margin-top: 10px;
+  max-width: var(--text-max);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+/* ---------- The three licenses ---------- */
+.licenses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.license {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.license > :not(.licenseArt) {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.licenseArt {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: var(--action-tint);
+}
+
+.licenseImage {
+  width: clamp(120px, 12vw, 160px);
+}
+
+.licenseName {
+  margin-top: 22px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.licenseFull {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--text-4);
+}
+
+.licenseLine {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.listTitle {
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+.list li {
+  display: flex;
+  gap: 8px;
+}
+
+.canIcon,
+.mustIcon {
+  flex: none;
+  margin-top: 3px;
+}
+
+.canIcon {
+  color: var(--ok);
+}
+
+.mustIcon {
+  color: var(--orange-dark);
+}
+
+/* Pushed to the bottom so the links line up across the cards. */
+.licenseLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.browseLink,
+.deedLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.browseLink {
+  color: var(--action);
+}
+
+.deedLink {
+  color: var(--text-3);
+}
+
+/* ---------- At a glance ---------- */
+.tableWrap {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table thead th {
+  border-bottom-color: var(--border);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table tbody th {
+  max-width: 360px;
+  font-size: 15.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.yes {
+  color: var(--ok);
+}
+
+.no {
+  color: var(--danger);
+}
+
+.required {
+  color: var(--orange-dark);
+}
+
+.none {
+  color: var(--text-4);
+  font-weight: 400;
+}
+
+/* ---------- Giving credit ---------- */
+.credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px clamp(32px, 5vw, 64px);
+}
+
+.creditArt {
+  flex: none;
+  width: clamp(120px, 14vw, 200px);
+}
+
+.creditText {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+.example {
+  max-width: var(--text-max);
+  margin: 20px 0 6px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--orange);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--surface-3);
+}
+
+.exampleLabel {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+.exampleLine {
+  margin: 6px 0 0;
+  font-size: 16.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.exampleActions {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.copied {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ok);
+}
+
+/* ---------- Teaching notes ---------- */
+.note {
+  max-width: 880px;
+  padding: 22px 24px;
+  border-radius: var(--radius-md);
+  background: var(--action-tint);
+}
+
+.note .body {
+  margin-top: 6px;
+}
+
+/* ---------- Choosing a license ---------- */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: var(--text-max);
+  margin: 20px 0 0;
+}
+
+.choices div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 4px 20px;
+}
+
+.choices dt {
+  font-weight: 700;
+}
+
+.choices dd {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.chooseAction {
+  margin-top: 28px;
+}
+
+/* ---------- Questions ---------- */
+.faq {
+  max-width: 880px;
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.answer {
+  max-width: var(--text-max);
+  padding-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.small {
+  max-width: var(--text-max);
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-4);
+}
+
+@media (max-width: 560px) {
+  .choices div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

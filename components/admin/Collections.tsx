@@ -26,7 +26,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { allResources, authorHref, detailFor, resourceHref, type DisciplineKey, type LicenseName } from "@/lib/data";
+import { allResources, authorHref, detailFor, resourceHref, updatedOn, type DisciplineKey, type LicenseName } from "@/lib/data";
 import { ADMIN_ID, KNOWN_SUBMISSIONS, SUBMISSIONS, USERS, type AdminUser, type Submission } from "@/lib/admin-data";
 import { Badge, StatusBadge, type Tone } from "@/components/ui/Badge";
 import { MaterialCover } from "@/components/site/MaterialCover";
@@ -164,11 +164,15 @@ export interface Material {
 
 export const coverSeed = (m: { id: string; cover?: number }) => m.id + (m.cover ? "-" + m.cover : "");
 
+/** "Oct 30" for a date in 2026. */
+const fmtDay = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+
 export function materialsSeed(): Material[] {
   const files = (id: string) => detailFor(id).files.map((f) => ({ role: f.role, gated: !!f.gated }));
   const out: Material[] = allResources().map((r) => {
     const d = detailFor(r.id);
-    return { id: r.id, d: r.d, title: r.title, type: r.type, discipline: r.discipline, authors: r.authors, status: "published", downloads: d.downloads, courses: d.courses, updated: "Oct " + (r.added || 1) + ", 2026", license: r.license, files: files(r.id), featured: ["TME-0166", "TME-0161", "TME-0157"].includes(r.id), history: [{ when: "Oct " + (r.added || 1), what: "Published" }] };
+    const on = updatedOn(r);
+    return { id: r.id, d: r.d, title: r.title, type: r.type, discipline: r.discipline, authors: r.authors, status: "published", downloads: d.downloads, courses: d.courses, updated: fmtDay(on) + ", 2026", license: r.license, files: files(r.id), featured: ["TME-0166", "TME-0161", "TME-0157"].includes(r.id), history: [{ when: fmtDay(on), what: "Published" }] };
   });
   out.push({ id: "TME-0171", d: "emtech", title: "Generative AI in the Monthly Close", type: "Case", discipline: "Emerging technology, Accounting information systems", authors: "Elena Fischer, Sam Ortega", status: "inreview", downloads: 0, courses: 0, updated: "Oct 22, 2026", license: "CC BY 4.0", files: files("TME-0171"), featured: false, history: [{ when: "Oct 22", what: "Resubmitted with a new exhibit" }, { when: "Oct 14", what: "Changes requested by Jamie Morales" }] });
   out.push({ id: "TME-0172", d: "audit", title: "Sampling Vendor Payments in Python", type: "Data exercise", discipline: "Audit and analytics", authors: "Priya Raman", status: "inreview", downloads: 0, courses: 0, updated: "Oct 15, 2026", license: "CC BY-NC 4.0", files: [{ role: "Instructions", gated: false }, { role: "Vendor payments dataset", gated: false }, { role: "Solution notebook", gated: true }], featured: false, history: [{ when: "Oct 15", what: "Submitted" }] });
