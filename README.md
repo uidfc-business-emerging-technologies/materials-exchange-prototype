@@ -8,7 +8,7 @@ A clickable prototype of the Teaching Materials Exchange: free, classroom-ready 
 - **Cloudflare Workers**: deployed with `@vinext/cloudflare` and `cf` (`cloudflare.config.ts`)
 - **[Base UI](https://base-ui.com)** (`@base-ui/react`): unstyled, accessible primitives (menus, selects, checkboxes, radios, switches, dialogs, tabs, toasts)
 - **[Lucide](https://lucide.dev)** (`lucide-react`): line icons
-- **[Tabbied](https://tabbied.com)** (`tabbied`): generative pattern covers
+- **[Tabbied](https://tabbied.com)** (`tabbied`): generative patterns for the home hero and the art beside forms
 - **Plain CSS**: design tokens in `app/globals.css`, CSS Modules per component. No Tailwind.
 - **Images**: generated with OpenAI's GPT Image 2.6 (`gpt-image-2.6-sunburst`, or `gpt-image-2.6-flare`) at low quality, all with transparent backgrounds (`public/images`)
 
@@ -74,7 +74,7 @@ There is no backend. Use the **View as** switch (bottom right, or in the admin s
 | `/r/0142` | Resource (`?own=1` shows it to its authors) |
 | `/r/0142/files/lakeside-solution.xlsx` | File, locked or unlocked by access |
 | `/verify` | Verify instructor status (`?state=expired` and other states) |
-| `/contribute` | Contribute a resource, five steps. It's a prototype, so nothing is checked: open any step from the progress bar, in any order, and submit with fields empty |
+| `/contribute` | Contribute a resource, five steps. It's a prototype, so nothing is checked: open any step from the progress bar, in any order, and submit with fields empty. Add a co-author who's a member by their email (try `kmensah@eastmoor.edu`) |
 | `/sign-in`, `/reset-password` | Sign in, create account, reset password (`?expired=1`) |
 | `/account` | Account |
 | `/authors/dana-whitfield` | Author profile |
@@ -107,23 +107,22 @@ lib/
   emails.ts      every email template shown on the admin Emails page
   demo.tsx       demo state provider
   pattern.ts     discipline to Tabbied design and palette mapping
-  covers.ts      material cover image files
+  covers.ts      material cover image files, and the placeholder covers
 ```
 
 ## Pattern covers
 
-[Tabbied](https://tabbied.com) patterns (`tabbied/react`) fill the home hero, a decorative band on the home page, the art beside forms like sign-in, and the cover of any material without a cover image, such as a new submission. The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the seed (usually the resource ID) keeps the same pattern for the same thing:
+[Tabbied](https://tabbied.com) patterns (`tabbied/react`) fill the home hero, a decorative band on the home page, and the art beside forms like sign-in. Material covers are watercolors, not patterns (see Material covers). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the seed keeps the same pattern for the same thing:
 
 - The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photos on it stand out.
 - Between Browse by discipline and How it works, a tall, full-width band of Curl loops in very light neutral grays (`CURL_PALETTE`) runs edge to edge, fading in at the top and out at the bottom. Its ground is transparent (`PatternCover`'s `transparent`), so the page shows through the loops.
-- A material without a cover image uses slightly deeper grays (`COVER_NEUTRAL_PALETTE`), unless its contributor picked a colored palette.
 - The art beside forms keeps its discipline's colors.
 
 Patterns are decorative and hidden from assistive technology. Covers change slowly, unless the visitor prefers reduced motion or turns animations off in the footer.
 
 ## Illustrations
 
-Each public page has a spot illustration (the admin screens stay plain), and each How it works step has one. Each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's GPT Image 2.6 at low quality. The script always uses a 2.6 variant: `gpt-image-2.6-sunburst` unless `IMAGE_MODEL=gpt-image-2.6-flare` picks the other one, and it refuses any other model. Images made before the switch came from GPT Image 2.5 and are kept as they are. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
+Each public page has a spot illustration (the admin screens stay plain). Each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's GPT Image 2.6 at low quality. The script always uses a 2.6 variant: `gpt-image-2.6-sunburst` unless `IMAGE_MODEL=gpt-image-2.6-flare` picks the other one, and it refuses any other model. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
 The home hero uses a second style: color photo cutouts that sit straight on the pattern, with no disc. Nineteen of them rain down the pattern (`home-hero-photo.webp` and the `hero-*.webp` files), showing academia, institutions, and the disciplines the exchange covers. Each falls in its own lane, left to right in the order of `HERO_CUTOUTS` in `HomeView.tsx`, and passes behind the title panel (`CutoutRain`). Drops come in three sizes, and the bigger ones fall faster, which gives the rain some depth. On a narrow screen, every other lane is left out. Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The hero prompts also ask each subject to fill its frame, so the cutouts look the same scale. They're shown at about 130px or less, so the script saves them 320px wide. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
 
@@ -133,21 +132,32 @@ The same photo style is used in a few more places:
 - **Disciplines:** each tile in Browse by discipline is a cutout (`disc-fin.webp` and so on) instead of a pattern.
 - **Materials:** the first eleven resources have three cutouts each (`TME-0142-a.webp` to `TME-0142-c.webp`). They were on their covers and aren't on the site right now, but they're kept for reuse.
 
-- **Contribute steps:** each step in the contribute form's progress bar has a cutout (`step-files.webp` to `step-review.webp`). Steps ahead of the current one are a little faded.
+- **Contribute steps:** each step in the contribute form's progress bar has a cutout (`step-files.webp` to `step-review.webp`), centered in its box, with the step's number in its own circle beside its name: solid navy for the current step, outlined for steps ahead, and a check once done. Steps ahead of the current one are a little faded. On a phone, only the current step shows its name.
 
 Beside the call to action above the footer, two frosted, almost-white 3D objects float on the pale blue-gray (`cta-cap.webp`, `cta-plane.webp`). Their prompts share the `FROSTED` style line.
 
-The About page has seven loose watercolors in the style of the material covers (`about-hero.webp`, `about-why.webp`, and so on). Their prompts share the `ABOUT` style line: the covers' `WATERCOLOR` line, with one subject and room around it instead of a banner.
+The About page has loose watercolors in the style of the material covers (`about-hero.webp`, `about-why.webp`, and so on). Their prompts share the `ABOUT` style line: the covers' `WATERCOLOR` line, with one subject and room around it instead of a banner. Who runs the exchange shows the Commons atrium inside the Business Instructional Facility at Gies College of Business (`about-bif.webp`), painted from a photo of it, so its prompt uses the `VIGNETTE` line: the same watercolor, fading out at every edge. The generic hall it replaced (`about-center.webp`) is kept.
+
+The same `ABOUT` style is used in two more places:
+
+- **How it works:** each of the three steps on the home page has a watercolor (`how-find-watercolor.webp` and so on). The flat illustrations they replaced (`how-find.webp` and so on) are kept.
+- **Before you submit:** at the end of the contribute form, each statement is a card with its own small watercolor (`attest-rights.webp`, `attest-privacy.webp`, `attest-company.webp`, `attest-original.webp`). The whole card is the checkbox's label, and a checked card gets a navy edge.
 
 ### Author portraits
 
-Every author has a head-and-shoulders photo (`author-dana-whitfield.webp` and so on, named with `authorSlug`), shown in a circle on cards, in the Authors section of a material's page, beside the name on author pages, and in the account menu (`AuthorAvatar`). The script describes each person in one line (`AUTHORS`), and every portrait shares the `PORTRAIT` style line, so they match. They're shown at 160px or less, so they're saved 400px wide. Someone without a portrait, like a co-author typed into a new submission, gets their initials instead. Each author's title, ORCID, and first year contributing are in `AUTHORS` in `lib/data.ts`.
+Every author has a head-and-shoulders photo (`author-dana-whitfield.webp` and so on, named with `authorSlug`), shown in a circle on cards, in the Authors section of a material's page, beside the name on author pages, and in the account menu (`AuthorAvatar`). The script describes each person in one line (`AUTHORS`), and every portrait shares the `PORTRAIT` style line, so they match. They're shown at 160px or less, so they're saved 400px wide. Someone without a portrait, like a co-author typed into a new submission, gets their initials instead.
+
+### Co-authors who are members
+
+In the contribute form's Authors step, a contributor can find a member of the exchange by the email they sign in with and add them as a co-author. Their name, title, and institution come from their profile, so the row has a Member badge and can be removed but not edited. Only a full email finds someone, so the form can't be used to browse the members. Someone who isn't a member is still added by typing in their details. In the prototype, every author is a member (`MEMBERS` in `lib/data.ts`), with an email made from their first initial, last name, and school, like `kmensah@eastmoor.edu`. Each author's title, ORCID, and first year contributing are in `AUTHORS` in `lib/data.ts`.
 
 `/library` lists every one of these 3D objects and portraits with its file name. Show one with `<Illustration name="…" />`. A new one matches the rest if its script entry uses the `HERO` style line.
 
 ### Material covers
 
 Each published material's cover (cards, list rows, its page, and thumbnails in the account, verify, and admin screens) is a loose watercolor in navy, blue, and orange (`TME-0142-watercolor.webp` and so on, `coverFiles` in `lib/covers.ts`). Its background is transparent, so the washes sit on a cool paper white (`--cover-ground`). Each image is saved 1280px wide with a 640px copy (`-sm`) for thumbnails, and every cover tells the browser how wide it shows (`sizes`) so it loads the smaller file where that's enough.
+
+A material without its own cover yet, such as a new submission, shows one of four placeholder watercolors in the same style (`placeholder-1-watercolor.webp` to `placeholder-4-watercolor.webp`, `PLACEHOLDER_COVERS` in `lib/covers.ts`). The resource ID picks which one, and the contribute form's cover preview can shuffle through them; the one picked follows the submission to its page and My resources.
 
 Every cover prompt shares the `WATERCOLOR` style line and one composition line: the subject sits in a band across the middle, with empty space above and below. Covers show the whole image, scaled down to fit inside the cover's box with room on every side (`--cover-pad-x` and `--cover-pad-y` in `MaterialCover.module.css`), so a cover reads as a small picture on the pale ground. On a material's page the cover is a wide banner above the title, with the watercolor at about half the banner's width; a tall one fades out softly where the banner crops it.
 

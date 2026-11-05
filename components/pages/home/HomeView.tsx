@@ -46,9 +46,9 @@ const HERO_CUTOUTS: RainDrop[] = [
   "hero-briefcase",
 ];
 const STEPS = [
-  { n: "1", art: "how-find", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
-  { n: "2", art: "how-verify", title: "Verify", text: "Paste the link to your faculty page. Most instructors are verified in a few seconds, and teaching notes and solutions unlock." },
-  { n: "3", art: "how-share", title: "Share", text: "Upload your own materials under a Creative Commons license, with credit and usage counts you can cite." },
+  { n: "1", art: "how-find-watercolor", title: "Find", text: "Search cases, datasets, and teaching modules. Anyone can download the student files, no account needed." },
+  { n: "2", art: "how-verify-watercolor", title: "Verify", text: "Paste the link to your faculty page. Most instructors are verified in a few seconds, and teaching notes and solutions unlock." },
+  { n: "3", art: "how-share-watercolor", title: "Share", text: "Upload your own materials under a Creative Commons license, with credit and usage counts you can cite." },
 ] as const;
 /**
  * The dotted path through the steps, in a 100 by 100 box stretched over the list. It comes in

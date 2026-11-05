@@ -1,6 +1,6 @@
-// Discipline to Tabbied design mapping for resource covers.
-// The discipline picks the design and palette; the resource ID is the seed, so the same
-// resource gets the same cover on cards, its resource page, and in the admin.
+// Discipline to Tabbied design mapping for the decorative patterns: the home hero and band, and the
+// art beside forms. The discipline picks the design and palette; the seed keeps the same pattern
+// for the same thing. Material covers are watercolors (lib/covers.ts), not patterns.
 import type { DisciplineKey } from "./data";
 
 export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape" | "curl";
@@ -17,10 +17,6 @@ export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: strin
   other: { slug: "tesserae", inks: ["#13294B", "#FF5F05", "#707372"] },
 };
 
-export const PATTERN_LABEL: Record<PatternSlug, string> = {
-  bloks: "Bloks", maze: "Maze", trigram: "Trigram", metro: "Metro", weave: "Weave", terrain: "Terrain", comet: "Comet", tesserae: "Tesserae", mixtape: "Mixtape", curl: "Curl",
-};
-
 /** Cover ground. Text never sits on the pattern, so the ground stays plain white. */
 export const COVER_GROUND = "#FFFFFF";
 
@@ -34,18 +30,9 @@ export const CURL_PALETTE = [COVER_GROUND, "#EAEBEA", "#F0F1F0", "#E4E5E4"];
 /** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
 export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];
 
-/**
- * Deeper neutral grays for material covers. They're small and have no border, and several designs
- * are thin lines, which the hero's lighter grays would lose against the white page.
- */
-export const COVER_NEUTRAL_PALETTE = [COVER_GROUND, "#E4E5E4", "#D2D4D3", "#C2C4C3", "#B1B3B2"];
-
 export const patternSlugFor = (d: DisciplineKey): PatternSlug => (PATTERN_MAP[d] || PATTERN_MAP.other).slug;
 
-/**
- * Tabbied palette (ground first) for a discipline. A custom palette from the contribute flow
- * is given in the same order as `palettesFor()` in data.ts: ground, then inks.
- */
+/** Tabbied palette (ground first) for a discipline, or a fixed palette given in the same order: ground, then inks. */
 export function paletteFor(d: DisciplineKey, custom?: string[]): string[] {
   if (custom && custom.length > 1) return [COVER_GROUND, ...custom.slice(1)];
   return [COVER_GROUND, ...(PATTERN_MAP[d] || PATTERN_MAP.other).inks];

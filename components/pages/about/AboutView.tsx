@@ -90,7 +90,8 @@ export function AboutView() {
       </section>
 
       <section aria-labelledby="who-h" className={[styles.section, styles.split, styles.splitReverse].join(" ")}>
-        <Illustration name="about-center" className={styles.centerArt} />
+        {/* The Commons atrium in the Business Instructional Facility, home of Gies College of Business. */}
+        <Illustration name="about-bif" className={styles.centerArt} />
         <div className={styles.splitText}>
           <h2 id="who-h" className={styles.h2}>
             Who runs the exchange
@@ -114,6 +115,11 @@ export function AboutView() {
             Supported by the Deloitte Foundation
           </h2>
           <p className={styles.body}>The Teaching Materials Exchange is made possible by generous gifts from the Deloitte Foundation. We&apos;re grateful for their support.</p>
+          <a href={SITE.deloitteUrl} target="_blank" rel="noreferrer" className={styles.external}>
+            Visit the Deloitte Foundation
+            <ExternalLink size={15} aria-hidden />
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
         </div>
       </section>
 

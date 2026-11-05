@@ -208,7 +208,7 @@ export function ResourceView({ id }: { id: string }) {
             <DisciplineLinks discipline={res.discipline} d={res.d} />
           </span>
         </nav>
-        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 640px) 90vw, 760px" />
+        <MaterialCover id={res.id} placeholder={(res as ResourceDetail & { placeholder?: string }).placeholder} className={styles.cover} sizes="(max-width: 640px) 90vw, 760px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>

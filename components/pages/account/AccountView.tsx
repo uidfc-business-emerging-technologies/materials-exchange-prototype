@@ -24,6 +24,8 @@ interface Mine {
   title: string;
   status: ResourceStatus;
   note: string;
+  /** The placeholder cover the contributor picked, for a submission without its own cover yet. */
+  placeholder?: string;
   actions: { label: string; href?: string; onClick?: () => void }[];
 }
 
@@ -63,11 +65,11 @@ export function AccountView() {
   const removedReports = demo.get<string[]>("removedReports", []);
   const extraReports = demo.get<{ rid: string; course: string; term: string }[]>("courseReports", []);
   const reports = (fresh ? [] : BASE_REPORTS).concat(extraReports).filter((r) => !removedReports.includes(r.rid + r.course));
-  const submitted = demo.get<{ detail?: { title: string; type: string; discipline: string; d: DisciplineKey } } | null>("submitted", null);
+  const submitted = demo.get<{ detail?: { title: string; type: string; discipline: string; d: DisciplineKey; placeholder?: string } } | null>("submitted", null);
 
   const mine: Mine[] = [
     ...(submitted?.detail
-      ? [{ id: "TME-0171", d: submitted.detail.d, type: submitted.detail.type, discipline: submitted.detail.discipline, title: submitted.detail.title, status: "In review" as const, note: "Submitted today. A person will check it within 2 business days.", actions: [{ label: "View", href: resourceHref("TME-0171", { own: true }) }] }]
+      ? [{ id: "TME-0171", d: submitted.detail.d, type: submitted.detail.type, discipline: submitted.detail.discipline, title: submitted.detail.title, placeholder: submitted.detail.placeholder, status: "In review" as const, note: "Submitted today. A person will check it within 2 business days.", actions: [{ label: "View", href: resourceHref("TME-0171", { own: true }) }] }]
       : []),
     ...(fresh
       ? []
@@ -217,7 +219,7 @@ export function AccountView() {
                 const f = !!follow[id];
                 return (
                   <li key={id} className={styles.row}>
-                    <MaterialCover id={r.id} discipline={r.d} className={styles.thumb} cellSize={18} sizes="72px" />
+                    <MaterialCover id={r.id} className={styles.thumb} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
@@ -278,7 +280,7 @@ export function AccountView() {
               <ul className={styles.list}>
                 {mine.map((m) => (
                   <li key={m.id} className={styles.row}>
-                    <MaterialCover id={m.id} discipline={m.d} className={styles.thumb} cellSize={18} sizes="72px" />
+                    <MaterialCover id={m.id} placeholder={m.placeholder} className={styles.thumb} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         <CategoryLine type={m.type} discipline={m.discipline} d={m.d} className={styles.kickerLink} />

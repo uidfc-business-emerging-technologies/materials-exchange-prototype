@@ -2,7 +2,7 @@
 
 import { Check, Copy, ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { allResources, AUTHORS, byId, detailFor } from "@/lib/data";
+import { allResources, authorInstitution, AUTHORS, byId, detailFor } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
 import { Button } from "@/components/ui/Button";
 import { infoToast } from "@/components/ui/overlays";
@@ -22,10 +22,7 @@ export function AuthorView({ name }: { name: string }) {
     .filter((r) => r.authors.split(", ").includes(name))
     .sort((a, b) => b.added - a.added);
   const ids = mine.map((r) => r.id);
-  const first = mine[0];
-  const names0 = first ? first.authors.split(", ") : [];
-  const insts0 = first ? first.inst.split(", ") : [];
-  const inst = insts0.length > 1 ? insts0[names0.indexOf(name)] || insts0[0] : first?.inst || "";
+  const inst = authorInstitution(name);
   const co: Record<string, number> = {};
   mine.forEach((r) => r.authors.split(", ").forEach((x) => x !== name && (co[x] = (co[x] || 0) + 1)));
   const usual = Object.keys(co).sort((a, b) => co[b] - co[a])[0];

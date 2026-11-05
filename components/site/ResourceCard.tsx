@@ -34,7 +34,7 @@ function Authors({ names }: { names: string[] }) {
   );
 }
 
-/** ResourceCard: pattern cover on top (grid) or beside (list), content on a solid surface. */
+/** ResourceCard: watercolor cover on top (grid) or beside (list), content on a solid surface. */
 export function ResourceCard({ resource: r, locked, variant = "grid", headingLevel = 3, href }: ResourceCardProps) {
   const H = `h${headingLevel}` as "h2" | "h3";
   const names = r.authors.split(", ").filter(Boolean);
@@ -45,7 +45,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   if (variant === "list") {
     return (
       <article className={styles.listCard}>
-        <MaterialCover id={r.id} discipline={r.d} className={styles.listCover} cellSize={24} sizes="(max-width: 640px) 72px, 144px" />
+        <MaterialCover id={r.id} className={styles.listCover} sizes="(max-width: 640px) 72px, 144px" />
         <div className={styles.listBody}>
           <span className={styles.kicker}>
             <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
@@ -110,7 +110,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   const tools = r.tools;
   return (
     <article className={styles.card}>
-      <MaterialCover id={r.id} discipline={r.d} className={styles.cover} sizes="(max-width: 640px) 100vw, 400px" />
+      <MaterialCover id={r.id} className={styles.cover} sizes="(max-width: 640px) 100vw, 400px" />
       <div className={styles.body}>
         <span className={styles.kicker}>
           <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />

@@ -195,17 +195,6 @@
   gap: 8px;
 }
 
-.swatches {
-  display: inline-flex;
-  gap: 3px;
-}
-
-.swatches span {
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-}
-
 .objectives {
   margin: 0;
   padding-left: 20px;
