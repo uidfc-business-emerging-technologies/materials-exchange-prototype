@@ -470,39 +470,47 @@
 }
 
 /* ---------- Segmented ---------- */
-.segSolid {
+.segPlain {
   display: inline-flex;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  overflow: hidden;
+  gap: 4px;
 }
 
-.segSolidItem {
+.segPlainItem {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   height: 38px;
-  padding: 0 12px;
+  padding: 0 8px;
   border: 0;
-  background: #fff;
-  font-size: 14px;
+  border-radius: var(--radius);
+  background: none;
+  font-size: 14.5px;
   font-weight: 600;
+  color: var(--text-4);
+}
+
+/* The selected option is underlined, so it doesn't rely on color alone. */
+.segPlainItem::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 3px;
+  left: 8px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.segPlainItem:hover {
   color: var(--ink);
 }
 
-.segSolidItem:hover {
-  background: var(--surface-2);
+.segPlainItem[data-pressed] {
+  color: var(--ink);
 }
 
-.segSolidItem[data-pressed] {
+.segPlainItem[data-pressed]::after {
   background: var(--navy);
-  color: #fff;
-}
-
-.segSolidItem:focus-visible {
-  position: relative;
-  z-index: 1;
-  border-radius: 0;
 }
 
 .segSoft {

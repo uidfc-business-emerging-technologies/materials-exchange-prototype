@@ -2,7 +2,7 @@
 
 import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { filterDefs, matches, resources, type FilterKey, type Resource } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
@@ -34,6 +34,12 @@ function useIsPhone() {
     () => window.matchMedia("(max-width: 959px)").matches,
     () => false,
   );
+}
+
+/** The page number in the address. Anything that isn't a whole number above 1 means the first page. */
+function pageFromParams(params: URLSearchParams | null): number {
+  const p = Number(params?.get("page"));
+  return Number.isInteger(p) && p > 1 ? p : 1;
 }
 
 function checkedFromParams(params: URLSearchParams | null): Checked {
@@ -89,6 +95,7 @@ function ResultsWrap({ list, className, ...rest }: { list: boolean } & React.HTM
 export function BrowseView() {
   const params = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const { auth } = useDemo();
   const phone = useIsPhone();
   const query = params?.get("q") || "";
@@ -98,7 +105,6 @@ export function BrowseView() {
   const [sheet, setSheet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [page, setPage] = useState(1);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const resultsRef = useRef<HTMLDivElement>(null);
   const firstQuery = useRef(query);
@@ -113,17 +119,39 @@ export function BrowseView() {
     }, kind === "load" ? 450 : 260);
   };
 
-  // A new search from the header resets filters to whatever the link carries.
-  const paramKey = params?.toString() || "";
+  // The page lives in the address, so Back and Forward step through pages, and a material opened
+  // from page 2 comes back to page 2.
+  const page = pageFromParams(params);
+  const hrefForPage = (p: number) => {
+    const next = new URLSearchParams(params?.toString());
+    if (p > 1) next.set("page", String(p));
+    else next.delete("page");
+    const qs = next.toString();
+    return pathname + (qs ? "?" + qs : "");
+  };
+
+  // A new search from the header resets filters to whatever the link carries. Moving between pages
+  // changes only the page, so it leaves the filters alone.
+  const withoutPage = new URLSearchParams(params?.toString());
+  withoutPage.delete("page");
+  const paramKey = withoutPage.toString();
   useEffect(() => {
     setChecked(checkedFromParams(params));
-    setPage(1);
     if (firstQuery.current !== query) {
       firstQuery.current = query;
       flash("load");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramKey]);
+
+  // Dim the results briefly whenever the page changes, from the pager or from Back and Forward.
+  const shownPage = useRef(page);
+  useEffect(() => {
+    if (shownPage.current === page) return;
+    shownPage.current = page;
+    flash("refresh");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
   useEffect(() => () => clearTimeout(timer.current), []);
 
   const score = useMemo(() => scorer(query), [query]);
@@ -134,9 +162,13 @@ export function BrowseView() {
     .filter((r) => pass(r))
     .sort((a, b) => (sort === "used" ? b.used - a.used : sort === "newest" ? b.added - a.added : score(b) - score(a) || b.used - a.used));
 
-  // Any change to filters or sort starts again from the first page.
+  // Any change to filters or sort starts again from the first page. That replaces the address
+  // rather than adding to history, the same as the filters themselves.
+  const firstPage = () => {
+    if (page > 1) router.replace(hrefForPage(1), { scroll: false });
+  };
   const toggle = (k: FilterKey, label: string) => {
-    setPage(1);
+    firstPage();
     setChecked((c) => {
       const next = { ...c };
       if (next[keyOf(k, label)]) delete next[keyOf(k, label)];
@@ -146,7 +178,7 @@ export function BrowseView() {
     flash("refresh");
   };
   const clearAll = () => {
-    setPage(1);
+    firstPage();
     setChecked({});
     flash("refresh");
   };
@@ -167,8 +199,8 @@ export function BrowseView() {
   const first = (current - 1) * PER_PAGE;
   const shown = results.slice(first, first + PER_PAGE);
   const goToPage = (p: number) => {
-    setPage(p);
-    flash("refresh");
+    if (p === current) return;
+    router.push(hrefForPage(p), { scroll: false });
     resultsRef.current?.scrollIntoView({ block: "start" });
   };
   const isEmpty = n === 0 && !loading;
@@ -200,7 +232,7 @@ export function BrowseView() {
       value={sort}
       onValueChange={(v) => {
         setSort(v);
-        setPage(1);
+        firstPage();
         flash("refresh");
       }}
       size="sm"
