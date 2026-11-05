@@ -4,7 +4,7 @@ import { ArrowRight, Search, Upload } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { disciplines, filterDefs, resources } from "@/lib/data";
+import { disciplines, filterDefs, filterHref, resources } from "@/lib/data";
 import { useDemo, useMotionPaused } from "@/lib/demo";
 import { CURL_PALETTE, NEUTRAL_PALETTE } from "@/lib/pattern";
 import { DividedGrid } from "@/components/site/DividedGrid";
@@ -58,7 +58,6 @@ const STEPS = [
 const HOW_PATH = "M 0 5 C 12 5, 25 1, 25 16.7 C 25 36, 75 30, 75 50 C 75 70, 25 64, 25 83.3 C 25 97, 86 100, 100 96";
 
 const searchHref = (q: string) => "/browse" + (q ? "?q=" + encodeURIComponent(q) : "");
-export const browseFilterHref = (key: string, label: string) => "/browse?" + new URLSearchParams({ [key]: label }).toString();
 
 export function HomeView() {
   const router = useRouter();
@@ -122,10 +121,10 @@ export function HomeView() {
       <section aria-labelledby="new-h" className={styles.section}>
         <div className={styles.sectionHead}>
           <h2 id="new-h" className={styles.h2}>
-            New this month
+            Recent materials
           </h2>
           <Link href="/browse?sort=newest" className={styles.seeAll}>
-            See all new materials
+            See all materials
             <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
@@ -143,7 +142,7 @@ export function HomeView() {
         <DividedGrid as="ul" min={250} className={styles.disciplines}>
           {disciplines.map((d) => (
             <li key={d.d}>
-              <Link href={browseFilterHref("disc", d.label)} className={styles.discipline}>
+              <Link href={filterHref("disc", d.label)} className={styles.discipline}>
                 <span className={styles.discArt}>
                   <Illustration name={`disc-${d.d}`} className={styles.discImage} />
                 </span>
@@ -157,7 +156,7 @@ export function HomeView() {
         </DividedGrid>
       </section>
 
-      {/* A decorative band of Curl loops in the brand colors between the two sections, edge to edge. */}
+      {/* A decorative band of faint gray Curl loops between the two sections, edge to edge, fading in and out. */}
       <div aria-hidden="true" className={styles.band}>
         <PatternCover discipline="fin" seed="home-band" kind="curl" palette={CURL_PALETTE} transparent cellSize={56} className={styles.bandPattern} />
       </div>

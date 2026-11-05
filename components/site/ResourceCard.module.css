@@ -75,9 +75,15 @@
 }
 
 .authorLink,
+.kickerLink,
 .dl {
   position: relative;
   z-index: 1;
+}
+
+/* The type and disciplines above the title link to Browse, in the kicker's own color. */
+.kickerLink {
+  color: inherit;
 }
 
 .summary {

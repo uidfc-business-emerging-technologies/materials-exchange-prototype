@@ -140,6 +140,9 @@
   background: none;
   font-size: 14.5px;
   color: var(--text-3);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.motion:hover {
+  text-decoration: underline;
 }

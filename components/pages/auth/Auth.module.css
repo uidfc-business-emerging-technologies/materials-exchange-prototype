@@ -100,8 +100,11 @@
   font-size: 14.5px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.textBtn:hover {
+  text-decoration: underline;
 }
 
 .fine .textBtn {

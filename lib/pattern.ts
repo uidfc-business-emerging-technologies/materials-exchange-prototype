@@ -25,12 +25,11 @@ export const PATTERN_LABEL: Record<PatternSlug, string> = {
 export const COVER_GROUND = "#FFFFFF";
 
 /**
- * The Curl band between Browse by discipline and How it works: the brand's navy, orange, and blue
- * at full strength, ground first. Curl weights its first ink double, so about half the arcs are
- * navy. The band draws it with a transparent ground (`PatternCover`'s `transparent`), so only the
- * arcs show and the page runs through the loops.
+ * The Curl band between Browse by discipline and How it works: very light neutral grays, ground
+ * first, so the band is a quiet texture. The band draws it with a transparent ground
+ * (`PatternCover`'s `transparent`), so only the arcs show, and fades it out at the top and bottom.
  */
-export const CURL_PALETTE = [COVER_GROUND, "#13294B", "#FF5F05", "#1D58A7"];
+export const CURL_PALETTE = [COVER_GROUND, "#EAEBEA", "#F0F1F0", "#E4E5E4"];
 
 /** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
 export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];

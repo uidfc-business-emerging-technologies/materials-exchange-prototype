@@ -270,10 +270,12 @@
   color: var(--text-4);
 }
 
-/* ---------- A decorative band of Curl loops, edge to edge, with plenty of room above and below ---------- */
+/* ---------- A decorative band of faint Curl loops, edge to edge, fading in at the top and out at the bottom ---------- */
 .band {
   height: clamp(224px, 26vw, 384px);
   margin: clamp(80px, 10vw, 144px) 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 65%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 65%, transparent 100%);
 }
 
 .bandPattern {

@@ -276,8 +276,11 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.linkBtn:hover {
+  text-decoration: underline;
 }
 
 .iconBtn {

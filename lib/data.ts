@@ -375,6 +375,27 @@ export function palettesFor(d: DisciplineKey): { name: string; colors: string[] 
 
 export const disciplineByLabel = (label: string) => disciplines.find((x) => x.label === label);
 
+/** A Browse link with one filter applied, such as `filterHref("disc", "Audit")`. */
+export const filterHref = (key: FilterKey, label: string) => "/browse?" + new URLSearchParams({ [key]: label }).toString();
+
+/** Words in a discipline line that name a discipline by another name. */
+const DISCIPLINE_ALIASES: Record<string, string> = { analytics: "Data analytics" };
+
+/**
+ * A discipline line split into its parts, each with the Browse discipline it links to, and the
+ * words between them: "Emerging technology and audit" is Emerging technology, " and ", and Audit.
+ * A part that isn't a discipline of its own, like Ethics, links to the material's own discipline
+ * (`d`), which is Other for Ethics.
+ */
+export function disciplineParts(line: string, d: DisciplineKey): { text: string; filter?: string }[] {
+  const own = disciplines.find((x) => x.d === d)?.label || "Other";
+  return line.split(/(\s+and\s+|,\s*)/).map((text, i) => {
+    if (i % 2) return { text };
+    const key = text.trim().toLowerCase();
+    return { text, filter: disciplines.find((x) => x.label.toLowerCase() === key)?.label || DISCIPLINE_ALIASES[key] || own };
+  });
+}
+
 /** URL for a resource page, matching the citation links (https://tme.illinois.edu/r/0142). */
 export const resourceHref = (id: string, params?: Record<string, string | number | boolean | undefined>) => {
   const q = new URLSearchParams();

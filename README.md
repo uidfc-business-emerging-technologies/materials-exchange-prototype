@@ -51,6 +51,12 @@ With the default commands, builds fail because the project has no Wrangler confi
 
 Each Preview keeps its own copy of the build settings it was created with. If you change the Preview command, Previews that already exist keep running the old one (the build log's `Executing user deploy command` line shows which). Update them too: the Cloudflare API's Update Worker build configuration call (`PATCH /accounts/{account_id}/builds/workers/{script_tag}`) applies a new Preview command to every existing Preview when you pass `patch_existing_previews=true`.
 
+## Links and categories
+
+Text links have no underline; one appears on hover (`app/globals.css`). The header menu keeps its orange underline under the current page.
+
+A material's type and disciplines link to Browse with that filter applied, wherever they appear: card and list kickers, the breadcrumb, kicker, and facts on its page, and the account page (`CategoryLine` and `DisciplineLinks`). A discipline line with two areas links each one: "Emerging technology and audit" links Emerging technology and Audit, and "analytics" links Data analytics. A line that isn't a discipline of its own, like Ethics, links to the material's discipline (Other).
+
 ## Demo state
 
 There is no backend. Use the **View as** switch (bottom right, or in the admin sidebar) to see the site as a guest, a verified instructor, or an admin.
@@ -109,7 +115,7 @@ lib/
 [Tabbied](https://tabbied.com) patterns (`tabbied/react`) fill the home hero, a decorative band on the home page, the art beside forms like sign-in, and the cover of any material without a cover image, such as a new submission. The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the seed (usually the resource ID) keeps the same pattern for the same thing:
 
 - The home hero uses Mixtape in light grays (`NEUTRAL_PALETTE` in `lib/pattern.ts`), so the color photos on it stand out.
-- Between Browse by discipline and How it works, a tall, full-width band of Curl loops in the brand's navy, orange, and blue at full strength (`CURL_PALETTE`) runs edge to edge. Its ground is transparent (`PatternCover`'s `transparent`), so the page shows through the loops.
+- Between Browse by discipline and How it works, a tall, full-width band of Curl loops in very light neutral grays (`CURL_PALETTE`) runs edge to edge, fading in at the top and out at the bottom. Its ground is transparent (`PatternCover`'s `transparent`), so the page shows through the loops.
 - A material without a cover image uses slightly deeper grays (`COVER_NEUTRAL_PALETTE`), unless its contributor picked a colored palette.
 - The art beside forms keeps its discipline's colors.
 
@@ -143,7 +149,7 @@ Every author has a head-and-shoulders photo (`author-dana-whitfield.webp` and so
 
 Each published material's cover (cards, list rows, its page, and thumbnails in the account, verify, and admin screens) is a loose watercolor in navy, blue, and orange (`TME-0142-watercolor.webp` and so on, `coverFiles` in `lib/covers.ts`). Its background is transparent, so the washes sit on a cool paper white (`--cover-ground`). Each image is saved 1280px wide with a 640px copy (`-sm`) for thumbnails, and every cover tells the browser how wide it shows (`sizes`) so it loads the smaller file where that's enough.
 
-Every cover prompt shares the `WATERCOLOR` style line and one composition line: the subject sits in a band across the middle, with empty space above and below. Covers show the whole image, scaled down to fit inside the cover's box with room on every side (`--cover-pad-x` and `--cover-pad-y` in `MaterialCover.module.css`), so a cover reads as a small picture on the pale ground. On a material's page the cover is a small picture beside the title, and above it on a narrow screen.
+Every cover prompt shares the `WATERCOLOR` style line and one composition line: the subject sits in a band across the middle, with empty space above and below. Covers show the whole image, scaled down to fit inside the cover's box with room on every side (`--cover-pad-x` and `--cover-pad-y` in `MaterialCover.module.css`), so a cover reads as a small picture on the pale ground. On a material's page the cover is a wide banner above the title, with the watercolor at about half the banner's width; a tall one fades out softly where the banner crops it.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing

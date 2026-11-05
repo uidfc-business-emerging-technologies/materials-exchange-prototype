@@ -273,8 +273,11 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.textLink:hover {
+  text-decoration: underline;
 }
 
 .checks {
@@ -325,8 +328,11 @@
   background: none;
   font: inherit;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
 }
 
 .sent {
@@ -409,8 +415,11 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.cancel:hover {
+  text-decoration: underline;
 }
 
 .unlocked {

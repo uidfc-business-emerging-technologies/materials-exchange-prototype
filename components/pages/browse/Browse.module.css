@@ -132,8 +132,11 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.more:hover {
+  text-decoration: underline;
 }
 
 .results {
@@ -211,8 +214,11 @@
   font-size: 14.5px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.clear:hover {
+  text-decoration: underline;
 }
 
 .grid {
@@ -360,9 +366,12 @@
   background: none;
   font-size: 16px;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
   text-align: left;
+}
+
+.tryLink:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Phone filter sheet ---------- */

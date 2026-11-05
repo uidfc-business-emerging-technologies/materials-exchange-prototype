@@ -1,21 +1,39 @@
-/*
- * The cover is a small picture beside the title, not a banner: the title on the left, the
- * picture on the right. On a narrower screen the picture moves above the title.
- */
 .top {
+  /* Shared by the cover and the title panel that overlaps it. */
+  --cover-h: clamp(160px, 23.4vw, 300px);
+  --overlap: clamp(40px, 9.2vw, 118px);
   --panel-w: 820px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "review review"
-    "crumb crumb"
-    "title cover";
-  column-gap: clamp(32px, 5vw, 72px);
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
 }
 
+/*
+ * A cover image is a banner, with the title below it instead of over its corner. The watercolor
+ * sits in the middle of the banner at about half its width; its empty top and bottom are cropped.
+ */
+.topImage {
+  --cover-h: clamp(180px, 28vw, 360px);
+  --overlap: 0px;
+}
+
+.topImage .cover img {
+  --edge: calc(50% - var(--cover-h) / 2);
+  top: 50%;
+  left: 50%;
+  width: min(56%, 760px);
+  height: auto;
+  translate: -50% -50%;
+  /* A tall watercolor fades out softly where the banner crops it, instead of a hard cut. */
+  -webkit-mask-image: linear-gradient(180deg, transparent var(--edge), #000 calc(var(--edge) + 48px), #000 calc(100% - var(--edge) - 48px), transparent calc(100% - var(--edge)));
+  mask-image: linear-gradient(180deg, transparent var(--edge), #000 calc(var(--edge) + 48px), #000 calc(100% - var(--edge) - 48px), transparent calc(100% - var(--edge)));
+}
+
+@media (max-width: 640px) {
+  .topImage .cover img {
+    width: 88%;
+  }
+}
+
 .reviewBanner {
-  grid-area: review;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -39,7 +57,6 @@
 }
 
 .breadcrumb {
-  grid-area: crumb;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -56,37 +73,19 @@
 }
 
 .cover {
-  --cover-pad-x: 8%;
-  --cover-pad-y: 8%;
-  grid-area: cover;
-  align-self: start;
-  width: clamp(260px, 26vw, 360px);
-  aspect-ratio: 3 / 2;
-  margin-top: clamp(20px, 2.5vw, 32px);
+  height: var(--cover-h);
+  margin-top: 8px;
   border-radius: var(--radius-md);
 }
 
+/* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
 .titlePanel {
-  grid-area: title;
-  min-width: 0;
-  max-width: var(--panel-w);
-  padding-top: clamp(20px, 2.5vw, 32px);
-}
-
-@media (max-width: 860px) {
-  .top {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "review"
-      "crumb"
-      "cover"
-      "title";
-  }
-
-  .cover {
-    width: min(100%, 320px);
-    margin-top: 8px;
-  }
+  position: relative;
+  margin-top: calc(-1 * var(--overlap));
+  width: min(var(--panel-w), 100%);
+  padding: clamp(20px, 2.5vw, 32px) clamp(16px, 3.75vw, 48px) 0 0;
+  background: #fff;
+  border-top-right-radius: var(--radius-md);
 }
 
 .kickerRow {
@@ -94,6 +93,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 12px;
+}
+
+.kickerLink {
+  color: inherit;
 }
 
 .kicker {
@@ -679,15 +682,17 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
 }
 
+.reportLink:hover {
+  text-decoration: underline;
+}
+
 /* ---------- Related ---------- */
+/* No band behind it: just room above, on the page's white. */
 .related {
-  padding: clamp(40px, 3.75vw, 48px) var(--gutter) clamp(48px, 5vw, 64px);
-  border-top: 1px solid var(--border);
-  background: var(--surface-2);
+  padding: clamp(56px, 6vw, 88px) var(--gutter) clamp(48px, 5vw, 64px);
 }
 
 .relatedGrid {

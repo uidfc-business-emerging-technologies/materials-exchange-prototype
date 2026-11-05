@@ -37,6 +37,7 @@ import { DataIcon } from "@/components/ui/DataIcon";
 import { Disclosure, infoToast, Modal, toast } from "@/components/ui/overlays";
 import { AuthorAvatar } from "@/components/site/AuthorAvatar";
 import { hasMaterialImage, Illustration } from "@/components/site/Illustration";
+import { CategoryLine, DisciplineLinks } from "@/components/site/CategoryLinks";
 import { MaterialCover } from "@/components/site/MaterialCover";
 import { DividedGrid } from "@/components/site/DividedGrid";
 import { ResourceCard } from "@/components/site/ResourceCard";
@@ -122,7 +123,6 @@ export function ResourceView({ id }: { id: string }) {
   const shareLine = others.length
     ? "Only you and " + (others.length > 1 ? others.slice(0, -1).join(", ") + " and " + others[others.length - 1] : others[0]) + " can see this page."
     : "Only you can see this page.";
-  const filterDisc = byId(res.id)?.disc || res.discipline;
 
   const download = (name: string) => {
     demo.set({ usage: { ...usage, [res.id]: { ...U, dl: (U.dl || 0) + 1 } } });
@@ -187,7 +187,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={styles.top}>
+      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />
@@ -204,14 +204,16 @@ export function ResourceView({ id }: { id: string }) {
         <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
           <Link href="/browse">Browse</Link>
           <ChevronRight size={14} aria-hidden />
-          <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
+          <span>
+            <DisciplineLinks discipline={res.discipline} d={res.d} />
+          </span>
         </nav>
-        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 860px) 320px, 360px" />
+        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 640px) 90vw, 760px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>
             <p className={styles.kicker}>
-              {res.type} · {res.discipline}
+              <CategoryLine type={res.type} discipline={res.discipline} d={res.d} className={styles.kickerLink} />
             </p>
             {isAuthor ? (
               <Badge tone="info" icon={<Clock size={14} aria-hidden />}>
@@ -402,7 +404,7 @@ export function ResourceView({ id }: { id: string }) {
               <dd>{res.level}</dd>
               <dt>Discipline</dt>
               <dd>
-                <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
+                <DisciplineLinks discipline={res.discipline} d={res.d} />
               </dd>
               {res.tools.length ? (
                 <>
