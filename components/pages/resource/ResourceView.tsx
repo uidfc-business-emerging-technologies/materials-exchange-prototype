@@ -429,7 +429,7 @@ export function ResourceView({ id }: { id: string }) {
             </h2>
             <div className={styles.authors}>
               {res.authors.map((a) => (
-                <div key={a.name} className={styles.authorCard}>
+                <div key={a.name} className={styles.author}>
                   <AuthorAvatar name={a.name} size={56} />
                   <div className={styles.authorText}>
                     <Link href={authorHref(a.name)} className={styles.authorName}>

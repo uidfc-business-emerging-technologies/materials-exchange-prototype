@@ -7,6 +7,7 @@ import { useDemo } from "@/lib/demo";
 import { Badge } from "@/components/ui/Badge";
 import { RadioCards, Select, TextField } from "@/components/ui/controls";
 import { errorFor, type FormError } from "@/components/ui/ErrorSummary";
+import { AuthorAvatar } from "@/components/site/AuthorAvatar";
 import { useCollection } from "./AdminCollection";
 import { USER_STATUS } from "./Collections";
 import { DangerZone, EditHeader, Errors, History, SaveBar, Section, useDeleted, useEditForm } from "./EditParts";
@@ -91,10 +92,6 @@ export function UserEdit({ id }: { id: string }) {
   const err = (k: string) => errorFor(errors, k);
   const st = USER_STATUS[f.acct === "suspended" ? "suspended" : f.status];
   const insts = INSTITUTIONS.includes(u.inst) ? INSTITUTIONS : [u.inst, ...INSTITUTIONS];
-  const initials = u.name
-    .split(" ")
-    .map((x) => x[0])
-    .join("");
 
   const onSave = () =>
     ed.trySave(validate(f), () => {
@@ -132,11 +129,7 @@ export function UserEdit({ id }: { id: string }) {
           </Badge>
         }
         sub={u.email + " · Joined " + u.joined}
-        lead={
-          <span className={s.avatar} aria-hidden>
-            {initials}
-          </span>
-        }
+        lead={<AuthorAvatar name={u.name} size={52} className={s.avatar} />}
         open={{ href: authorHref(u.name), label: "Open profile" }}
       />
       <Errors errors={errors} />

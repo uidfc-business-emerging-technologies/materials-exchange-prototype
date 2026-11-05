@@ -126,19 +126,6 @@
   gap: 10px;
 }
 
-.avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--navy);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-}
-
 .meText {
   display: flex;
   flex-direction: column;

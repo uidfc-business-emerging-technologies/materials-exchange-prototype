@@ -535,20 +535,18 @@
 }
 
 /* ---------- Authors ---------- */
+/* Authors side by side, set apart by space instead of cards. */
 .authors {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: 24px 32px;
+  margin-top: 20px;
 }
 
-.authorCard {
+.author {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
 }
 
 .authorText {

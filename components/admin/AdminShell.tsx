@@ -4,6 +4,7 @@ import { ArrowLeft, BadgeCheck, BookOpen, ChartColumn, Inbox, Mail, Users } from
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/data";
+import { AuthorAvatar } from "@/components/site/AuthorAvatar";
 import { Mark } from "@/components/site/Mark";
 import { ViewAs } from "@/components/site/ViewAs";
 import styles from "./AdminShell.module.css";
@@ -54,7 +55,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
         <div className={styles.me}>
           <div className={styles.meRow}>
-            <span className={styles.avatar}>{ADMIN_ME.initials}</span>
+            <AuthorAvatar name={ADMIN_ME.name} size={32} />
             <span className={styles.meText}>
               <span className={styles.meName}>{ADMIN_ME.name}</span>
               <span className={styles.meTeam}>{ADMIN_ME.team}</span>

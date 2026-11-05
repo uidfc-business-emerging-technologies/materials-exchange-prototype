@@ -132,11 +132,11 @@ The same photo style is used in a few more places:
 - **Disciplines:** each tile in Browse by discipline is a cutout (`disc-fin.webp` and so on) instead of a pattern.
 - **Materials:** the first eleven resources have three cutouts each (`TME-0142-a.webp` to `TME-0142-c.webp`). They were on their covers and aren't on the site right now, but they're kept for reuse.
 
-- **Contribute steps:** each step of the contribute form has a cutout (`step-files.webp` to `step-review.webp`). They were in its progress bar and aren't on the site right now, but they're kept for reuse. The progress bar is plain: a segment for each step, then the step's number in its own circle beside its name (solid navy for the current step, outlined for steps ahead, and a check once done). On a phone, only the current step shows its name.
+- **Contribute steps:** each step of the contribute form has a cutout (`step-files.webp` to `step-review.webp`). They were in its progress bar and aren't on the site right now, but they're kept for reuse. The progress bar is plain: a segment for each step, then the step's number beside its name. The number is navy for the current step and the ones done, and muted for steps ahead; the segment shows which are done. On a phone, only the current step shows its name.
 
 Beside the call to action above the footer, two frosted, almost-white 3D objects float on the pale blue-gray (`cta-cap.webp`, `cta-plane.webp`). Their prompts share the `FROSTED` style line.
 
-The About page has loose watercolors in the style of the material covers (`about-hero.webp`, `about-why.webp`, and so on). Their prompts share the `ABOUT` style line: the covers' `WATERCOLOR` line, with one subject and room around it instead of a banner. Who runs the exchange shows the Commons atrium inside the Business Instructional Facility at Gies College of Business (`about-bif.webp`), painted from a photo of it, so its prompt uses the `VIGNETTE` line: the same watercolor, fading out at every edge. The generic hall it replaced (`about-center.webp`) is kept.
+The About page has loose watercolors in the style of the material covers (`about-hero.webp`, `about-why.webp`, and so on). Their prompts share the `ABOUT` style line: the covers' `WATERCOLOR` line, with one subject and room around it instead of a banner. Who runs the exchange shows the Commons atrium inside the Business Instructional Facility at Gies College of Business (`about-bif.webp`), painted from a photo of it, so its prompt uses the `VIGNETTE` line: the same watercolor, fading out at every edge. The railing it first had along the bottom was taken out with the Images API's edit endpoint, and the prompt now asks for an open view with no railing. The generic hall it replaced (`about-center.webp`) is kept.
 
 The same `ABOUT` style is used in two more places:
 
@@ -145,7 +145,11 @@ The same `ABOUT` style is used in two more places:
 
 ### Author portraits
 
-Every author has a head-and-shoulders photo (`author-dana-whitfield.webp` and so on, named with `authorSlug`), shown in a circle on cards, in the Authors section of a material's page, beside the name on author pages, and in the account menu (`AuthorAvatar`). The script describes each person in one line (`AUTHORS`), and every portrait shares the `PORTRAIT` style line, so they match. They're shown at 160px or less, so they're saved 400px wide. Someone without a portrait, like a co-author typed into a new submission, gets their initials instead.
+Every author has a head-and-shoulders photo (`author-dana-whitfield.webp` and so on, named with `authorSlug`), shown in a circle on cards, in the Authors section of a material's page, beside the name on author pages, and in the account menu (`AuthorAvatar`). The script describes each person in one line (`AUTHORS`), and every portrait shares the `PORTRAIT` style line, so they match. They're shown at 160px or less, so they're saved 400px wide. Members who aren't authors yet, like the instructors and admins in the admin Users list, have portraits in the same style, named the same way (`MEMBERS` in the script, `MEMBER_PORTRAITS` in `lib/data.ts`); the Users table and each user's edit page show them in a circle. Someone without a portrait, like a co-author typed into a new submission or an account that just signed up, gets their initials instead.
+
+### Lists, not cards
+
+List items are rows, not cards: space and a thin line set them apart. That covers the authors and uploaded files in the contribute form, its Before you submit statements, and the authors on a material's page. Cards are kept where a box is the best fit: a preview of how a material's card will look, the Files download panel and the citation on a material's page, the dashed Add a co-author area, and notices.
 
 ### Co-authors who are members
 

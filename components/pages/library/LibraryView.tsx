@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { coverFiles, PLACEHOLDER_COVERS } from "@/lib/covers";
-import { allResources, AUTHORS, authorHref, authorPhoto, authorSlug, disciplines, resourceHref } from "@/lib/data";
+import { allResources, AUTHORS, authorHref, authorPhoto, authorSlug, disciplines, MEMBER_PORTRAITS, resourceHref } from "@/lib/data";
 import { ABOUT_ART, ATTEST_ART, CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, HOW_ART, STAT_OBJECTS, STEP_OBJECTS } from "@/components/site/Illustration";
 import styles from "./Library.module.css";
 
@@ -119,6 +119,21 @@ export function LibraryView() {
                 <span className={styles.portraitName}>{name}</span>
                 <span className={styles.file}>author-{authorSlug(name)}.webp</span>
               </Link>
+            </li>
+          ))}
+        </ul>
+        <h3 className={styles.h3}>Members</h3>
+        <p className={styles.where}>Instructors and admins who aren&apos;t authors yet, shown in the admin Users list. Someone who hasn&apos;t added a photo shows initials.</p>
+        <ul className={styles.portraits}>
+          {[...MEMBER_PORTRAITS].map((name) => (
+            <li key={name}>
+              <a href={authorPhoto(name)} target="_blank" rel="noreferrer" className={styles.portrait}>
+                <span className={styles.portraitArt}>
+                  <img src={authorPhoto(name)} alt="" width={400} height={400} loading="lazy" decoding="async" />
+                </span>
+                <span className={styles.portraitName}>{name}</span>
+                <span className={styles.file}>author-{authorSlug(name)}.webp</span>
+              </a>
             </li>
           ))}
         </ul>

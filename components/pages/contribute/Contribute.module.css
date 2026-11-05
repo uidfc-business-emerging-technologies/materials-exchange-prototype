@@ -160,49 +160,23 @@
 
 .stepLabel {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
   min-height: 24px;
   font-size: 14px;
 }
 
-/* The number: outlined for steps ahead, solid navy for the current step, and a navy check once done. */
+/* A plain number: muted for steps ahead, navy for the current step and the ones done. */
 .stepNum {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border: 1.5px solid var(--border-strong);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--text-3);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   font-variant-numeric: lining-nums tabular-nums;
-  line-height: 1;
+  color: var(--text-4);
 }
 
-/* Trimmed to the figure's cap height, so the circle centers the visible digit (like the home page's How it works). */
-.stepDigit {
-  display: block;
-  text-box: trim-both cap alphabetic;
-}
-
-@supports not (text-box: trim-both cap alphabetic) {
-  .stepDigit {
-    translate: 0 0.046em;
-  }
-}
-
-.stepCurrent .stepNum {
-  border-color: var(--navy);
-  background: var(--navy);
-  color: #fff;
-}
-
+.stepCurrent .stepNum,
 .stepDone .stepNum {
-  border-color: var(--navy);
   color: var(--navy);
 }
 
@@ -550,19 +524,19 @@
   color: #7d3e13;
 }
 
+/* Uploaded files are rows, not cards: a line above each and one under the last. */
 .uploads {
   display: flex;
   flex-direction: column;
-  gap: 12px;
   margin: 20px 0 0;
   padding: 0;
   list-style: none;
+  border-bottom: 1px solid var(--border);
 }
 
 .upload {
-  padding: 18px 18px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  padding: 18px 0 16px;
+  border-top: 1px solid var(--border);
   outline: none;
 }
 
@@ -1029,19 +1003,19 @@
 }
 
 /* ---------- Step 3 ---------- */
+/* Authors are rows, not cards: a line above each and one under the last. */
 .authorList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin: 24px 0 16px;
+  margin: 20px 0 24px;
   padding: 0;
   list-style: none;
+  border-bottom: 1px solid var(--border);
 }
 
-.authorCard {
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+.authorRow {
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
 }
 
 .authorHead {
@@ -1118,10 +1092,15 @@
   margin-top: 16px;
 }
 
+/* Corresponding author lines up with the name: past the number, the avatar, and the gaps between them. */
 .corrRow {
+  margin-top: 6px;
+  padding-left: calc(28px + 44px + 2 * 14px);
+}
+
+.authorEditing .corrRow {
   margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-soft);
+  padding-left: 0;
 }
 
 .corr {
@@ -1211,19 +1190,18 @@
   font-size: 13.5px;
 }
 
-.memberCard {
+/* The member found: a plain row under a thin line, with Add on the right. */
+.memberResult {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 16px;
   margin-top: 14px;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: #fff;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 
-.memberCard > button {
+.memberResult > button {
   margin-left: auto;
 }
 
@@ -1466,11 +1444,10 @@
   width: 76px;
 }
 
+/* Optional, under the required statements: a row under a thin line, like them. */
 .awards {
-  margin-top: 20px;
-  padding: 12px 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  padding: 14px 0 0;
+  border-top: 1px solid var(--border-soft);
 }
 
 /* ---------- Footer ---------- */
@@ -1555,7 +1532,7 @@
   .stepLabel {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 2px;
     font-size: 13px;
   }
 

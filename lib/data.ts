@@ -467,8 +467,15 @@ const INSTITUTION_DOMAINS: Record<string, string> = {
   "University of Illinois Urbana-Champaign": "illinois.edu",
 };
 
-/** An author's portrait, or undefined for someone without one (like a co-author typed into a new submission). */
-export const authorPhoto = (name: string) => (AUTHORS[name] ? `/images/author-${authorSlug(name)}.webp` : undefined);
+/**
+ * Members who aren't authors yet but have a portrait, like the instructors and admins in the admin
+ * Users list. Their files are named like the authors' (MEMBERS in scripts/generate-images.mjs).
+ * Someone who just signed up and hasn't added one, like Chris Lyle, shows initials.
+ */
+export const MEMBER_PORTRAITS = new Set(["Alex Kim", "Morgan Blake", "Jordan Noor", "Victor Reyes", "Kai Tanaka", "Aisha Bello", "Daniel Ng", "Sofia Marin", "Noah Patel", "Jamie Morales"]);
+
+/** A person's portrait, or undefined for someone without one (like a co-author typed into a new submission). */
+export const authorPhoto = (name: string) => (AUTHORS[name] || MEMBER_PORTRAITS.has(name) ? `/images/author-${authorSlug(name)}.webp` : undefined);
 
 /** When a material was last updated, from its recency rank: the newest on October 30, 2026, each one before it five days earlier. */
 export function updatedOn(r: Pick<Resource, "added">) {

@@ -559,11 +559,11 @@ export function ContributeView() {
               const current = n === s.n;
               return (
                 <li key={label} className={[styles.stepItem, done || current ? styles.stepOn : ""].join(" ")}>
-                  {/* The step's number in its own circle, then its name. */}
+                  {/* The step's number, then its name. The bar segment above shows which steps are done. */}
                   <button type="button" className={[styles.stepBtn, current ? styles.stepCurrent : "", done ? styles.stepDone : ""].join(" ")} aria-current={current ? "step" : undefined} onClick={() => goTo(n)}>
                     <span className={styles.stepLabel}>
                       <span aria-hidden="true" className={styles.stepNum}>
-                        {done ? <Check size={13} strokeWidth={3} /> : <span className={styles.stepDigit}>{n}</span>}
+                        {n}
                       </span>
                       <span className="sr-only">Step {n}: </span>
                       <span className={styles.stepName}>{label}</span>
@@ -1051,7 +1051,7 @@ export function ContributeView() {
                       </>
                     );
                     return (
-                      <li key={a.id} className={styles.authorCard}>
+                      <li key={a.id} className={[styles.authorRow, a.editing ? styles.authorEditing : ""].join(" ")}>
                         {a.editing ? (
                           <>
                             <div className={styles.authorHead}>
@@ -1177,7 +1177,7 @@ export function ContributeView() {
                   </p>
                   <div aria-live="polite">
                     {s.lookup?.kind === "found" ? (
-                      <div className={styles.memberCard}>
+                      <div className={styles.memberResult}>
                         <AuthorAvatar name={s.lookup.member.name} size={48} />
                         <div className={styles.authorInfo}>
                           <span className={styles.authorName}>{s.lookup.member.name}</span>
