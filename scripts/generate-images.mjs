@@ -212,8 +212,24 @@ const AUTHORS = {
   "Kwame Mensah": "A Ghanaian American man in his forties with a shaved head and a warm smile, wearing a navy blazer and a light blue shirt.",
   "Arjun Mehta": "An Indian American man in his early thirties with short black hair and a trimmed beard, wearing a white oxford shirt.",
 };
+/**
+ * Members who aren't authors yet but have a portrait, shown in the admin Users list (`MEMBER_PORTRAITS`
+ * in lib/data.ts). Named like the authors' portraits, so the same lookup finds them.
+ */
+const MEMBERS = {
+  "Alex Kim": "A Korean American person in their mid twenties with short black hair and round glasses, wearing a navy hoodie.",
+  "Morgan Blake": "A woman in her forties with shoulder-length brown hair, wearing a gray blazer over a black top.",
+  "Jordan Noor": "A South Asian man in his early thirties with short dark hair and a neat beard, wearing a light blue button-down shirt.",
+  "Victor Reyes": "A Latino man in his fifties with salt-and-pepper hair and a mustache, wearing a navy blazer and a white shirt.",
+  "Kai Tanaka": "A Japanese American person in their late thirties with short dark hair, wearing a charcoal crewneck sweater.",
+  "Aisha Bello": "A Nigerian woman in her forties with short natural hair and small gold hoop earrings, wearing a deep green blouse.",
+  "Daniel Ng": "A Chinese Canadian man in his forties with short black hair and rectangular glasses, wearing a light gray blazer over a navy shirt.",
+  "Sofia Marin": "A woman in her early thirties with long straight black hair, wearing a burgundy blouse.",
+  "Noah Patel": "An Indian American man in his late twenties with short wavy black hair, wearing a navy quarter-zip sweater.",
+  "Jamie Morales": "A Latina woman in her thirties with dark hair in a low ponytail, wearing a mustard cardigan over a white top.",
+};
 const authorSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-for (const [name, look] of Object.entries(AUTHORS)) IMAGES[`author-${authorSlug(name)}`] = [SQUARE, look, PORTRAIT, PORTRAIT_SIZE];
+for (const [name, look] of Object.entries({ ...AUTHORS, ...MEMBERS })) IMAGES[`author-${authorSlug(name)}`] = [SQUARE, look, PORTRAIT, PORTRAIT_SIZE];
 
 /**
  * Material covers: one full-bleed watercolor per material, named `<ID>-watercolor` (lib/covers.ts),
@@ -290,6 +306,55 @@ Object.assign(IMAGES, {
   "about-credit": [SQUARE, "A round award medal on a ribbon lying across an open book, with a fountain pen beside it.", ABOUT, ABOUT_SQUARE],
   "about-center": [WIDE, "A neoclassical university hall with tall columns, wide front steps, and a shallow dome, with a few leafy trees on either side.", ABOUT, ABOUT_WIDE],
   "about-gift": [SQUARE, "A small potted sapling with fresh leaves standing on a short stack of books, a ribbon tied in a bow around the pot.", ABOUT, ABOUT_SQUARE],
+});
+
+/**
+ * Who runs the exchange: the Commons atrium inside the Business Instructional Facility at Gies
+ * College of Business, painted from a photo of it. An interior scene, so it fades out at its edges
+ * instead of sitting in empty space.
+ */
+const VIGNETTE = `${WATERCOLOR} The scene is painted as a loose vignette that fades out softly into the transparent background at every edge. No text, no letters, no numbers, no logos.`;
+IMAGES["about-bif"] = [
+  WIDE,
+  "The interior of a tall, sunlit four-story university atrium, seen from high up at one end and looking down its length, with an open, unobstructed view: no railing, balustrade, or ledge in the foreground. " +
+    "A sweeping, gently curved ceiling of warm honey-colored wood slats spans the whole top of the space. " +
+    "On the right, a full-height wall of glass in a grid of thin white mullions, with tall slender white round columns standing in a row in front of it and soft daylight pouring in. " +
+    "On the left, stacked balconies faced with horizontal warm wood-slat panels and thin metal railings, between more white columns. " +
+    "In the middle distance, a long straight wooden staircase rises diagonally from the floor to the upper balconies, and at the far end more balconies with wood-paneled fronts. " +
+    "A wide, warm wood floor with long patches of sunlight fills the bottom. Small white disc-shaped pendant lamps hang on long thin wires at different heights.",
+  VIGNETTE,
+  ABOUT_WIDE,
+];
+
+/** Home: How it works, one watercolor per step, in the style of the About page. Shown at about 220px. */
+Object.assign(IMAGES, {
+  "how-find-watercolor": [SQUARE, "A large magnifying glass held over a small fanned stack of case documents and a spreadsheet page.", ABOUT, ABOUT_SQUARE],
+  "how-verify-watercolor": [SQUARE, "An open laptop whose screen shows a simple profile page with a round portrait, and a large round check-mark badge leaning against the laptop.", ABOUT, ABOUT_SQUARE],
+  "how-share-watercolor": [SQUARE, "An open folder with three document pages lifting out of it and flying outward like paper airplanes.", ABOUT, ABOUT_SQUARE],
+});
+
+/**
+ * Placeholder covers for a material that doesn't have its own cover yet, like a new submission:
+ * the same style and banner composition as the material covers, with general teaching subjects.
+ * Named like covers (`placeholder-1-watercolor`), so `coverFiles("placeholder-1")` finds them.
+ */
+const PLACEHOLDER_SUBJECTS = [
+  "A neat stack of case folders and ring binders beside an open notebook, a pencil, and a coffee mug.",
+  "An open laptop showing a simple bar chart, beside a short stack of books and a small desk lamp.",
+  "A classroom lectern with an open book on top, a stack of handouts beside it, and a small potted plant.",
+  "A spreadsheet printout, a desk calculator, and a magnifying glass laid out in a row.",
+];
+PLACEHOLDER_SUBJECTS.forEach((subject, i) => {
+  IMAGES[`placeholder-${i + 1}-watercolor`] = [WIDE, subject, `${WATERCOLOR} ${BANNER}`, COVER];
+});
+
+/** Contribute: Before you submit, one small watercolor per statement. Shown at about 88px. */
+const ATTEST_SIZE = { width: 320 };
+Object.assign(IMAGES, {
+  "attest-rights": [SQUARE, "A signed document page with a round wax seal at its corner and a fountain pen lying beside it.", ABOUT, ATTEST_SIZE],
+  "attest-privacy": [SQUARE, "A closed manila folder tied shut with string, with a small brass padlock resting on top.", ABOUT, ATTEST_SIZE],
+  "attest-company": [SQUARE, "Two hands shaking above a printed annual report booklet with a simple bar chart on its cover.", ABOUT, ATTEST_SIZE],
+  "attest-original": [SQUARE, "A hardcover journal volume standing upright beside a single document page marked with a large check mark.", ABOUT, ATTEST_SIZE],
 });
 
 async function exists(path) {

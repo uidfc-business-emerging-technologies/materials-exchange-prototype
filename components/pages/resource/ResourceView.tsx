@@ -187,7 +187,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
+      <div className={styles.top}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />
@@ -208,7 +208,7 @@ export function ResourceView({ id }: { id: string }) {
             <DisciplineLinks discipline={res.discipline} d={res.d} />
           </span>
         </nav>
-        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 640px) 90vw, 760px" />
+        <MaterialCover id={res.id} placeholder={(res as ResourceDetail & { placeholder?: string }).placeholder} className={styles.cover} sizes="(max-width: 640px) 90vw, 760px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>
@@ -429,7 +429,7 @@ export function ResourceView({ id }: { id: string }) {
             </h2>
             <div className={styles.authors}>
               {res.authors.map((a) => (
-                <div key={a.name} className={styles.authorCard}>
+                <div key={a.name} className={styles.author}>
                   <AuthorAvatar name={a.name} size={56} />
                   <div className={styles.authorText}>
                     <Link href={authorHref(a.name)} className={styles.authorName}>

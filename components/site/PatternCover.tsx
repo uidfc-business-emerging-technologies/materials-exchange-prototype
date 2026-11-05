@@ -24,7 +24,7 @@ export interface PatternCoverProps {
   seed: string;
   /** Overrides the discipline's design. */
   kind?: PatternSlug;
-  /** Contributor-chosen or fixed palette, ground first (see `palettesFor` and `NEUTRAL_PALETTE`). */
+  /** A fixed palette, ground first (see `NEUTRAL_PALETTE`); the discipline's colors otherwise. */
   palette?: string[];
   /** Set true to leave the ground see-through, so whatever is behind the cover shows between the shapes. */
   transparent?: boolean;
@@ -34,7 +34,7 @@ export interface PatternCoverProps {
   cellSize?: number;
   /** Set false to keep the cover still even when animations are on. */
   motion?: boolean;
-  /** Shown over the pattern, such as photo cutouts (`CutoutRain`, `MaterialCover`). */
+  /** Shown over the pattern, such as photo cutouts (`CutoutRain`). */
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;

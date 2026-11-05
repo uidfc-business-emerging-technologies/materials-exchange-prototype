@@ -29,11 +29,12 @@ import Link from "next/link";
 import { allResources, authorHref, detailFor, resourceHref, updatedOn, type DisciplineKey, type LicenseName } from "@/lib/data";
 import { ADMIN_ID, KNOWN_SUBMISSIONS, SUBMISSIONS, USERS, type AdminUser, type Submission } from "@/lib/admin-data";
 import { Badge, StatusBadge, type Tone } from "@/components/ui/Badge";
+import { AuthorAvatar } from "@/components/site/AuthorAvatar";
 import { MaterialCover } from "@/components/site/MaterialCover";
 import { AdminCollection, type ActionSpec } from "./AdminCollection";
 import a from "./admin.module.css";
 
-const Thumb = ({ d, id, seed }: { d: DisciplineKey; id: string; seed?: string }) => <MaterialCover id={id} discipline={d} seed={seed} className={a.thumb} cellSize={14} motion={false} sizes="48px" />;
+const Thumb = ({ d, id, seed }: { d: DisciplineKey; id: string; seed?: string }) => <MaterialCover id={id} seed={seed} className={a.thumb} sizes="48px" />;
 
 // ---------- Submissions ----------
 
@@ -344,12 +345,15 @@ export function UsersTable() {
           header: "User",
           Icon: UserRound,
           render: (u) => (
-            <>
-              <Link href={"/admin/users/" + u.id} className={a.cellLink}>
-                {u.name}
-              </Link>
-              <span className={a.cellSub}>{u.email}</span>
-            </>
+            <span className={a.person}>
+              <AuthorAvatar name={u.name} size={36} />
+              <span className={a.personText}>
+                <Link href={"/admin/users/" + u.id} className={a.cellLink}>
+                  {u.name}
+                </Link>
+                <span className={a.cellSub}>{u.email}</span>
+              </span>
+            </span>
           ),
         },
         { key: "inst", header: "Institution", Icon: Building2, render: (u) => u.inst },

@@ -359,20 +359,6 @@ export const disciplines: Discipline[] = (
   ] as [DisciplineKey, string, string][]
 ).map(([d, label, pattern]) => ({ d, label, pattern }));
 
-/** Signature color per discipline; the fourth swatch in the Illini palette. */
-export const DISCIPLINE_SWATCH: Record<DisciplineKey, string> = {
-  fin: "#FCB316", audit: "#1D58A7", tax: "#7D3E13", ais: "#009FD4", mgmt: "#007E8E", data: "#006230", emtech: "#5C0E41", other: "#707372",
-};
-
-/** Approved cover palettes contributors can choose from. */
-export function palettesFor(d: DisciplineKey): { name: string; colors: string[] }[] {
-  return [
-    { name: "Illini", colors: ["#F4F4F4", "#13294B", "#FF5F05", DISCIPLINE_SWATCH[d]] },
-    { name: "Blue", colors: ["#F4F4F4", "#13294B", "#1D58A7", "#009FD4"] },
-    { name: "Orange", colors: ["#F4F4F4", "#FF5F05", "#FCB316", "#13294B"] },
-  ];
-}
-
 export const disciplineByLabel = (label: string) => disciplines.find((x) => x.label === label);
 
 /** A Browse link with one filter applied, such as `filterHref("disc", "Audit")`. */
@@ -457,8 +443,39 @@ export const AUTHORS: Record<string, AuthorProfile> = {
   "Arjun Mehta": { title: "Teaching Assistant Professor of Accountancy", since: 2026 },
 };
 
-/** An author's portrait, or undefined for someone without one (like a co-author typed into a new submission). */
-export const authorPhoto = (name: string) => (AUTHORS[name] ? `/images/author-${authorSlug(name)}.webp` : undefined);
+/** The institution an author is listed with on their newest material. */
+export function authorInstitution(name: string) {
+  const first = allResources()
+    .filter((r) => r.authors.split(", ").includes(name))
+    .sort((a, b) => b.added - a.added)[0];
+  if (!first) return "";
+  const names = first.authors.split(", ");
+  const insts = first.inst.split(", ");
+  return insts.length > 1 ? insts[names.indexOf(name)] || insts[0] : first.inst;
+}
+
+/** School email domains, for the members' sign-in emails. All but Illinois are fictional. */
+const INSTITUTION_DOMAINS: Record<string, string> = {
+  "Riverbend State University": "riverbend.edu",
+  "Eastmoor University": "eastmoor.edu",
+  "Prairie Lakes College": "prairielakes.edu",
+  "Northgate State University": "northgate.edu",
+  "Kessler College": "kessler.edu",
+  "Wrenfield College": "wrenfield.edu",
+  "Lakemont University": "lakemont.edu",
+  "Halden University": "halden.edu",
+  "University of Illinois Urbana-Champaign": "illinois.edu",
+};
+
+/**
+ * Members who aren't authors yet but have a portrait, like the instructors and admins in the admin
+ * Users list. Their files are named like the authors' (MEMBERS in scripts/generate-images.mjs).
+ * Someone who just signed up and hasn't added one, like Chris Lyle, shows initials.
+ */
+export const MEMBER_PORTRAITS = new Set(["Alex Kim", "Morgan Blake", "Jordan Noor", "Victor Reyes", "Kai Tanaka", "Aisha Bello", "Daniel Ng", "Sofia Marin", "Noah Patel", "Jamie Morales"]);
+
+/** A person's portrait, or undefined for someone without one (like a co-author typed into a new submission). */
+export const authorPhoto = (name: string) => (AUTHORS[name] || MEMBER_PORTRAITS.has(name) ? `/images/author-${authorSlug(name)}.webp` : undefined);
 
 /** When a material was last updated, from its recency rank: the newest on October 30, 2026, each one before it five days earlier. */
 export function updatedOn(r: Pick<Resource, "added">) {
@@ -482,8 +499,36 @@ export const PEOPLE: Record<Person["key"], Person> = {
   elena: { key: "elena", name: "Elena Fischer", first: "Elena", initials: "EF", title: "Associate Professor of Accounting", inst: "Prairie Lakes College", email: "efischer@prairielakes.edu", orcid: "0000-0002-7134-5580" },
 };
 
+export interface Member {
+  name: string;
+  title: string;
+  inst: string;
+  /** The school email they sign in with: first initial and last name, like praman@riverbend.edu. */
+  email: string;
+}
+
+/**
+ * Members of the exchange a contributor can add as a co-author by email. In the prototype, every
+ * author is a member. Emails are never shown; a contributor has to know one to find someone.
+ */
+export const MEMBERS: Member[] = Object.entries(AUTHORS).map(([name, { title }]) => {
+  const person = Object.values(PEOPLE).find((p) => p.name === name);
+  if (person) return { name, title: person.title, inst: person.inst, email: person.email };
+  const inst = authorInstitution(name);
+  const parts = name.toLowerCase().split(" ");
+  const local = parts[0][0] + parts.slice(1).join("").replace(/[^a-z]/g, "");
+  return { name, title, inst, email: `${local}@${INSTITUTION_DOMAINS[inst] || "example.edu"}` };
+});
+
+/** The member who signs in with this email, if any. Ignores case and spaces around it. */
+export const memberByEmail = (email: string) => {
+  const e = email.trim().toLowerCase();
+  return MEMBERS.find((m) => m.email === e);
+};
+
 export const SITE = {
   name: "Teaching Materials Exchange",
   center: "University of Illinois-Deloitte Foundation Center for Business Emerging Technologies",
   centerUrl: "http://emergingtech.giesbusiness.illinois.edu/",
+  deloitteUrl: "https://www.deloitte.com/us/en/about/deloitte-foundation.html",
 };

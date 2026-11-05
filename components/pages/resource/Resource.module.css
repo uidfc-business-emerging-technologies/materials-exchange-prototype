@@ -1,34 +1,32 @@
 .top {
-  /* Shared by the cover and the title panel that overlaps it. */
-  --cover-h: clamp(160px, 23.4vw, 300px);
+  /* Shared by the cover and the title panel that's raised into it. */
+  --cover-h: clamp(200px, 30vw, 380px);
   --overlap: clamp(40px, 9.2vw, 118px);
   --panel-w: 820px;
   padding: clamp(16px, 1.6vw, 20px) var(--gutter) 0;
 }
 
 /*
- * A cover image is a banner, with the title below it instead of over its corner. The watercolor
- * sits in the middle of the banner at about half its width; its empty top and bottom are cropped.
+ * The cover is a wide banner, and the title's white panel is raised into its bottom left corner.
+ * The watercolor sits at about half the banner's width, centered in the part the panel leaves
+ * open (above the overlap), so the panel never hides its subject. Its empty top and bottom are
+ * cropped, and a tall one fades out softly where the banner crops it, instead of a hard cut.
  */
-.topImage {
-  --cover-h: clamp(180px, 28vw, 360px);
-  --overlap: 0px;
-}
-
-.topImage .cover img {
-  --edge: calc(50% - var(--cover-h) / 2);
-  top: 50%;
+.top .cover img {
+  /* Where the banner's top and bottom edges fall on the image, as stops for the fade. */
+  --edge-top: calc(50% - (var(--cover-h) - var(--overlap)) / 2);
+  --edge-bottom: calc(50% + (var(--cover-h) + var(--overlap)) / 2);
+  top: calc((100% - var(--overlap)) / 2);
   left: 50%;
   width: min(56%, 760px);
   height: auto;
   translate: -50% -50%;
-  /* A tall watercolor fades out softly where the banner crops it, instead of a hard cut. */
-  -webkit-mask-image: linear-gradient(180deg, transparent var(--edge), #000 calc(var(--edge) + 48px), #000 calc(100% - var(--edge) - 48px), transparent calc(100% - var(--edge)));
-  mask-image: linear-gradient(180deg, transparent var(--edge), #000 calc(var(--edge) + 48px), #000 calc(100% - var(--edge) - 48px), transparent calc(100% - var(--edge)));
+  -webkit-mask-image: linear-gradient(180deg, transparent var(--edge-top), #000 calc(var(--edge-top) + 48px), #000 calc(var(--edge-bottom) - 48px), transparent var(--edge-bottom));
+  mask-image: linear-gradient(180deg, transparent var(--edge-top), #000 calc(var(--edge-top) + 48px), #000 calc(var(--edge-bottom) - 48px), transparent var(--edge-bottom));
 }
 
 @media (max-width: 640px) {
-  .topImage .cover img {
+  .top .cover img {
     width: 88%;
   }
 }
@@ -78,7 +76,7 @@
   border-radius: var(--radius-md);
 }
 
-/* The title sits on a solid panel that overlaps the cover, never on the pattern itself. */
+/* The title sits on a white panel raised into the cover's bottom left corner, never on the watercolor itself. */
 .titlePanel {
   position: relative;
   margin-top: calc(-1 * var(--overlap));
@@ -537,20 +535,18 @@
 }
 
 /* ---------- Authors ---------- */
+/* Authors side by side, set apart by space instead of cards. */
 .authors {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: 24px 32px;
+  margin-top: 20px;
 }
 
-.authorCard {
+.author {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
 }
 
 .authorText {

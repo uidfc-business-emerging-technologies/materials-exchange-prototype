@@ -133,7 +133,7 @@ export function MaterialEdit({ id }: { id: string }) {
         title={m.title}
         badge={<StatusBadge status={MAT_STATUS[f.status]} />}
         sub={f.type + " · " + f.authors.map((x) => x.name).filter(Boolean).join(", ")}
-        lead={<MaterialCover id={m.id} discipline={m.d} seed={coverSeed(m)} className={s.headCover} cellSize={20} motion={false} sizes="80px" />}
+        lead={<MaterialCover id={m.id} seed={coverSeed(m)} className={s.headCover} sizes="80px" />}
         open={open}
       />
       <Errors errors={errors} />
@@ -268,14 +268,14 @@ export function MaterialEdit({ id }: { id: string }) {
         />
         {f.status === "published" ? <Switch className={s.feature} checked={f.featured} onCheckedChange={(v) => ed.set("featured", v)} label="Feature on the home page" /> : null}
         <div className={s.coverRow}>
-          <MaterialCover id={m.id} discipline={coverD} seed={coverSeed({ id: m.id, cover: f.cover })} className={s.cover} sizes="180px" />
+          <MaterialCover id={m.id} seed={coverSeed({ id: m.id, cover: f.cover })} className={s.cover} sizes="180px" />
           <div>
             <p className={s.coverTitle}>Cover</p>
             {hasMaterialImage(m.id) ? (
-              <p className={s.coverHint}>Shows the material&apos;s cover image in the style picked with the Covers switch.</p>
+              <p className={s.coverHint}>Shows the material&apos;s watercolor cover.</p>
             ) : (
               <>
-                <p className={s.coverHint}>Uses the first discipline&apos;s pattern.</p>
+                <p className={s.coverHint}>Shows a placeholder watercolor until the material has its own cover.</p>
                 <Button variant="secondary" size="sm" className={s.addBtn} onClick={() => ed.set("cover", f.cover + 1)}>
                   <Shuffle size={15} aria-hidden />
                   Shuffle cover

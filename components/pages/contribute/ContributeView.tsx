@@ -6,42 +6,58 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUp,
+  BadgeCheck,
   Check,
+  CheckCheck,
   CircleCheck,
   CircleX,
   Clock,
   ExternalLink,
+  Eye,
   FileText,
+  FolderOpen,
+  Glasses,
   Globe,
   Info,
+  LibraryBig,
   LoaderCircle,
   Lock,
+  Mail,
+  Pencil,
+  PenLine,
   Plus,
   RefreshCw,
+  Save,
+  Search,
+  Send,
   Shield,
   ShieldCheck,
   Shuffle,
   Sparkles,
+  Stamp,
   Star,
+  Tag,
   Trash2,
   TriangleAlert,
   Trophy,
   Upload,
   UserPlus,
+  Users,
   X,
   Circle,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { disciplines, palettesFor, resourceHref, type DisciplineKey, type FileIconName, type LicenseName, type ResourceDetail, type ResourceType } from "@/lib/data";
+import { PLACEHOLDER_COVERS, placeholderCover } from "@/lib/covers";
+import { authorHref, disciplines, memberByEmail, resourceHref, type DisciplineKey, type FileIconName, type LicenseName, type Member, type ResourceDetail, type ResourceType } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
-import { PATTERN_LABEL, patternSlugFor } from "@/lib/pattern";
 import { Badge } from "@/components/ui/Badge";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Checkbox, RadioCards, Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
-import { Illustration, STEP_OBJECTS } from "@/components/site/Illustration";
-import { PatternCover } from "@/components/site/PatternCover";
+import { AuthorAvatar } from "@/components/site/AuthorAvatar";
+import { Illustration, type IllustrationName } from "@/components/site/Illustration";
+import { MaterialCover } from "@/components/site/MaterialCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Contribute.module.css";
 
@@ -74,7 +90,12 @@ interface AuthorRow {
   editing?: boolean;
   isNew?: boolean;
   found?: boolean;
+  /** A member of the exchange, added by email: their details come from their profile. */
+  member?: boolean;
 }
+
+/** What finding a co-author by email turned up. */
+type Lookup = { kind: "invalid" } | { kind: "none"; email: string } | { kind: "listed"; name: string } | { kind: "found"; member: Member } | { kind: "added"; name: string };
 
 type AiKey = "title" | "type" | "disc" | "level" | "time" | "summary" | "objectives" | "tools" | "topics";
 
@@ -85,12 +106,11 @@ interface State {
   readStep: number;
   dragOver: boolean;
   drafted: boolean;
-  seedN: number;
-  pal: number;
+  /** Which placeholder cover the preview shows (PLACEHOLDER_COVERS, wrapping around). */
+  coverN: number;
   lic: number;
   type: ResourceType;
   discs: DisciplineKey[];
-  cover: DisciplineKey | null;
   level: string;
   time: string;
   title: string;
@@ -102,6 +122,8 @@ interface State {
   topicDraft: string;
   authors: AuthorRow[];
   corresponding: string;
+  memberEmail: string;
+  lookup: Lookup | null;
   nextId: number;
   uploads: Upload[];
   ai: Partial<Record<AiKey, boolean | "check">>;
@@ -113,18 +135,26 @@ const GATED = ["Teaching note", "Solution"];
 const ROLES = ["Case", "Dataset", "Teaching note", "Solution", "Exhibit", "Slides", "Starter file", "Instructions", "Other"];
 const LEVELS = ["Introductory undergraduate", "Upper undergraduate", "Graduate", "MBA"];
 const STEP_LABELS = ["Files", "Basics", "Authors", "License", "Review"];
+/** Each step's icon, on the button that continues to it. */
+const STEP_ICONS = [FolderOpen, Tag, Users, Stamp, Glasses];
 /** `rec` marks the default license, picked for you. */
 const LICENSES: { code: LicenseName; name: string; rec?: boolean; text: string }[] = [
   { code: "CC BY 4.0", name: "Attribution", rec: true, text: "Others can share and adapt your work for any purpose, including commercial use, as long as they credit you." },
   { code: "CC BY-NC 4.0", name: "Attribution-NonCommercial", text: "Others can share and adapt your work with credit, but not for commercial purposes." },
   { code: "CC BY-NC-SA 4.0", name: "Attribution-NonCommercial-ShareAlike", text: "Others can share and adapt your work with credit, not commercially, and must share their versions under the same license." },
 ];
-const ATTESTATIONS = [
-  "I have the right to share these materials.",
-  "They contain no student records or other personal data.",
-  "Company information is public or used with permission.",
-  "They have not been published elsewhere under a copyright transfer, or I have permission to share them.",
+/** Before you submit: each statement has a small watercolor beside it. */
+const ATTESTATIONS: { text: string; art: IllustrationName }[] = [
+  { text: "I have the right to share these materials.", art: "attest-rights" },
+  { text: "They contain no student records or other personal data.", art: "attest-privacy" },
+  { text: "Company information is public or used with permission.", art: "attest-company" },
+  { text: "They have not been published elsewhere under a copyright transfer, or I have permission to share them.", art: "attest-original" },
 ];
+/** Prototype only: members to try in Add a co-author. Every author on the exchange is a member. */
+const SAMPLE_MEMBERS = ["kmensah@eastmoor.edu", "gokafor@prairielakes.edu"];
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** The new submission's placeholder cover until the contributor shuffles it. */
+const FIRST_COVER = PLACEHOLDER_COVERS.indexOf(placeholderCover("TME-0171"));
 
 const SAMPLE = [
   { name: "genai-monthly-close-case.pdf", meta: "PDF, 1.4 MB" },
@@ -189,10 +219,8 @@ const DRAFT: Partial<State> = {
   title: "Generative AI in the Monthly Close",
   type: "Case",
   discs: ["emtech", "ais"],
-  cover: null,
   level: "MBA",
   time: "90 minutes",
-  pal: 0,
   summary: "Students review how a controller's team used a generative AI assistant during the monthly close and decide which uses need new review controls.",
   objectives: ["Map where generative AI fits in a monthly close checklist.", "Find errors in AI-drafted reconciliation notes and journal entry explanations.", "Design review controls for AI-assisted close work."],
   tools: ["Generative AI", "Excel"],
@@ -238,12 +266,10 @@ export function ContributeView() {
     readStep: 0,
     dragOver: false,
     drafted: false,
-    seedN: 0,
-    pal: 0,
+    coverN: FIRST_COVER,
     lic: 0,
     type: "Case",
     discs: [],
-    cover: null,
     level: "Upper undergraduate",
     time: "",
     title: "",
@@ -255,6 +281,8 @@ export function ContributeView() {
     topicDraft: "",
     authors: [{ id: "me", name: me.name, you: true, title: me.title, inst: me.inst, link: "" }],
     corresponding: "me",
+    memberEmail: "",
+    lookup: null,
     nextId: 20,
     uploads: [],
     ai: {},
@@ -331,10 +359,8 @@ export function ContributeView() {
   const updAuthor = (i: number, patch: Partial<AuthorRow>) => upd((st) => ({ authors: st.authors.map((a, j) => (j === i ? { ...a, ...patch } : a)) }));
   const unAi = (k: AiKey) => (st: State) => ({ ai: { ...st.ai, [k]: false } });
 
-  const coverD: DisciplineKey = s.cover || s.discs[0] || "other";
-  const pals = palettesFor(coverD);
-  const pal = Math.min(s.pal, pals.length - 1);
-  const seed = "TME-0171" + (s.seedN ? "-" + s.seedN : "");
+  const mainD: DisciplineKey = s.discs[0] || "other";
+  const placeholder = PLACEHOLDER_COVERS[s.coverN % PLACEHOLDER_COVERS.length];
   const discLabels = s.discs.map((k) => disciplines.find((d) => d.d === k)?.label).filter(Boolean) as string[];
   const discLabel = discLabels.join(", ") || "Discipline";
   const names = s.authors.map((a) => a.name).filter(Boolean);
@@ -342,7 +368,7 @@ export function ContributeView() {
   const caseName = s.uploads.find((f) => f.role === "Case")?.name || "your case file";
   const noteName = s.uploads.find((f) => f.role === "Teaching note")?.name || "your teaching note";
 
-  const buildDetail = (status: "review" | "published"): ResourceDetail & { seed: string; palette: string[] } => {
+  const buildDetail = (status: "review" | "published"): ResourceDetail & { placeholder: string } => {
     const insts = s.authors.map((a) => a.inst);
     const same = insts.every((x) => x === insts[0]);
     const byline = same
@@ -364,9 +390,8 @@ export function ContributeView() {
     const title = s.title.trim() || "Untitled";
     return {
       id: "TME-0171",
-      d: coverD,
-      seed,
-      palette: pals[pal].colors,
+      d: mainD,
+      placeholder,
       discipline: discLabels.join(", ") || "Other",
       type: s.type,
       aboutTitle: "About this " + s.type.toLowerCase(),
@@ -409,6 +434,24 @@ export function ContributeView() {
   };
 
   const saveExit = () => infoToast("Draft saved. You can finish it from My resources.");
+
+  /** Find a member by the email they sign in with. Only a full email finds someone, so nobody can browse the members. */
+  const findMember = (email = s.memberEmail) => {
+    const e = email.trim();
+    const m = EMAIL.test(e) ? memberByEmail(e) : undefined;
+    const lookup: Lookup = !EMAIL.test(e) ? { kind: "invalid" } : !m ? { kind: "none", email: e } : s.authors.some((a) => a.name === m.name) ? { kind: "listed", name: m.name } : { kind: "found", member: m };
+    upd({ memberEmail: email, lookup });
+  };
+  const addMember = (m: Member) =>
+    upd((st) => ({
+      authors: st.authors.concat([{ id: "n" + st.nextId, name: m.name, title: m.title, inst: m.inst, link: authorHref(m.name), member: true }]),
+      nextId: st.nextId + 1,
+      memberEmail: "",
+      lookup: { kind: "added", name: m.name },
+    }));
+  /** Someone who isn't a member: type their details in. */
+  const addByName = () =>
+    upd((st) => ({ authors: st.authors.concat([{ id: "n" + st.nextId, name: "", title: "", inst: "", link: "", editing: true, isNew: true }]), nextId: st.nextId + 1, lookup: null }));
 
   // ---------- Gate for people who can't share yet ----------
   if (demo.auth !== "verified") {
@@ -453,7 +496,7 @@ export function ContributeView() {
             This is your first contribution, so a person on our team will check it within 2 business days.
           </p>
           <div className={styles.summaryCard}>
-            <PatternCover discipline={coverD} seed={seed} palette={pals[pal].colors} className={styles.summaryCover} cellSize={20} />
+            <MaterialCover id="TME-0171" placeholder={placeholder} className={styles.summaryCover} sizes="96px" />
             <div className={styles.summaryCardText}>
               <span className={styles.kicker}>
                 {s.type} · {discLabel}
@@ -470,9 +513,11 @@ export function ContributeView() {
           </ol>
           <div className={styles.resultActions}>
             <ButtonLink href={resourceHref("TME-0171", { own: true })} size="lg">
+              <Eye size={17} aria-hidden />
               View your resource page
             </ButtonLink>
             <ButtonLink href="/account#resources" variant="secondary" size="lg">
+              <LibraryBig size={17} aria-hidden />
               Go to My resources
             </ButtonLink>
           </div>
@@ -514,11 +559,14 @@ export function ContributeView() {
               const current = n === s.n;
               return (
                 <li key={label} className={[styles.stepItem, done || current ? styles.stepOn : ""].join(" ")}>
+                  {/* The step's number, then its name. The bar segment above shows which steps are done. */}
                   <button type="button" className={[styles.stepBtn, current ? styles.stepCurrent : "", done ? styles.stepDone : ""].join(" ")} aria-current={current ? "step" : undefined} onClick={() => goTo(n)}>
-                    <Illustration name={STEP_OBJECTS[i]} className={styles.stepArt} eager />
                     <span className={styles.stepLabel}>
-                      {done ? <Check size={14} aria-hidden /> : null}
-                      {n}. {label}
+                      <span aria-hidden="true" className={styles.stepNum}>
+                        {n}
+                      </span>
+                      <span className="sr-only">Step {n}: </span>
+                      <span className={styles.stepName}>{label}</span>
                       {done ? <span className="sr-only">, done</span> : null}
                     </span>
                   </button>
@@ -570,6 +618,7 @@ export function ContributeView() {
                       <h3 className={styles.dropTitle}>Drop your files here</h3>
                       <p className={styles.dropLine}>{s.autofill ? "We'll read them and fill in the rest of the form for you. You check everything before you submit." : "Add the case, data, teaching note, and solution."}</p>
                       <Button id="c-drop" onClick={() => fileRef.current?.click()}>
+                        <FolderOpen size={17} aria-hidden />
                         Choose files
                       </Button>
                       <p className={styles.dropTypes}>PDF, Word, Excel, CSV, PowerPoint, and Jupyter notebooks</p>
@@ -579,6 +628,7 @@ export function ContributeView() {
                       <Upload size={18} aria-hidden className={styles.dropIconSmall} />
                       <span className={styles.dropMore}>Drop more files here, or</span>
                       <Button id="c-drop" variant="secondary" size="sm" onClick={() => fileRef.current?.click()}>
+                        <FolderOpen size={15} aria-hidden />
                         Choose files
                       </Button>
                     </>
@@ -770,6 +820,7 @@ export function ContributeView() {
                               <TriangleAlert size={17} aria-hidden />
                               <span>Anyone, including students, will be able to download this {(f.role || "file").toLowerCase()}.</span>
                               <Button variant="secondary" size="sm" onClick={() => updFile(f.id, { anyone: false })}>
+                                <ShieldCheck size={15} aria-hidden />
                                 Set to verified instructors only
                               </Button>
                             </div>
@@ -796,6 +847,7 @@ export function ContributeView() {
                       <strong>We drafted these from your files.</strong> Check each one. Fields marked Drafted haven&apos;t been changed or confirmed by you yet.{ai.level === "check" ? " Course level needs a closer look." : ""}
                     </p>
                     <button type="button" className={styles.linkBtn} onClick={() => upd({ ai: {} })}>
+                      <CheckCheck size={16} aria-hidden />
                       Mark all as checked
                     </button>
                   </div>
@@ -866,7 +918,7 @@ export function ContributeView() {
                             role="checkbox"
                             aria-checked={on}
                             className={[styles.discChip, on ? styles.discChipOn : ""].join(" ")}
-                            onClick={() => upd((st) => ({ discs: on ? st.discs.filter((k) => k !== d.d) : st.discs.concat([d.d]), pal: 0, ai: { ...st.ai, disc: false } }))}
+                            onClick={() => upd((st) => ({ discs: on ? st.discs.filter((k) => k !== d.d) : st.discs.concat([d.d]), ai: { ...st.ai, disc: false } }))}
                           >
                             {on ? <Check size={15} aria-hidden /> : null}
                             {d.label}
@@ -888,6 +940,7 @@ export function ContributeView() {
                         <div className={styles.checkThis}>
                           <p>Your teaching note mentions both MBA and graduate electives.</p>
                           <button type="button" className={styles.linkBtn} onClick={() => upd((st) => unAi("level")(st))}>
+                            <Check size={16} aria-hidden />
                             Keep {s.level}
                           </button>
                         </div>
@@ -998,7 +1051,7 @@ export function ContributeView() {
                       </>
                     );
                     return (
-                      <li key={a.id} className={styles.authorCard}>
+                      <li key={a.id} className={[styles.authorRow, a.editing ? styles.authorEditing : ""].join(" ")}>
                         {a.editing ? (
                           <>
                             <div className={styles.authorHead}>
@@ -1022,12 +1075,12 @@ export function ContributeView() {
                             </div>
                             <div className={styles.corrRow}>{corr}</div>
                             <div className={styles.authorSave}>
-                              <Button
-                                onClick={() => updAuthor(i, { editing: false, isNew: false, found: false })}
-                              >
+                              <Button onClick={() => updAuthor(i, { editing: false, isNew: false, found: false })}>
+                                {a.isNew ? <UserPlus size={16} aria-hidden /> : <Check size={16} aria-hidden />}
                                 {a.isNew ? "Add co-author" : "Save"}
                               </Button>
                               <Button variant="quiet" onClick={() => (a.isNew ? upd((st) => ({ authors: st.authors.filter((_, j) => j !== i) })) : updAuthor(i, { editing: false }))}>
+                                <X size={16} aria-hidden />
                                 Cancel
                               </Button>
                             </div>
@@ -1036,6 +1089,7 @@ export function ContributeView() {
                           <>
                             <div className={styles.authorHead}>
                               <span className={styles.authorN}>{i + 1}</span>
+                              <AuthorAvatar name={a.name} size={44} className={styles.authorAvatar} />
                               <div className={styles.authorInfo}>
                                 <span className={styles.authorName}>
                                   {a.name}
@@ -1047,12 +1101,26 @@ export function ContributeView() {
                                     Found in {caseName}
                                   </Badge>
                                 ) : null}
+                                {a.member ? (
+                                  <Badge tone="info" icon={<BadgeCheck size={12} aria-hidden />} className={styles.foundTag}>
+                                    Member, from their profile
+                                  </Badge>
+                                ) : null}
                               </div>
                               <div className={styles.authorActions}>
                                 {moves}
-                                <Button variant="quiet" onClick={() => updAuthor(i, { editing: true })} aria-label={"Edit " + a.name}>
-                                  Edit
-                                </Button>
+                                {/* A member's name, title, and institution come from their profile, so they can only be removed. */}
+                                {a.member ? (
+                                  <Button variant="quiet" onClick={() => upd((st) => ({ authors: st.authors.filter((_, j) => j !== i), corresponding: st.corresponding === a.id ? "me" : st.corresponding }))} aria-label={"Remove " + a.name}>
+                                    <Trash2 size={16} aria-hidden />
+                                    Remove
+                                  </Button>
+                                ) : (
+                                  <Button variant="quiet" onClick={() => updAuthor(i, { editing: true })} aria-label={"Edit " + a.name}>
+                                    <Pencil size={16} aria-hidden />
+                                    Edit
+                                  </Button>
+                                )}
                               </div>
                             </div>
                             <div className={styles.corrRow}>{corr}</div>
@@ -1062,10 +1130,92 @@ export function ContributeView() {
                     );
                   })}
                 </ol>
-                <Button variant="secondary" onClick={() => upd((st) => ({ authors: st.authors.concat([{ id: "n" + st.nextId, name: "", title: "", inst: "", link: "", editing: true, isNew: true }]), nextId: st.nextId + 1 }))}>
-                  <UserPlus size={16} aria-hidden />
-                  Add co-author
-                </Button>
+                {/* Add a co-author: find a member by email, or type in someone who isn't one. */}
+                <div className={styles.addAuthor}>
+                  <h3 className={styles.addTitle}>
+                    <UserPlus size={18} aria-hidden />
+                    Add a co-author
+                  </h3>
+                  <p className={styles.help}>If they&apos;re a member of the exchange, find them by the email they sign in with. Their name, title, and institution come from their profile, and the material appears on their author page once it&apos;s published.</p>
+                  <form
+                    className={styles.memberForm}
+                    noValidate
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      findMember();
+                    }}
+                  >
+                    <TextField
+                      id="c-member"
+                      label="Their email"
+                      type="email"
+                      autoComplete="off"
+                      leading={<Mail size={17} aria-hidden />}
+                      placeholder="name@school.edu"
+                      value={s.memberEmail}
+                      onValueChange={(v) => upd({ memberEmail: v, lookup: null })}
+                      error={s.lookup?.kind === "invalid" ? "Enter an email address, like name@school.edu." : undefined}
+                      trailing={
+                        <Button type="submit" variant="secondary" size="sm">
+                          <Search size={15} aria-hidden />
+                          Find member
+                        </Button>
+                      }
+                    />
+                  </form>
+                  <p className={styles.sampleMembers}>
+                    Prototype only: try{" "}
+                    {SAMPLE_MEMBERS.map((e, k) => (
+                      <span key={e}>
+                        {k ? " or " : null}
+                        <button type="button" className={styles.linkBtn} onClick={() => findMember(e)}>
+                          {e}
+                        </button>
+                      </span>
+                    ))}
+                    .
+                  </p>
+                  <div aria-live="polite">
+                    {s.lookup?.kind === "found" ? (
+                      <div className={styles.memberResult}>
+                        <AuthorAvatar name={s.lookup.member.name} size={48} />
+                        <div className={styles.authorInfo}>
+                          <span className={styles.authorName}>{s.lookup.member.name}</span>
+                          <span className={styles.authorDetail}>{[s.lookup.member.title, s.lookup.member.inst].filter(Boolean).join(", ")}</span>
+                          <Badge tone="info" icon={<BadgeCheck size={12} aria-hidden />} className={styles.foundTag}>
+                            Member
+                          </Badge>
+                        </div>
+                        <Button onClick={() => s.lookup?.kind === "found" && addMember(s.lookup.member)}>
+                          <UserPlus size={16} aria-hidden />
+                          Add as co-author
+                        </Button>
+                      </div>
+                    ) : null}
+                    {s.lookup?.kind === "listed" ? (
+                      <p className={styles.lookupNote}>
+                        <Info size={17} aria-hidden />
+                        {s.lookup.name} is already an author.
+                      </p>
+                    ) : null}
+                    {s.lookup?.kind === "added" ? (
+                      <p className={styles.lookupNote}>
+                        <CircleCheck size={17} aria-hidden className={styles.okIcon} />
+                        Added {s.lookup.name} as author {s.authors.length}.
+                      </p>
+                    ) : null}
+                    {s.lookup?.kind === "none" ? (
+                      <p className={styles.lookupNote}>
+                        <Info size={17} aria-hidden />
+                        <span>No member signs in with {s.lookup.email}. Check the spelling, or add them by name below.</span>
+                      </p>
+                    ) : null}
+                  </div>
+                  <Button variant="quiet" className={styles.addByName} onClick={addByName}>
+                    <PenLine size={16} aria-hidden />
+                    Add someone who isn&apos;t a member
+                  </Button>
+                </div>
               </section>
             ) : null}
 
@@ -1131,11 +1281,12 @@ export function ContributeView() {
                     <div className={styles.reviewHead}>
                       <h3>Basics</h3>
                       <button type="button" className={styles.linkBtn} onClick={() => goTo(2)}>
+                        <Pencil size={15} aria-hidden />
                         Edit<span className="sr-only"> basics</span>
                       </button>
                     </div>
                     <div className={styles.reviewBasics}>
-                      <PatternCover discipline={coverD} seed={seed} palette={pals[pal].colors} className={styles.reviewCover} cellSize={24} />
+                      <MaterialCover id="TME-0171" placeholder={placeholder} className={styles.reviewCover} sizes="160px" />
                       <div>
                         <span className={styles.kicker}>
                           {s.type} · {discLabel}
@@ -1150,6 +1301,7 @@ export function ContributeView() {
                     <div className={styles.reviewHead}>
                       <h3>Authors</h3>
                       <button type="button" className={styles.linkBtn} onClick={() => goTo(3)}>
+                        <Pencil size={15} aria-hidden />
                         Edit<span className="sr-only"> authors</span>
                       </button>
                     </div>
@@ -1166,6 +1318,7 @@ export function ContributeView() {
                     <div className={styles.reviewHead}>
                       <h3>Files</h3>
                       <button type="button" className={styles.linkBtn} onClick={() => goTo(1)}>
+                        <Pencil size={15} aria-hidden />
                         Edit<span className="sr-only"> files</span>
                       </button>
                     </div>
@@ -1194,6 +1347,7 @@ export function ContributeView() {
                     <div className={styles.reviewHead}>
                       <h3>License</h3>
                       <button type="button" className={styles.linkBtn} onClick={() => goTo(4)}>
+                        <Pencil size={15} aria-hidden />
                         Edit<span className="sr-only"> license</span>
                       </button>
                     </div>
@@ -1203,13 +1357,23 @@ export function ContributeView() {
                   </div>
                 </div>
 
+                {/* Each statement is a row with its picture, set apart by space and a thin line; the whole row is the checkbox's label. */}
                 <fieldset id="attest" tabIndex={-1} className={styles.attest}>
                   <legend className={styles.attestTitle}>Before you submit</legend>
-                  <p className={styles.help}>All four are required.</p>
+                  <p className={styles.help}>
+                    All four are required. {s.attest.filter(Boolean).length} of {ATTESTATIONS.length} checked.
+                  </p>
                   <div className={styles.attestList}>
                     {ATTESTATIONS.map((t, i) => (
-                      <Checkbox key={t} size="md" checked={s.attest[i]} onCheckedChange={(v) => upd((st) => ({ attest: st.attest.map((x, j) => (j === i ? v : x)) }))}>
-                        {t}
+                      <Checkbox
+                        key={t.text}
+                        size="md"
+                        checked={s.attest[i]}
+                        onCheckedChange={(v) => upd((st) => ({ attest: st.attest.map((x, j) => (j === i ? v : x)) }))}
+                        trailing={<Illustration name={t.art} className={styles.attestArt} />}
+                        className={styles.attestItem}
+                      >
+                        {t.text}
                       </Checkbox>
                     ))}
                   </div>
@@ -1233,13 +1397,26 @@ export function ContributeView() {
                   </Button>
                 ) : null}
                 <Button variant="quiet" size="lg" onClick={saveExit}>
+                  <Save size={17} aria-hidden />
                   Save and exit
                 </Button>
               </div>
-              <Button size="lg" onClick={next}>
-                {["Continue to Basics", "Continue to Authors", "Continue to License", "Continue to Review", "Submit for review"][s.n - 1]}
-                <ArrowRight size={16} aria-hidden />
-              </Button>
+              {/* Continue names the next step with its icon; the last step submits. */}
+              {s.n < 5 ? (
+                <Button size="lg" onClick={next}>
+                  {(() => {
+                    const NextIcon = STEP_ICONS[s.n];
+                    return <NextIcon size={17} aria-hidden />;
+                  })()}
+                  Continue to {STEP_LABELS[s.n]}
+                  <ArrowRight size={16} aria-hidden />
+                </Button>
+              ) : (
+                <Button size="lg" onClick={next}>
+                  <Send size={17} aria-hidden />
+                  Submit for review
+                </Button>
+              )}
             </div>
           </div>
 
@@ -1247,7 +1424,7 @@ export function ContributeView() {
             <aside aria-label="Cover preview" className={styles.coverAside}>
               <h2 className={styles.coverTitle}>Cover preview</h2>
               <div className={styles.coverCard}>
-                <PatternCover discipline={coverD} seed={seed} palette={pals[pal].colors} className={styles.coverArt} cellSize={28} />
+                <MaterialCover id="TME-0171" placeholder={placeholder} className={styles.coverArt} sizes="360px" />
                 <div className={styles.coverText}>
                   <span className={styles.kicker}>
                     {s.type} · {discLabel}
@@ -1255,44 +1432,11 @@ export function ContributeView() {
                   <span className={styles.coverName}>{s.title.trim() || "Your title"}</span>
                 </div>
               </div>
-              <p className={styles.coverNote}>This cover uses the {PATTERN_LABEL[patternSlugFor(coverD)]} pattern. Shuffle picks a random pattern and layout.</p>
-              <Button
-                variant="secondary"
-                onClick={() =>
-                  upd((st) => {
-                    const keys = disciplines.map((d) => d.d).filter((k) => k !== coverD);
-                    return { cover: keys[Math.floor(Math.random() * keys.length)] || coverD, seedN: st.seedN + 1, pal: 0 };
-                  })
-                }
-              >
+              <p className={styles.coverNote}>Your material gets its own watercolor cover when it&apos;s published. Until then, it shows a placeholder in the same style.</p>
+              <Button variant="secondary" onClick={() => upd((st) => ({ coverN: st.coverN + 1 }))}>
                 <Shuffle size={16} aria-hidden />
-                Shuffle cover
+                Shuffle placeholder
               </Button>
-              <RadioCards
-                label={
-                  <>
-                    Palette <span className={styles.optional}>(optional)</span>
-                  </>
-                }
-                compact
-                layout="row"
-                className={styles.palettes}
-                value={String(pal)}
-                onValueChange={(v) => upd({ pal: Number(v) })}
-                options={pals.map((p, i) => ({
-                  value: String(i),
-                  label: (
-                    <span className={styles.palOption}>
-                      <span className={styles.swatches} aria-hidden="true">
-                        {p.colors.map((c, j) => (
-                          <span key={j} style={{ background: c }} />
-                        ))}
-                      </span>
-                      {p.name}
-                    </span>
-                  ),
-                }))}
-              />
             </aside>
           ) : null}
         </div>

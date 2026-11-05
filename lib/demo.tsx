@@ -127,7 +127,7 @@ export const AUTH_BADGE: Record<Auth, { label: string; tone: "muted" | "info" | 
   verified: { label: "Verified", tone: "ok" },
 };
 
-// ---- Motion preference for the pattern covers, hero cutouts, and How it works path ----
+// ---- Motion preference for the patterns, hero cutouts, and How it works path ----
 
 const MOTION_KEY = "tme-motion";
 const motionListeners = new Set<() => void>();

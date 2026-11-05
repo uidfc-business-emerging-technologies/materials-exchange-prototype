@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { detailFor, byId, resourceHref } from "@/lib/data";
 import { SUBMISSIONS, type Submission } from "@/lib/admin-data";
-import { PATTERN_LABEL, patternSlugFor } from "@/lib/pattern";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Select, TextField } from "@/components/ui/controls";
@@ -208,14 +207,7 @@ export function SubmissionReview({ id }: { id: string }) {
               <dt>Tools and topics</dt>
               <dd>{d.tools.join(", ") + (genai ? " · monthly close, internal controls, AI governance" : "")}</dd>
               <dt>Cover</dt>
-              <dd className={s.coverLine}>
-                {PATTERN_LABEL[patternSlugFor(d.d)]} pattern, Illini palette
-                <span className={s.swatches} aria-hidden="true">
-                  <span style={{ background: "#13294B" }} />
-                  <span style={{ background: "#FF5F05" }} />
-                  <span style={{ background: "#5C0E41" }} />
-                </span>
-              </dd>
+              <dd>Placeholder watercolor. The material gets its own cover when it&apos;s published.</dd>
               {d.objectives.length ? (
                 <>
                   <dt>Objectives</dt>
