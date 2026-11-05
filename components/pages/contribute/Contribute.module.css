@@ -130,10 +130,7 @@
   list-style: none;
 }
 
-/*
- * A segment of the bar on top, then the step's picture, centered in its box, and below it the
- * step's number in its own circle beside its name. The whole item is a button.
- */
+/* A segment of the bar on top, then the step's number and name. The whole item is a button. */
 .stepItem {
   border-top: 4px solid var(--border);
 }
@@ -144,15 +141,12 @@
 
 .stepBtn {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
   width: 100%;
-  padding: 14px 4px 4px;
+  padding: 10px 0 4px;
   border: 0;
   background: none;
   color: var(--text-3);
-  text-align: center;
+  text-align: left;
 }
 
 .stepBtn:focus-visible {
@@ -164,32 +158,9 @@
   box-shadow: var(--focus-ring);
 }
 
-/* Steps ahead are a little quieter; the current and earlier steps are in full color. */
-.stepArt {
-  width: clamp(44px, 5.4vw, 60px);
-  filter: drop-shadow(0 3px 6px rgba(19, 41, 75, 0.16)) saturate(0.55);
-  opacity: 0.6;
-  transition:
-    translate 0.2s ease,
-    opacity 0.2s ease,
-    filter 0.2s ease;
-}
-
-.stepDone .stepArt,
-.stepCurrent .stepArt,
-.stepBtn:hover .stepArt {
-  filter: drop-shadow(0 3px 6px rgba(19, 41, 75, 0.16));
-  opacity: 1;
-}
-
-.stepBtn:hover .stepArt {
-  translate: 0 -2px;
-}
-
 .stepLabel {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   min-height: 24px;
   font-size: 14px;
@@ -1471,42 +1442,28 @@
   font-weight: 600;
 }
 
-/* One card per statement, two to a row where there's room: checkbox and statement, then its watercolor. */
+/*
+ * One row per statement, two to a row where there's room: checkbox, statement, then its
+ * watercolor. No cards: space and a thin line above each row set them apart.
+ */
 .attestList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 12px;
-  margin-top: 14px;
+  column-gap: clamp(24px, 4vw, 48px);
+  margin-top: 12px;
 }
 
-.attestList .attestCard {
+.attestList .attestItem {
   align-items: center;
-  min-height: 108px;
-  padding: 12px 12px 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: #fff;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
   line-height: 1.4;
-  transition:
-    border-color 0.15s ease,
-    background-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.attestList .attestCard:hover {
-  border-color: var(--border-strong);
-}
-
-/* Checked: a navy edge and a faint blue wash. */
-.attestList .attestOn {
-  border-color: var(--navy);
-  background: color-mix(in srgb, var(--action) 5%, #fff);
-  box-shadow: inset 0 0 0 1px var(--navy);
 }
 
 .attestArt {
   display: block;
-  width: 84px;
+  width: 76px;
 }
 
 .awards {
@@ -1594,9 +1551,10 @@
     gap: 4px;
   }
 
-  /* On a phone, the pictures and numbers name the steps; only the current step shows its name, under its number. */
+  /* On a phone, the numbers name the steps; only the current step shows its name, under its number. */
   .stepLabel {
     flex-direction: column;
+    align-items: flex-start;
     gap: 4px;
     font-size: 13px;
   }
@@ -1616,6 +1574,7 @@
     height: auto;
     overflow: visible;
     clip: auto;
+    white-space: nowrap;
   }
 
   .attestArt {

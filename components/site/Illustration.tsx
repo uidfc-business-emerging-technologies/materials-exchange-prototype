@@ -29,7 +29,7 @@ export const HERO_OBJECTS = [
 export const STAT_OBJECTS = ["stat-resources", "stat-institutions", "stat-instructors"] as const;
 /** Frosted objects that float beside the call to action above the footer. */
 export const CTA_OBJECTS = ["cta-cap", "cta-plane"] as const;
-/** One photo cutout per step of the contribute form, shown in its progress bar. */
+/** One photo cutout per step of the contribute form. Not on the site right now (the progress bar is plain); kept for reuse. */
 export const STEP_OBJECTS = ["step-files", "step-basics", "step-authors", "step-license", "step-review"] as const;
 /**
  * Watercolors on the About page. The first three are 3:2; the rest are square. `about-bif` is the

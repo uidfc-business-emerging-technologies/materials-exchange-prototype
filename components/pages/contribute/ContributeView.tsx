@@ -56,7 +56,7 @@ import { Checkbox, RadioCards, Select, TextField } from "@/components/ui/control
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
 import { AuthorAvatar } from "@/components/site/AuthorAvatar";
-import { Illustration, STEP_OBJECTS, type IllustrationName } from "@/components/site/Illustration";
+import { Illustration, type IllustrationName } from "@/components/site/Illustration";
 import { MaterialCover } from "@/components/site/MaterialCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Contribute.module.css";
@@ -135,7 +135,7 @@ const GATED = ["Teaching note", "Solution"];
 const ROLES = ["Case", "Dataset", "Teaching note", "Solution", "Exhibit", "Slides", "Starter file", "Instructions", "Other"];
 const LEVELS = ["Introductory undergraduate", "Upper undergraduate", "Graduate", "MBA"];
 const STEP_LABELS = ["Files", "Basics", "Authors", "License", "Review"];
-/** Each step's icon, on the button that continues to it. Matches the step's picture. */
+/** Each step's icon, on the button that continues to it. */
 const STEP_ICONS = [FolderOpen, Tag, Users, Stamp, Glasses];
 /** `rec` marks the default license, picked for you. */
 const LICENSES: { code: LicenseName; name: string; rec?: boolean; text: string }[] = [
@@ -559,9 +559,8 @@ export function ContributeView() {
               const current = n === s.n;
               return (
                 <li key={label} className={[styles.stepItem, done || current ? styles.stepOn : ""].join(" ")}>
-                  {/* The picture, centered in the step's box, then the step's number in its own circle beside its name. */}
+                  {/* The step's number in its own circle, then its name. */}
                   <button type="button" className={[styles.stepBtn, current ? styles.stepCurrent : "", done ? styles.stepDone : ""].join(" ")} aria-current={current ? "step" : undefined} onClick={() => goTo(n)}>
-                    <Illustration name={STEP_OBJECTS[i]} className={styles.stepArt} eager />
                     <span className={styles.stepLabel}>
                       <span aria-hidden="true" className={styles.stepNum}>
                         {done ? <Check size={13} strokeWidth={3} /> : <span className={styles.stepDigit}>{n}</span>}
@@ -1358,7 +1357,7 @@ export function ContributeView() {
                   </div>
                 </div>
 
-                {/* Each statement is a card: the whole card, picture included, is the checkbox's label. */}
+                {/* Each statement is a row with its picture, set apart by space and a thin line; the whole row is the checkbox's label. */}
                 <fieldset id="attest" tabIndex={-1} className={styles.attest}>
                   <legend className={styles.attestTitle}>Before you submit</legend>
                   <p className={styles.help}>
@@ -1372,7 +1371,7 @@ export function ContributeView() {
                         checked={s.attest[i]}
                         onCheckedChange={(v) => upd((st) => ({ attest: st.attest.map((x, j) => (j === i ? v : x)) }))}
                         trailing={<Illustration name={t.art} className={styles.attestArt} />}
-                        className={[styles.attestCard, s.attest[i] ? styles.attestOn : ""].join(" ")}
+                        className={styles.attestItem}
                       >
                         {t.text}
                       </Checkbox>

@@ -132,7 +132,7 @@ The same photo style is used in a few more places:
 - **Disciplines:** each tile in Browse by discipline is a cutout (`disc-fin.webp` and so on) instead of a pattern.
 - **Materials:** the first eleven resources have three cutouts each (`TME-0142-a.webp` to `TME-0142-c.webp`). They were on their covers and aren't on the site right now, but they're kept for reuse.
 
-- **Contribute steps:** each step in the contribute form's progress bar has a cutout (`step-files.webp` to `step-review.webp`), centered in its box, with the step's number in its own circle beside its name: solid navy for the current step, outlined for steps ahead, and a check once done. Steps ahead of the current one are a little faded. On a phone, only the current step shows its name.
+- **Contribute steps:** each step of the contribute form has a cutout (`step-files.webp` to `step-review.webp`). They were in its progress bar and aren't on the site right now, but they're kept for reuse. The progress bar is plain: a segment for each step, then the step's number in its own circle beside its name (solid navy for the current step, outlined for steps ahead, and a check once done). On a phone, only the current step shows its name.
 
 Beside the call to action above the footer, two frosted, almost-white 3D objects float on the pale blue-gray (`cta-cap.webp`, `cta-plane.webp`). Their prompts share the `FROSTED` style line.
 
@@ -141,7 +141,7 @@ The About page has loose watercolors in the style of the material covers (`about
 The same `ABOUT` style is used in two more places:
 
 - **How it works:** each of the three steps on the home page has a watercolor (`how-find-watercolor.webp` and so on). The flat illustrations they replaced (`how-find.webp` and so on) are kept.
-- **Before you submit:** at the end of the contribute form, each statement is a card with its own small watercolor (`attest-rights.webp`, `attest-privacy.webp`, `attest-company.webp`, `attest-original.webp`). The whole card is the checkbox's label, and a checked card gets a navy edge.
+- **Before you submit:** at the end of the contribute form, each statement has its own small watercolor beside it (`attest-rights.webp`, `attest-privacy.webp`, `attest-company.webp`, `attest-original.webp`). The rows aren't cards: space and a thin line above each one set them apart, and the whole row, picture included, is the checkbox's label.
 
 ### Author portraits
 
@@ -159,7 +159,7 @@ Each published material's cover (cards, list rows, its page, and thumbnails in t
 
 A material without its own cover yet, such as a new submission, shows one of four placeholder watercolors in the same style (`placeholder-1-watercolor.webp` to `placeholder-4-watercolor.webp`, `PLACEHOLDER_COVERS` in `lib/covers.ts`). The resource ID picks which one, and the contribute form's cover preview can shuffle through them; the one picked follows the submission to its page and My resources.
 
-Every cover prompt shares the `WATERCOLOR` style line and one composition line: the subject sits in a band across the middle, with empty space above and below. Covers show the whole image, scaled down to fit inside the cover's box with room on every side (`--cover-pad-x` and `--cover-pad-y` in `MaterialCover.module.css`), so a cover reads as a small picture on the pale ground. On a material's page the cover is a wide banner above the title, with the watercolor at about half the banner's width; a tall one fades out softly where the banner crops it.
+Every cover prompt shares the `WATERCOLOR` style line and one composition line: the subject sits in a band across the middle, with empty space above and below. Covers show the whole image, scaled down to fit inside the cover's box with room on every side (`--cover-pad-x` and `--cover-pad-y` in `MaterialCover.module.css`), so a cover reads as a small picture on the pale ground. On a material's page the cover is a wide banner, and the title's white panel is raised into its bottom left corner. The watercolor sits at about half the banner's width, centered in the part the panel leaves open, so the panel never hides its subject; a tall one fades out softly where the banner crops it.
 
 ```bash
 OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images that are missing

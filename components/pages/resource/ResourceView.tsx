@@ -187,7 +187,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
+      <div className={styles.top}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />

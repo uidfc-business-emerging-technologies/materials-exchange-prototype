@@ -144,7 +144,7 @@ export function LibraryView() {
         <p className={styles.where}>Frosted objects that float beside the call to action above the footer (the <code>FROSTED</code> style line), saved 400px wide.</p>
         <Objects names={CTA_OBJECTS} />
         <h3 className={styles.h3}>Contribute steps</h3>
-        <p className={styles.where}>One for each step in the progress bar at the top of the contribute form.</p>
+        <p className={styles.where}>One for each step of the contribute form. They were in its progress bar and aren&apos;t on the site right now, but they&apos;re kept for reuse.</p>
         <Objects names={STEP_OBJECTS} />
         <h3 className={styles.h3}>Materials</h3>
         <p className={styles.where}>Three each for the first eleven materials. Not on the site right now.</p>
