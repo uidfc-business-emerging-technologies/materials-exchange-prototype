@@ -132,13 +132,18 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.more:hover {
+  text-decoration: underline;
 }
 
 .results {
   flex: 1;
   min-width: 0;
+  /* A new page scrolls back to the top of the results, with a little room above. */
+  scroll-margin-top: 24px;
 }
 
 .toolbar {
@@ -209,8 +214,11 @@
   font-size: 14.5px;
   font-weight: 600;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.clear:hover {
+  text-decoration: underline;
 }
 
 .grid {
@@ -228,6 +236,67 @@
 
 .refreshing {
   opacity: 0.45;
+}
+
+/* ---------- Pages: previous and next on the ends, a square per page between them ---------- */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-top: 32px;
+}
+
+.pagerList {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagerStep,
+.pagerPage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pagerStep {
+  gap: 6px;
+  padding: 0 14px;
+}
+
+.pagerPage {
+  min-width: 44px;
+  padding: 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pagerStep:hover:not(:disabled),
+.pagerPage:hover:not(.pagerOn) {
+  border-color: var(--navy);
+  background: var(--action-tint);
+}
+
+.pagerOn {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
+}
+
+.pagerStep:disabled {
+  border-color: var(--border);
+  color: var(--text-5);
+  cursor: default;
 }
 
 .empty {
@@ -297,9 +366,12 @@
   background: none;
   font-size: 16px;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
   text-align: left;
+}
+
+.tryLink:hover {
+  text-decoration: underline;
 }
 
 /* ---------- Phone filter sheet ---------- */

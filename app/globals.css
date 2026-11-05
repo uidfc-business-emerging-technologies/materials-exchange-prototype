@@ -103,8 +103,18 @@ button {
   cursor: pointer;
 }
 
-a {
+/*
+ * Text links have no underline. One appears while the pointer is over a link. Both rules have no
+ * specificity, so any component that styles its own links (buttons, cards, the header menu) wins.
+ */
+:where(a) {
   color: var(--action);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+:where(a:hover) {
+  text-decoration: underline;
 }
 
 h1,

@@ -175,7 +175,7 @@ function EmailFrame({ t, phone }: { t: EmailTemplate; phone: boolean }) {
           </p>
         ) : null}
         <p>
-          UI-Deloitte Foundation Center for Business Emerging Technologies
+          {SITE.center}
           <br />
           Gies College of Business, University of Illinois Urbana-Champaign
         </p>

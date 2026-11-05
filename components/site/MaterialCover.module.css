@@ -1,5 +1,11 @@
-/* The caller sets the size and shape; the image fills it, cropped to fit. The watercolor is transparent, so the ground shows around it. */
+/*
+ * The caller sets the size and shape. The watercolor sits inside it, scaled to fit with room on
+ * every side (`--cover-pad-x` and `--cover-pad-y`), so it reads as a small picture on a pale
+ * ground. It's transparent, so the ground shows around and through it.
+ */
 .cover {
+  --pad-x: var(--cover-pad-x, 14%);
+  --pad-y: var(--cover-pad-y, 10%);
   position: relative;
   display: block;
   overflow: hidden;
@@ -8,8 +14,9 @@
 
 .image {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: var(--pad-y);
+  left: var(--pad-x);
+  width: calc(100% - 2 * var(--pad-x));
+  height: calc(100% - 2 * var(--pad-y));
+  object-fit: contain;
 }

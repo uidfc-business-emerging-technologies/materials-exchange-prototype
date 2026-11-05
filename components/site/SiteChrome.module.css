@@ -1,0 +1,15 @@
+/*
+ * The page is at least as tall as the window, and the main landmark takes up any room left over,
+ * so on a short page the footer still sits at the bottom of the window.
+ */
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1 0 auto;
+  outline: none;
+}

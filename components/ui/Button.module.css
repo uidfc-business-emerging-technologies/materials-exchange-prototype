@@ -114,14 +114,13 @@
   background: none;
   border-color: transparent;
   color: var(--action);
-  text-decoration: underline;
   text-underline-offset: 3px;
   padding-left: 6px;
   padding-right: 6px;
 }
 
 .quiet:hover {
-  text-decoration-thickness: 2px;
+  text-decoration: underline;
 }
 
 .btn:disabled,

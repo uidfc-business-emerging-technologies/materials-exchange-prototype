@@ -30,58 +30,62 @@
   text-wrap: balance;
 }
 
+/* The form draws the field's border, and the Search button sits inside it on the right. */
 .heroSearch {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+  height: 64px;
   margin-top: clamp(20px, 2.2vw, 28px);
+  padding: 6px;
+  border: 1px solid var(--navy);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.heroSearch:has(.heroInput:focus-visible) {
+  box-shadow: var(--focus-ring);
 }
 
 .heroField {
   flex: 1;
   min-width: 0;
-  position: relative;
   display: flex;
-}
-
-.heroIcon {
-  position: absolute;
-  left: 16px;
-  top: 18px;
-  color: var(--text-4);
-  pointer-events: none;
+  align-self: stretch;
 }
 
 .heroInput {
   flex: 1;
   min-width: 0;
-  height: 56px;
-  padding: 0 16px 0 46px;
-  border: 1px solid var(--navy);
-  border-radius: var(--radius);
+  padding: 0 10px 0 12px;
+  border: 0;
+  background: none;
   font-size: 17px;
   color: var(--ink);
   outline: none;
 }
 
 .heroInput:focus-visible {
-  box-shadow: var(--focus-ring);
+  box-shadow: none;
 }
 
 .heroButton {
   flex: none;
-  height: 56px;
-  padding: 0 clamp(16px, 2vw, 26px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 0 clamp(14px, 1.8vw, 22px);
   border-radius: var(--radius);
-  border: 1px solid var(--orange);
+  border: 0;
   background: var(--orange);
   color: #fff;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .heroButton:hover {
   background: var(--orange-dark);
-  border-color: var(--orange-dark);
 }
 
 .tries {
@@ -163,9 +167,10 @@
 
 .h2 {
   font-family: var(--font-display);
-  font-size: clamp(26px, 2.5vw, 32px);
+  font-size: clamp(32px, 3.4vw, 44px);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
 }
 
 .seeAll {
@@ -195,11 +200,16 @@
   list-style: none;
 }
 
-/* No box around each discipline: the grid draws lines between them, and the picture takes the focus ring. */
+/*
+ * No box around each discipline: the grid draws lines between them, and the picture takes the focus
+ * ring. The grid clips at its edges, so the padding keeps the picture's shadow and its hover lift
+ * inside the item.
+ */
 .discipline {
   display: flex;
   align-items: center;
   gap: 14px;
+  padding: 6px 0 16px;
   color: var(--ink);
   text-decoration: none;
 }
@@ -260,10 +270,12 @@
   color: var(--text-4);
 }
 
-/* ---------- A decorative band of Kerf blocks, edge to edge, with plenty of room above and below ---------- */
+/* ---------- A decorative band of faint Curl loops, edge to edge, fading in at the top and out at the bottom ---------- */
 .band {
-  height: clamp(120px, 13vw, 192px);
+  height: clamp(224px, 26vw, 384px);
   margin: clamp(80px, 10vw, 144px) 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 65%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 65%, transparent 100%);
 }
 
 .bandPattern {
@@ -403,7 +415,7 @@
 .stepTitle {
   font-family: var(--font-sans);
   font-size: clamp(20px, 1.8vw, 23px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -670,9 +682,25 @@
   }
 }
 
+/* On a phone the button keeps only its icon, so the field has room; "Search" stays its name. */
 @media (max-width: 480px) {
   .heroSearch {
-    gap: 8px;
+    gap: 4px;
+  }
+
+  .heroButton {
+    width: 52px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .heroButtonText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 }
 

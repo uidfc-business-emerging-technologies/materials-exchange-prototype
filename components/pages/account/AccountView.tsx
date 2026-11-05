@@ -11,6 +11,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/controls";
 import { infoToast, toast } from "@/components/ui/overlays";
 import { Illustration } from "@/components/site/Illustration";
+import { CategoryLine } from "@/components/site/CategoryLinks";
 import { MaterialCover } from "@/components/site/MaterialCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Account.module.css";
@@ -219,7 +220,7 @@ export function AccountView() {
                     <MaterialCover id={r.id} discipline={r.d} className={styles.thumb} cellSize={18} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
-                        {r.type} · {r.discipline}
+                        <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
                       </span>
                       <Link href={resourceHref(id)} className={styles.rowTitle}>
                         {r.title}
@@ -280,7 +281,7 @@ export function AccountView() {
                     <MaterialCover id={m.id} discipline={m.d} className={styles.thumb} cellSize={18} sizes="72px" />
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
-                        {m.type} · {m.discipline}
+                        <CategoryLine type={m.type} discipline={m.discipline} d={m.d} className={styles.kickerLink} />
                       </span>
                       <span className={styles.rowTitleStatic}>{m.title}</span>
                       <span className={styles.statusLine}>

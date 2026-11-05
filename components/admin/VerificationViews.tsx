@@ -264,7 +264,7 @@ export function VerificationDetail({ id }: { id: string }) {
                 System label <Badge tone={labelTone}>{c.label}</Badge>
               </span>
               <a href="#open" className={a.breadcrumb} onClick={(e) => (e.preventDefault(), infoToast(c.doc ? "Opens the uploaded document." : "Opens the faculty page in a new tab."))}>
-                <span style={{ color: "var(--action)", textDecoration: "underline", fontWeight: 600 }}>{c.doc ? "Open the document" : "Open the page"}</span>
+                <span style={{ color: "var(--action)", fontWeight: 600 }}>{c.doc ? "Open the document" : "Open the page"}</span>
                 <ExternalLink size={14} aria-hidden className={a.info} />
               </a>
             </div>

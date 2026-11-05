@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { coverFiles } from "@/lib/covers";
 import { allResources, AUTHORS, authorHref, authorPhoto, authorSlug, disciplines, resourceHref } from "@/lib/data";
-import { CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, STAT_OBJECTS } from "@/components/site/Illustration";
+import { CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, STAT_OBJECTS, STEP_OBJECTS } from "@/components/site/Illustration";
 import styles from "./Library.module.css";
 
 const MATERIALS = allResources()
@@ -107,6 +107,9 @@ export function LibraryView() {
         <h3 className={styles.h3}>Call to action</h3>
         <p className={styles.where}>Frosted objects that float beside the call to action above the footer (the <code>FROSTED</code> style line), saved 400px wide.</p>
         <Objects names={CTA_OBJECTS} />
+        <h3 className={styles.h3}>Contribute steps</h3>
+        <p className={styles.where}>One for each step in the progress bar at the top of the contribute form.</p>
+        <Objects names={STEP_OBJECTS} />
         <h3 className={styles.h3}>Materials</h3>
         <p className={styles.where}>Three each for the first eleven materials. Not on the site right now.</p>
         {WITH_CUTOUTS.map((r) => (

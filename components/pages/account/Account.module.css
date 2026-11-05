@@ -214,6 +214,10 @@
   gap: 3px;
 }
 
+.kickerLink {
+  color: inherit;
+}
+
 .kicker {
   font-size: 13px;
   font-weight: 600;

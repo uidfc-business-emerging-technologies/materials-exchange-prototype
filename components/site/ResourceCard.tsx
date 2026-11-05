@@ -3,6 +3,7 @@ import Link from "next/link";
 import { authorHref, resourceHref, type Resource } from "@/lib/data";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { AuthorStack } from "./AuthorAvatar";
+import { CategoryLine } from "./CategoryLinks";
 import { MaterialCover } from "./MaterialCover";
 import styles from "./ResourceCard.module.css";
 
@@ -47,7 +48,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
         <MaterialCover id={r.id} discipline={r.d} className={styles.listCover} cellSize={24} sizes="(max-width: 640px) 72px, 144px" />
         <div className={styles.listBody}>
           <span className={styles.kicker}>
-            {r.type} · {r.discipline}
+            <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
           </span>
           <H className={styles.listTitle}>
             <Link href={link} className={styles.titleLink}>
@@ -112,7 +113,7 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
       <MaterialCover id={r.id} discipline={r.d} className={styles.cover} sizes="(max-width: 640px) 100vw, 400px" />
       <div className={styles.body}>
         <span className={styles.kicker}>
-          {r.type} · {r.discipline}
+          <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
         </span>
         <H className={styles.title}>
           <Link href={link} className={styles.titleLink}>

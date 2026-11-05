@@ -9,15 +9,6 @@ import { infoToast } from "@/components/ui/overlays";
 import { Mark } from "./Mark";
 import styles from "./SiteFooter.module.css";
 
-/** Logo placeholder: real university artwork comes later and needs approval. */
-export function LogoPlaceholder({ label = "University logo", width = 132, height = 44 }: { label?: string; width?: number; height?: number }) {
-  return (
-    <span className={styles.logo} style={{ width, height }}>
-      {label}
-    </span>
-  );
-}
-
 /** Footer link columns. A link without an href is a page the prototype doesn't have yet. */
 const COLUMNS: { title: string; links: { label: string; href?: string }[] }[] = [
   {
@@ -29,14 +20,14 @@ const COLUMNS: { title: string; links: { label: string; href?: string }[] }[] = 
       { label: "Image library", href: "/library" },
     ],
   },
-  { title: "About", links: [{ label: "About the exchange" }, { label: "Licenses", href: "/licenses" }, { label: "Accessibility" }] },
+  { title: "About", links: [{ label: "About the exchange", href: "/about" }, { label: "Licenses", href: "/licenses" }, { label: "Accessibility" }] },
   { title: "Support", links: [{ label: "Contact" }, { label: "Terms" }, { label: "Privacy" }, { label: "Admin", href: "/admin" }] },
 ];
 
 /**
- * Site footer: the mark and the center's name, link columns, a status pill, and a closing row with
- * the college and the animation switch. It sits on the pale blue-gray the home page's call to
- * action fades into; on other pages it fades in from white itself.
+ * Site footer: the mark and the center's name, link columns, and a closing row with a status pill
+ * and the animation switch. It sits on the pale blue-gray the home page's call to action fades
+ * into; on other pages it fades in from white itself.
  */
 export function SiteFooter() {
   const { paused, reduced } = useMotionPaused();
@@ -52,7 +43,6 @@ export function SiteFooter() {
           <p className={styles.center}>
             <a href={SITE.centerUrl}>{SITE.center}</a>
           </p>
-          <LogoPlaceholder />
         </div>
         <nav aria-label="Footer" className={styles.columns}>
           {COLUMNS.map((c) => (
@@ -84,12 +74,11 @@ export function SiteFooter() {
           ))}
         </nav>
       </div>
-      <p className={styles.status}>
-        <span aria-hidden="true" className={styles.dot} />
-        Prototype with fictional sample content
-      </p>
       <div className={styles.bottom}>
-        <p>{SITE.college}</p>
+        <p className={styles.status}>
+          <span aria-hidden="true" className={styles.dot} />
+          Prototype with fictional sample content
+        </p>
         {!reduced ? (
           <button type="button" className={styles.motion} aria-pressed={paused} onClick={() => setMotionPaused(!paused)}>
             {paused ? <Play size={14} aria-hidden /> : <Pause size={14} aria-hidden />}

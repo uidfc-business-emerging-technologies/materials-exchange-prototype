@@ -20,7 +20,7 @@ export interface MaterialCoverProps extends Pick<PatternCoverProps, "cellSize" |
 
 /**
  * MaterialCover: a material's cover, sized and shaped by `className`. A published material shows
- * its watercolor (lib/covers.ts) on a soft ground, cropped to fit. Anything else, like a new
+ * its watercolor (lib/covers.ts) small on a soft ground, scaled to fit. Anything else, like a new
  * submission, shows a Tabbied pattern in the contributor's palette or neutral grays. Decorative and
  * hidden from assistive technology.
  */
