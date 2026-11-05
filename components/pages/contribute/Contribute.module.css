@@ -130,8 +130,8 @@
   list-style: none;
 }
 
+/* A segment of the bar on top, then the step's picture and name. The whole item is a button. */
 .stepItem {
-  padding-top: 12px;
   border-top: 4px solid var(--border);
 }
 
@@ -139,83 +139,74 @@
   border-top-color: var(--navy);
 }
 
-.stepBtn,
+.stepBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 0 4px;
+  border: 0;
+  background: none;
+  color: var(--text-3);
+  text-align: left;
+}
+
+.stepBtn:focus-visible {
+  box-shadow: none;
+}
+
+.stepBtn:focus-visible .stepLabel {
+  border-radius: 2px;
+  box-shadow: var(--focus-ring);
+}
+
+/* Steps ahead are a little quieter; the current and earlier steps are in full color. */
+.stepArt {
+  width: clamp(44px, 5.4vw, 60px);
+  filter: drop-shadow(0 3px 6px rgba(19, 41, 75, 0.16)) saturate(0.55);
+  opacity: 0.6;
+  transition:
+    translate 0.2s ease,
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+.stepDone .stepArt,
+.stepCurrent .stepArt,
+.stepBtn:hover .stepArt {
+  filter: drop-shadow(0 3px 6px rgba(19, 41, 75, 0.16));
+  opacity: 1;
+}
+
+.stepBtn:hover .stepArt {
+  translate: 0 -2px;
+}
+
 .stepLabel {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   min-height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
   font-size: 14px;
-  color: var(--text-3);
-  text-align: left;
 }
 
-.stepBtn {
-  color: var(--ink);
-}
-
-.stepBtn svg {
+.stepLabel svg {
   color: var(--action);
 }
 
-.stepBtn:hover {
+.stepDone {
+  color: var(--ink);
+}
+
+.stepBtn:hover .stepLabel {
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .stepCurrent {
   font-weight: 600;
   color: var(--ink);
-}
-
-/* ---------- Errors ---------- */
-.errorSummary {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  max-width: 720px;
-  margin-top: 28px;
-  padding: 16px 18px;
-  background: var(--danger-tint);
-  border: 1px solid var(--danger);
-  border-radius: var(--radius-md);
-  outline: none;
-}
-
-.errorSummary:focus-visible {
-  box-shadow: var(--focus-ring);
-}
-
-.errorIcon {
-  flex: none;
-  margin-top: 1px;
-  color: var(--danger);
-}
-
-.errorTitle {
-  font-weight: 600;
-}
-
-.errorList {
-  margin: 6px 0 0;
-  padding-left: 18px;
-}
-
-.errorList a {
-  color: var(--danger);
-  font-size: 15px;
-}
-
-.inlineError {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  font-size: 14.5px;
-  font-weight: 500;
-  color: var(--danger);
 }
 
 /* ---------- Layout ---------- */
@@ -1469,16 +1460,20 @@
     gap: 4px;
   }
 
-  .stepBtn,
+  /* On a phone, the pictures name the steps; only the current step keeps its name. */
+  .stepBtn {
+    align-items: center;
+  }
+
   .stepLabel {
     font-size: 0;
   }
 
-  .stepCurrent {
+  .stepCurrent .stepLabel {
     font-size: 13px;
   }
 
-  .stepBtn svg {
+  .stepLabel svg {
     width: 14px;
   }
 

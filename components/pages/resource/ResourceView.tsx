@@ -187,7 +187,7 @@ export function ResourceView({ id }: { id: string }) {
 
   return (
     <>
-      <div className={[styles.top, hasMaterialImage(res.id) ? styles.topImage : ""].join(" ")}>
+      <div className={styles.top}>
         {isAuthor ? (
           <div role="status" className={styles.reviewBanner}>
             <Clock size={20} aria-hidden className={styles.reviewIcon} />
@@ -206,7 +206,7 @@ export function ResourceView({ id }: { id: string }) {
           <ChevronRight size={14} aria-hidden />
           <Link href={"/browse?disc=" + encodeURIComponent(filterDisc)}>{res.discipline}</Link>
         </nav>
-        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 1280px) 100vw, 1200px" />
+        <MaterialCover id={res.id} discipline={res.d} seed={(res as ResourceDetail & { seed?: string }).seed} palette={(res as ResourceDetail & { palette?: string[] }).palette} className={styles.cover} cellSize={36} sizes="(max-width: 860px) 320px, 360px" />
 
         <div className={styles.titlePanel}>
           <div className={styles.kickerRow}>
@@ -375,7 +375,11 @@ export function ResourceView({ id }: { id: string }) {
             <h2 id="about-h" className={styles.h2}>
               {res.aboutTitle}
             </h2>
-            <p className={styles.about}>{res.about}</p>
+            {res.about.map((para) => (
+              <p key={para} className={styles.about}>
+                {para}
+              </p>
+            ))}
             {hasMaterialImage(res.id) ? (
               <div className={styles.figure}>
                 <Illustration name={res.id} className={styles.figureArt} />

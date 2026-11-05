@@ -7,7 +7,6 @@ import {
   ArrowRight,
   ArrowUp,
   Check,
-  CircleAlert,
   CircleCheck,
   CircleX,
   Clock,
@@ -23,6 +22,7 @@ import {
   ShieldCheck,
   Shuffle,
   Sparkles,
+  Star,
   Trash2,
   TriangleAlert,
   Trophy,
@@ -40,7 +40,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Checkbox, RadioCards, Select, TextField } from "@/components/ui/controls";
 import { DataIcon } from "@/components/ui/DataIcon";
 import { infoToast } from "@/components/ui/overlays";
-import { Illustration } from "@/components/site/Illustration";
+import { Illustration, STEP_OBJECTS } from "@/components/site/Illustration";
 import { PatternCover } from "@/components/site/PatternCover";
 import { signInHref } from "@/components/site/SiteHeader";
 import styles from "./Contribute.module.css";
@@ -102,7 +102,6 @@ interface State {
   topicDraft: string;
   authors: AuthorRow[];
   corresponding: string;
-  showErrors: boolean;
   nextId: number;
   uploads: Upload[];
   ai: Partial<Record<AiKey, boolean | "check">>;
@@ -114,6 +113,7 @@ const GATED = ["Teaching note", "Solution"];
 const ROLES = ["Case", "Dataset", "Teaching note", "Solution", "Exhibit", "Slides", "Starter file", "Instructions", "Other"];
 const LEVELS = ["Introductory undergraduate", "Upper undergraduate", "Graduate", "MBA"];
 const STEP_LABELS = ["Files", "Basics", "Authors", "License", "Review"];
+/** `rec` marks the default license, picked for you. */
 const LICENSES: { code: LicenseName; name: string; rec?: boolean; text: string }[] = [
   { code: "CC BY 4.0", name: "Attribution", rec: true, text: "Others can share and adapt your work for any purpose, including commercial use, as long as they credit you." },
   { code: "CC BY-NC 4.0", name: "Attribution-NonCommercial", text: "Others can share and adapt your work with credit, but not for commercial purposes." },
@@ -255,7 +255,6 @@ export function ContributeView() {
     topicDraft: "",
     authors: [{ id: "me", name: me.name, you: true, title: me.title, inst: me.inst, link: "" }],
     corresponding: "me",
-    showErrors: false,
     nextId: 20,
     uploads: [],
     ai: {},
@@ -267,7 +266,6 @@ export function ContributeView() {
   const upd = (patch: Partial<State> | ((st: State) => Partial<State>)) => setS((st) => ({ ...st, ...(typeof patch === "function" ? patch(st) : patch) }));
   const fileRef = useRef<HTMLInputElement>(null);
   const readTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const summaryRef = useRef<HTMLDivElement>(null);
   const uploading = s.uploads.some((f) => f.status === "uploading");
 
   // Simulated upload progress.
@@ -288,8 +286,12 @@ export function ContributeView() {
   useEffect(() => () => clearTimeout(readTimer.current), []);
 
   const scrollTop = () => window.scrollTo({ top: 0 });
+  /**
+   * A prototype, so nothing is checked: any step can be opened from the progress bar at any time.
+   * Leaving Authors closes any author still being edited.
+   */
   const goTo = (n: number) => {
-    upd({ n, showErrors: false });
+    upd((st) => ({ n, authors: st.n === 3 && n !== 3 ? st.authors.map((a) => ({ ...a, editing: false, isNew: false })) : st.authors }));
     scrollTop();
   };
 
@@ -320,7 +322,6 @@ export function ContributeView() {
       nextId: s.nextId + files.length,
       phase: first ? (s.autofill ? "reading" : "uploaded") : s.phase,
       readStep: first ? 0 : s.readStep,
-      showErrors: false,
       dragOver: false,
     });
     if (first && s.autofill) read();
@@ -329,31 +330,6 @@ export function ContributeView() {
   const updFile = (id: number, patch: Partial<Upload>) => upd((st) => ({ uploads: st.uploads.map((f) => (f.id === id ? { ...f, ...patch } : f)) }));
   const updAuthor = (i: number, patch: Partial<AuthorRow>) => upd((st) => ({ authors: st.authors.map((a, j) => (j === i ? { ...a, ...patch } : a)) }));
   const unAi = (k: AiKey) => (st: State) => ({ ai: { ...st.ai, [k]: false } });
-
-  const focusId = (id: string) => (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    document.getElementById(id)?.focus();
-  };
-
-  const errorsFor = (n: number) => {
-    const out: { text: string; go: (e?: React.MouseEvent) => void }[] = [];
-    if (n === 1) {
-      if (!s.uploads.length) out.push({ text: "Add at least one file", go: focusId("c-drop") });
-      if (s.phase === "reading") out.push({ text: "Wait while we finish reading your files", go: focusId("c-drop") });
-      s.uploads.filter((f) => f.status === "rejected").forEach((f) => out.push({ text: "Remove " + f.name + ", which can't be shared", go: focusId("up-" + f.id) }));
-      s.uploads.filter((f) => f.status === "uploading").forEach((f) => out.push({ text: "Wait for " + f.name + " to finish uploading", go: focusId("up-" + f.id) }));
-      if (s.phase !== "reading") s.uploads.filter((f) => f.final !== "rejected" && f.status !== "uploading" && !f.role).forEach((f) => out.push({ text: "Choose a role for " + f.name, go: focusId("up-" + f.id) }));
-    }
-    if (n === 2) {
-      if (!s.title.trim()) out.push({ text: "Enter a title", go: focusId("c-title") });
-      if (!s.discs.length) out.push({ text: "Choose at least one discipline", go: focusId("c-disc") });
-      if (!s.summary.trim()) out.push({ text: "Enter a summary", go: focusId("c-sum") });
-      if (!s.objectives.some((o) => o.trim())) out.push({ text: "Add at least one learning objective", go: focusId("c-obj-0") });
-    }
-    if (n === 3) s.authors.forEach((a, i) => !a.name.trim() && out.push({ text: "Enter a name for author " + (i + 1), go: focusId("a-name-" + a.id) }));
-    if (n === 5 && !s.attest.every(Boolean)) out.push({ text: "Check all four statements before you submit", go: focusId("attest") });
-    return out;
-  };
 
   const coverD: DisciplineKey = s.cover || s.discs[0] || "other";
   const pals = palettesFor(coverD);
@@ -397,7 +373,7 @@ export function ContributeView() {
       title,
       summary: s.summary,
       byline,
-      about: s.summary,
+      about: [s.summary],
       meta: (status === "review" ? "Submitted" : "Published") + " October 2026 · Version 1 · " + lic,
       objectives: s.objectives.filter((o) => o.trim()),
       time: s.time,
@@ -409,7 +385,7 @@ export function ContributeView() {
       totalAll: files.length + " files",
       allLabel: "Download all " + files.length + " files",
       allMeta: "One ZIP file",
-      publicMeta: pub + " files in one ZIP",
+      publicMeta: pub + (pub === 1 ? " file" : " files") + " in one ZIP",
       cite: { lead: apaStr + " (2026). ", italic: title.charAt(0) + title.slice(1).toLowerCase(), tail: " (Version 1) [Teaching " + s.type.toLowerCase() + "]. Teaching Materials Exchange." + (status === "review" ? "" : " https://tme.illinois.edu/r/0171") },
       citeNote: status === "review" ? "The link is added when this is published." : "",
       license: lic,
@@ -422,13 +398,6 @@ export function ContributeView() {
   };
 
   const next = () => {
-    if (errorsFor(s.n).length) {
-      upd({ showErrors: true });
-      scrollTop();
-      setTimeout(() => summaryRef.current?.focus(), 0);
-      return;
-    }
-    if (s.n === 3) upd((st) => ({ authors: st.authors.map((a) => ({ ...a, editing: false, isNew: false })) }));
     if (s.n === 5) {
       const result = "review";
       demo.set({ submitted: { status: result, detail: buildDetail(result) } });
@@ -512,8 +481,6 @@ export function ContributeView() {
     );
   }
 
-  const errors = s.showErrors ? errorsFor(s.n) : [];
-  const err = (t: string) => errors.some((e) => e.text === t);
   const ai = s.ai;
   const anyAi = Object.values(ai).some(Boolean);
   const live = s.uploads.filter((f) => f.final !== "rejected");
@@ -539,6 +506,7 @@ export function ContributeView() {
           <p className={styles.stepNow}>
             Step {s.n} of 5: {STEP_LABELS[s.n - 1]}
           </p>
+          {/* Every step opens from here, in any order. */}
           <ol className={styles.steps}>
             {STEP_LABELS.map((label, i) => {
               const n = i + 1;
@@ -546,40 +514,19 @@ export function ContributeView() {
               const current = n === s.n;
               return (
                 <li key={label} className={[styles.stepItem, done || current ? styles.stepOn : ""].join(" ")}>
-                  {done ? (
-                    <button type="button" className={styles.stepBtn} onClick={() => goTo(n)}>
-                      <Check size={14} aria-hidden />
-                      {label}
-                      <span className="sr-only">, done</span>
-                    </button>
-                  ) : (
-                    <span className={[styles.stepLabel, current ? styles.stepCurrent : ""].join(" ")} aria-current={current ? "step" : undefined}>
+                  <button type="button" className={[styles.stepBtn, current ? styles.stepCurrent : "", done ? styles.stepDone : ""].join(" ")} aria-current={current ? "step" : undefined} onClick={() => goTo(n)}>
+                    <Illustration name={STEP_OBJECTS[i]} className={styles.stepArt} eager />
+                    <span className={styles.stepLabel}>
+                      {done ? <Check size={14} aria-hidden /> : null}
                       {n}. {label}
+                      {done ? <span className="sr-only">, done</span> : null}
                     </span>
-                  )}
+                  </button>
                 </li>
               );
             })}
           </ol>
         </nav>
-
-        {errors.length ? (
-          <div role="alert" tabIndex={-1} ref={summaryRef} className={styles.errorSummary}>
-            <CircleAlert size={20} aria-hidden className={styles.errorIcon} />
-            <div>
-              <p className={styles.errorTitle}>{errors.length === 1 ? "There is 1 problem on this step" : `There are ${errors.length} problems on this step`}</p>
-              <ul className={styles.errorList}>
-                {errors.map((e) => (
-                  <li key={e.text}>
-                    <a href="#" onClick={e.go}>
-                      {e.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ) : null}
 
         <div className={wide ? styles.basicsGrid : undefined}>
           <div className={styles.stepBody}>
@@ -861,7 +808,6 @@ export function ContributeView() {
                       label={<span className={styles.labelRow}>Title{ai.title ? <DraftedTag /> : null}</span>}
                       value={s.title}
                       onValueChange={(v) => upd((st) => ({ title: v, ...unAi("title")(st) }))}
-                      error={err("Enter a title") ? "Enter a title" : undefined}
                     />
                     {ai.title ? (
                       <>
@@ -897,7 +843,6 @@ export function ContributeView() {
                       maxLength={300}
                       value={s.summary}
                       onValueChange={(v) => upd((st) => ({ summary: v, ...unAi("summary")(st) }))}
-                      error={err("Enter a summary") ? "Enter a summary" : undefined}
                     />
                     <div className={styles.underRow}>
                       {ai.summary ? <SourceNote>Written from the introduction of {caseName}. Rewrite it in your own words if you like.</SourceNote> : <span />}
@@ -910,12 +855,6 @@ export function ContributeView() {
                       <span className={styles.labelRow}>Disciplines{ai.disc ? <DraftedTag /> : null}</span>
                     </legend>
                     <p className={styles.help}>Choose all that apply.</p>
-                    {err("Choose at least one discipline") ? (
-                      <p className={styles.inlineError}>
-                        <CircleAlert size={16} aria-hidden />
-                        Choose at least one discipline
-                      </p>
-                    ) : null}
                     <div className={styles.chips}>
                       {disciplines.map((d, i) => {
                         const on = s.discs.includes(d.d);
@@ -965,12 +904,6 @@ export function ContributeView() {
                       <span className={styles.labelRow}>Learning objectives{ai.objectives ? <DraftedTag /> : null}</span>
                     </legend>
                     {ai.objectives ? <SourceNote>From {noteName}, page 2</SourceNote> : null}
-                    {err("Add at least one learning objective") ? (
-                      <p className={styles.inlineError}>
-                        <CircleAlert size={16} aria-hidden />
-                        Add at least one learning objective
-                      </p>
-                    ) : null}
                     <ol className={styles.objectives}>
                       {s.objectives.map((o, i) => (
                         <li key={i}>
@@ -1047,7 +980,6 @@ export function ContributeView() {
                 <p className={styles.stepLead}>List everyone who should get credit, in the order they appear in the citation.</p>
                 <ol className={styles.authorList}>
                   {s.authors.map((a, i, arr) => {
-                    const nameBad = s.showErrors && !a.name.trim();
                     const corr = (
                       <label className={styles.corr}>
                         <input type="radio" name="corresponding" checked={s.corresponding === a.id} onChange={() => upd({ corresponding: a.id })} className={styles.corrInput} />
@@ -1083,7 +1015,7 @@ export function ContributeView() {
                               </div>
                             </div>
                             <div className={styles.authorFields}>
-                              <TextField id={"a-name-" + a.id} label="Full name" value={a.name} onValueChange={(v) => updAuthor(i, { name: v })} error={nameBad ? "Enter a name" : undefined} />
+                              <TextField id={"a-name-" + a.id} label="Full name" value={a.name} onValueChange={(v) => updAuthor(i, { name: v })} />
                               <TextField label="Title" optional value={a.title} onValueChange={(v) => updAuthor(i, { title: v })} />
                               <TextField label="Institution" value={a.inst} onValueChange={(v) => updAuthor(i, { inst: v })} />
                               <TextField label="Profile link" optional value={a.link} onValueChange={(v) => updAuthor(i, { link: v })} placeholder="https://" />
@@ -1091,10 +1023,7 @@ export function ContributeView() {
                             <div className={styles.corrRow}>{corr}</div>
                             <div className={styles.authorSave}>
                               <Button
-                                onClick={() => {
-                                  if (!a.name.trim()) return upd({ showErrors: true });
-                                  updAuthor(i, { editing: false, isNew: false, found: false });
-                                }}
+                                onClick={() => updAuthor(i, { editing: false, isNew: false, found: false })}
                               >
                                 {a.isNew ? "Add co-author" : "Save"}
                               </Button>
@@ -1160,8 +1089,8 @@ export function ContributeView() {
                         <span className={styles.licCode}>{l.code}</span>
                         <span className={styles.licName}>{l.name}</span>
                         {l.rec ? (
-                          <Badge tone="ok" className={styles.rec}>
-                            Recommended
+                          <Badge tone="info" icon={<Star size={14} aria-hidden />} className={styles.rec}>
+                            Default
                           </Badge>
                         ) : null}
                       </span>
@@ -1277,15 +1206,9 @@ export function ContributeView() {
                 <fieldset id="attest" tabIndex={-1} className={styles.attest}>
                   <legend className={styles.attestTitle}>Before you submit</legend>
                   <p className={styles.help}>All four are required.</p>
-                  {err("Check all four statements before you submit") ? (
-                    <p className={styles.inlineError}>
-                      <CircleAlert size={16} aria-hidden />
-                      Check all four statements to submit
-                    </p>
-                  ) : null}
                   <div className={styles.attestList}>
                     {ATTESTATIONS.map((t, i) => (
-                      <Checkbox key={t} size="md" checked={s.attest[i]} invalid={s.showErrors && !s.attest[i]} onCheckedChange={(v) => upd((st) => ({ attest: st.attest.map((x, j) => (j === i ? v : x)) }))}>
+                      <Checkbox key={t} size="md" checked={s.attest[i]} onCheckedChange={(v) => upd((st) => ({ attest: st.attest.map((x, j) => (j === i ? v : x)) }))}>
                         {t}
                       </Checkbox>
                     ))}

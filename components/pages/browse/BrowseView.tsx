@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion } from "@base-ui/react/accordion";
-import { ChevronDown, LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { filterDefs, matches, resources, type FilterKey, type Resource } from "@/lib/data";
@@ -17,6 +17,9 @@ import styles from "./Browse.module.css";
 
 type Sort = "relevance" | "newest" | "used";
 type Checked = Record<string, true>;
+
+/** Results per page. */
+const PER_PAGE = 20;
 
 const FILTER_KEYS = filterDefs.map((g) => g.key);
 const keyOf = (k: FilterKey, label: string) => k + ":" + label;
@@ -52,6 +55,32 @@ function scorer(query: string) {
   };
 }
 
+/** Previous and next, with a button for every page between them. */
+function Pager({ page, pages, onPage }: { page: number; pages: number; onPage: (p: number) => void }) {
+  return (
+    <nav aria-label="Pages" className={styles.pager}>
+      <button type="button" className={styles.pagerStep} disabled={page === 1} onClick={() => onPage(page - 1)}>
+        <ChevronLeft size={16} aria-hidden />
+        Previous
+      </button>
+      <ol className={styles.pagerList}>
+        {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+          <li key={p}>
+            <button type="button" className={[styles.pagerPage, p === page ? styles.pagerOn : ""].join(" ")} aria-current={p === page ? "page" : undefined} onClick={() => onPage(p)}>
+              <span className="sr-only">Page </span>
+              {p}
+            </button>
+          </li>
+        ))}
+      </ol>
+      <button type="button" className={styles.pagerStep} disabled={page === pages} onClick={() => onPage(page + 1)}>
+        Next
+        <ChevronRight size={16} aria-hidden />
+      </button>
+    </nav>
+  );
+}
+
 /** List rows carry their own rules; grid cards get lines between them. */
 function ResultsWrap({ list, className, ...rest }: { list: boolean } & React.HTMLAttributes<HTMLElement>) {
   return list ? <div {...rest} className={[styles.listWrap, className].filter(Boolean).join(" ")} /> : <DividedGrid {...rest} min={260} className={[styles.grid, className].filter(Boolean).join(" ")} />;
@@ -69,7 +98,9 @@ export function BrowseView() {
   const [sheet, setSheet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const firstQuery = useRef(query);
 
   const flash = (kind: "load" | "refresh") => {
@@ -86,6 +117,7 @@ export function BrowseView() {
   const paramKey = params?.toString() || "";
   useEffect(() => {
     setChecked(checkedFromParams(params));
+    setPage(1);
     if (firstQuery.current !== query) {
       firstQuery.current = query;
       flash("load");
@@ -102,7 +134,9 @@ export function BrowseView() {
     .filter((r) => pass(r))
     .sort((a, b) => (sort === "used" ? b.used - a.used : sort === "newest" ? b.added - a.added : score(b) - score(a) || b.used - a.used));
 
+  // Any change to filters or sort starts again from the first page.
   const toggle = (k: FilterKey, label: string) => {
+    setPage(1);
     setChecked((c) => {
       const next = { ...c };
       if (next[keyOf(k, label)]) delete next[keyOf(k, label)];
@@ -112,6 +146,7 @@ export function BrowseView() {
     flash("refresh");
   };
   const clearAll = () => {
+    setPage(1);
     setChecked({});
     flash("refresh");
   };
@@ -127,6 +162,15 @@ export function BrowseView() {
   const applied = groups.flatMap((g) => g.active.map((label) => ({ group: g.title, key: g.key, label })));
 
   const n = results.length;
+  const pages = Math.max(1, Math.ceil(n / PER_PAGE));
+  const current = Math.min(page, pages);
+  const first = (current - 1) * PER_PAGE;
+  const shown = results.slice(first, first + PER_PAGE);
+  const goToPage = (p: number) => {
+    setPage(p);
+    flash("refresh");
+    resultsRef.current?.scrollIntoView({ block: "start" });
+  };
   const isEmpty = n === 0 && !loading;
   const heading = query ? (loading ? `Results for “${query}”` : `${n} ${n === 1 ? "result" : "results"} for “${query}”`) : "All materials";
   const list = view === "list" && !phone;
@@ -156,6 +200,7 @@ export function BrowseView() {
       value={sort}
       onValueChange={(v) => {
         setSort(v);
+        setPage(1);
         flash("refresh");
       }}
       size="sm"
@@ -211,12 +256,12 @@ export function BrowseView() {
           ))}
         </aside>
 
-        <div className={styles.results}>
+        <div ref={resultsRef} className={styles.results}>
           <h2 className="sr-only">Results</h2>
           {!isEmpty ? (
             <div className={styles.toolbar}>
               <span role="status" className={styles.status}>
-                {loading ? "Loading results…" : `Showing 1 to ${n}`}
+                {loading ? "Loading results…" : `Showing ${first + 1} to ${first + shown.length} of ${n}`}
               </span>
               <div className={styles.toolbarRight}>
                 {sortSelect(false)}
@@ -284,11 +329,14 @@ export function BrowseView() {
               </div>
             </div>
           ) : (
-            <ResultsWrap list={list} aria-busy={refreshing} className={refreshing ? styles.refreshing : undefined}>
-              {results.map((r) => (
-                <ResourceCard key={r.id} resource={r} locked={locked} variant={list ? "list" : "grid"} />
-              ))}
-            </ResultsWrap>
+            <>
+              <ResultsWrap list={list} aria-busy={refreshing} className={refreshing ? styles.refreshing : undefined}>
+                {shown.map((r) => (
+                  <ResourceCard key={r.id} resource={r} locked={locked} variant={list ? "list" : "grid"} />
+                ))}
+              </ResultsWrap>
+              {pages > 1 ? <Pager page={current} pages={pages} onPage={goToPage} /> : null}
+            </>
           )}
         </div>
       </div>

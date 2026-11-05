@@ -3,7 +3,7 @@
 // resource gets the same cover on cards, its resource page, and in the admin.
 import type { DisciplineKey } from "./data";
 
-export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape" | "kerf";
+export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape" | "curl";
 
 /** Editorial direction: Illini navy and orange with the discipline's signature color, on white. */
 export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: string[] }> = {
@@ -18,18 +18,19 @@ export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: strin
 };
 
 export const PATTERN_LABEL: Record<PatternSlug, string> = {
-  bloks: "Bloks", maze: "Maze", trigram: "Trigram", metro: "Metro", weave: "Weave", terrain: "Terrain", comet: "Comet", tesserae: "Tesserae", mixtape: "Mixtape", kerf: "Kerf",
+  bloks: "Bloks", maze: "Maze", trigram: "Trigram", metro: "Metro", weave: "Weave", terrain: "Terrain", comet: "Comet", tesserae: "Tesserae", mixtape: "Mixtape", curl: "Curl",
 };
 
 /** Cover ground. Text never sits on the pattern, so the ground stays plain white. */
 export const COVER_GROUND = "#FFFFFF";
 
 /**
- * The Kerf band between Browse by discipline and How it works: pale tints of the brand's blue,
- * navy, and orange, ground first. The band draws it with a transparent ground (`PatternCover`'s
- * `transparent`), so only the blocks show and the page runs through the slots between them.
+ * The Curl band between Browse by discipline and How it works: the brand's navy, orange, and blue
+ * at full strength, ground first. Curl weights its first ink double, so about half the arcs are
+ * navy. The band draws it with a transparent ground (`PatternCover`'s `transparent`), so only the
+ * arcs show and the page runs through the loops.
  */
-export const KERF_PALETTE = [COVER_GROUND, "#E8EEF6", "#DCE5F1", "#EEF1F6", "#FFEBDF", "#F3F4F3"];
+export const CURL_PALETTE = [COVER_GROUND, "#13294B", "#FF5F05", "#1D58A7"];
 
 /** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
 export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];

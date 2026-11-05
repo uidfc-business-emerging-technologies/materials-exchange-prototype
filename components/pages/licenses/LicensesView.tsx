@@ -1,11 +1,13 @@
 "use client";
 
-import { ArrowRight, Check, Copy, ExternalLink, Minus, Upload, X } from "lucide-react";
+import { ArrowRight, Check, Copy, ExternalLink, Minus, Repeat, Star, Upload, UserRound, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { allResources, LICENSE_LINES, type LicenseName } from "@/lib/data";
+import { Badge } from "@/components/ui/Badge";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Disclosure } from "@/components/ui/overlays";
+import { DividedGrid } from "@/components/site/DividedGrid";
 import { Illustration, type IllustrationName } from "@/components/site/Illustration";
 import styles from "./Licenses.module.css";
 
@@ -14,9 +16,16 @@ interface LicenseInfo {
   full: string;
   art: IllustrationName;
   deed: string;
+  /** Picked for you when you share. */
+  isDefault?: boolean;
+  commercial: boolean;
+  shareAlike: boolean;
   can: string[];
   must: string[];
 }
+
+/** Every license requires attribution, so every list of conditions starts with it. */
+const ATTRIBUTION = "Give attribution: credit the authors and link to the license";
 
 const LICENSES: LicenseInfo[] = [
   {
@@ -24,33 +33,42 @@ const LICENSES: LicenseInfo[] = [
     full: "Attribution 4.0 International",
     art: "license-by",
     deed: "https://creativecommons.org/licenses/by/4.0/",
-    can: ["Use it in any course, free or paid", "Change it: new data, new questions, a translation", "Share your changed version under any license"],
-    must: ["Credit the authors and link to the license"],
+    isDefault: true,
+    commercial: true,
+    shareAlike: false,
+    can: ["Use it in any course, free or paid", "Use it commercially, such as in paid training or a textbook for sale", "Change it: new data, new questions, a translation", "Share your changed version under any license"],
+    must: [ATTRIBUTION],
   },
   {
     name: "CC BY-NC 4.0",
     full: "Attribution-NonCommercial 4.0 International",
     art: "license-nc",
     deed: "https://creativecommons.org/licenses/by-nc/4.0/",
+    commercial: false,
+    shareAlike: false,
     can: ["Use it in your classes", "Change it to fit your course", "Share your changed version for noncommercial use"],
-    must: ["Credit the authors and link to the license", "Not sell it or use it mainly for commercial gain"],
+    must: [ATTRIBUTION, "Not sell it or use it mainly for commercial gain"],
   },
   {
     name: "CC BY-NC-SA 4.0",
     full: "Attribution-NonCommercial-ShareAlike 4.0 International",
     art: "license-sa",
     deed: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    commercial: false,
+    shareAlike: true,
     can: ["Use it in your classes", "Change it to fit your course", "Share your changed version for noncommercial use"],
-    must: ["Credit the authors and link to the license", "Not sell it or use it mainly for commercial gain", "Share your changed version under this same license"],
+    must: [ATTRIBUTION, "Not sell it or use it mainly for commercial gain", "Share your changed version under this same license"],
   },
 ];
 
 type Mark = "yes" | "no" | "required" | "none";
-const GLANCE: { label: string; marks: [Mark, Mark, Mark] }[] = [
+/** A table cell: its mark, and words other than the mark's usual one when they need to be explicit. */
+type Cell = Mark | [Mark, string];
+const GLANCE: { label: string; marks: [Cell, Cell, Cell] }[] = [
+  { label: "Give attribution: credit the authors and link to the license", marks: ["required", "required", "required"] },
+  { label: "Use it commercially, such as in paid corporate training or a textbook for sale", marks: [["yes", "Yes, commercial use allowed"], ["no", "No commercial use"], ["no", "No commercial use"]] },
   { label: "Download, print, and hand out in class", marks: ["yes", "yes", "yes"] },
   { label: "Adapt it: change the data, rewrite questions, translate", marks: ["yes", "yes", "yes"] },
-  { label: "Use it commercially, such as in paid corporate training or a textbook for sale", marks: ["yes", "no", "no"] },
-  { label: "Credit the authors", marks: ["required", "required", "required"] },
   { label: "Share your changed version under the same license", marks: ["none", "none", "required"] },
 ];
 const MARK_TEXT: Record<Mark, string> = { yes: "Yes", no: "No", required: "Required", none: "Not required" };
@@ -88,13 +106,23 @@ const CREDIT_LINE = `“${EXAMPLE.title}” by ${EXAMPLE.authors}, Teaching Mate
 
 const licenseHref = (name: string) => "/browse?" + new URLSearchParams({ license: name }).toString();
 
-function GlanceMark({ mark }: { mark: Mark }) {
+function GlanceMark({ cell }: { cell: Cell }) {
+  const [mark, text] = typeof cell === "string" ? [cell, MARK_TEXT[cell]] : cell;
   const Icon = mark === "no" ? X : mark === "none" ? Minus : Check;
   return (
     <span className={[styles.mark, styles[mark]].join(" ")}>
       <Icon size={16} aria-hidden />
-      {MARK_TEXT[mark]}
+      {text}
     </span>
+  );
+}
+
+/** Marks CC BY 4.0, the license picked for you when you share. */
+function DefaultBadge({ className }: { className?: string }) {
+  return (
+    <Badge tone="info" icon={<Star size={14} aria-hidden />} className={className}>
+      Default
+    </Badge>
   );
 }
 
@@ -135,15 +163,34 @@ export function LicensesView() {
         <h2 id="three-h" className={styles.h2}>
           The three licenses
         </h2>
-        <ul className={styles.licenses}>
+        {/* Open columns with thin lines between them, not cards. */}
+        <DividedGrid as="ul" min={300} className={styles.licenses}>
           {LICENSES.map((l) => (
             <li key={l.name} className={styles.license}>
-              <div className={styles.licenseArt}>
-                <Illustration name={l.art} className={styles.licenseImage} />
+              <Illustration name={l.art} className={styles.licenseImage} />
+              <div className={styles.licenseHead}>
+                <h3 className={styles.licenseName}>{l.name}</h3>
+                {l.isDefault ? <DefaultBadge /> : null}
               </div>
-              <h3 className={styles.licenseName}>{l.name}</h3>
               <p className={styles.licenseFull}>{l.full}</p>
+              {l.isDefault ? <p className={styles.defaultNote}>Picked for you when you share. You can choose another.</p> : null}
               <p className={styles.licenseLine}>{LICENSE_LINES[l.name]}</p>
+              <ul className={styles.facts} aria-label={"Key terms of " + l.name}>
+                <li className={styles.factRequired}>
+                  <UserRound size={16} aria-hidden />
+                  Attribution required
+                </li>
+                <li className={l.commercial ? styles.factYes : styles.factNo}>
+                  {l.commercial ? <Check size={16} aria-hidden /> : <X size={16} aria-hidden />}
+                  {l.commercial ? "Commercial use allowed" : "No commercial use"}
+                </li>
+                {l.shareAlike ? (
+                  <li className={styles.factRequired}>
+                    <Repeat size={16} aria-hidden />
+                    Share changes under the same license
+                  </li>
+                ) : null}
+              </ul>
               <p className={styles.listTitle}>You can</p>
               <ul className={styles.list}>
                 {l.can.map((c) => (
@@ -175,7 +222,7 @@ export function LicensesView() {
               </div>
             </li>
           ))}
-        </ul>
+        </DividedGrid>
       </section>
 
       <section aria-labelledby="glance-h" className={styles.section}>
@@ -191,7 +238,10 @@ export function LicensesView() {
                 </th>
                 {LICENSES.map((l) => (
                   <th key={l.name} scope="col">
-                    {l.name}
+                    <span className={styles.colHead}>
+                      {l.name}
+                      {l.isDefault ? <DefaultBadge className={styles.colBadge} /> : null}
+                    </span>
                   </th>
                 ))}
               </tr>
@@ -202,7 +252,7 @@ export function LicensesView() {
                   <th scope="row">{row.label}</th>
                   {row.marks.map((m, i) => (
                     <td key={LICENSES[i].name}>
-                      <GlanceMark mark={m} />
+                      <GlanceMark cell={m} />
                     </td>
                   ))}
                 </tr>
@@ -259,8 +309,10 @@ export function LicensesView() {
           <p className={styles.body}>You keep the copyright. The license only says what others may do with your work. You pick one in the last step of sharing, and you can change it for later versions.</p>
           <dl className={styles.choices}>
             <div>
-              <dt>CC BY 4.0</dt>
-              <dd>Reaches the most classrooms, including textbook publishers and training programs. Most authors on the exchange pick it.</dd>
+              <dt>
+                CC BY 4.0 <DefaultBadge className={styles.dtBadge} />
+              </dt>
+              <dd>The default. Reaches the most classrooms, including textbook publishers and training programs, because it allows commercial use. Most authors on the exchange keep it.</dd>
             </div>
             <div>
               <dt>CC BY-NC 4.0</dt>

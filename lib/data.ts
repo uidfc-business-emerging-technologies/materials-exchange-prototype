@@ -1,5 +1,7 @@
 // Invented sample content for the prototype. All people and most institutions are fictional.
 
+import { OVERVIEWS } from "./overviews";
+
 export type DisciplineKey = "fin" | "audit" | "tax" | "ais" | "mgmt" | "data" | "emtech" | "other";
 export type IncludeKey = "dataset" | "note" | "sol";
 export type LicenseName = "CC BY 4.0" | "CC BY-NC 4.0" | "CC BY-NC-SA 4.0";
@@ -96,7 +98,7 @@ export const allResources = (): Resource[] => resources.concat(extraResources);
 export const byId = (id: string): Resource | undefined => allResources().find((r) => r.id === id);
 
 export const LICENSE_LINES: Record<LicenseName, string> = {
-  "CC BY 4.0": "You can share and adapt this with credit.",
+  "CC BY 4.0": "You can share and adapt this with credit, including for commercial use.",
   "CC BY-NC 4.0": "You can share and adapt this with credit, but not for commercial use.",
   "CC BY-NC-SA 4.0": "You can share and adapt this with credit, not for commercial use, and you share your changes under the same license.",
 };
@@ -130,7 +132,8 @@ export interface ResourceDetail {
   summary: string;
   byline: { name: string; after: string }[];
   meta: string;
-  about: string;
+  /** The overview, one string per paragraph. */
+  about: string[];
   objectives: string[];
   time: string;
   level: string;
@@ -158,8 +161,8 @@ const lakeside: ResourceDetail = {
   summary: "Students find the performance obligations in a bundled gym membership, allocate the price, and build the revenue schedule in Excel.",
   byline: [{ name: "Dana Whitfield", after: ", Riverbend State University, and " }, { name: "Marcus Osei", after: ", University of Illinois Urbana-Champaign" }],
   meta: "Updated September 2026 · Version 2 · CC BY 4.0",
-  about: "Lakeside Fitness sells a twelve-month membership bundled with four personal training sessions and a branded water bottle. The controller has to decide how much revenue to recognize each month. Students work from the membership data to identify each promise in the bundle, estimate standalone selling prices, and turn the allocation into a monthly schedule.",
-  objectives: ["Identify distinct performance obligations in a bundled membership.", "Allocate the transaction price using standalone selling prices.", "Build the revenue schedule in Excel."],
+  about: OVERVIEWS["TME-0142"].about,
+  objectives: OVERVIEWS["TME-0142"].objectives,
   time: "75 minutes", level: "Upper undergraduate", tested: "Fall 2025, Spring 2026", tools: ["Excel"],
   authors: [
     { initials: "DW", name: "Dana Whitfield", title: "Associate Professor of Accountancy", inst: "Riverbend State University" },
@@ -184,8 +187,8 @@ const genai: ResourceDetail = {
   summary: "Students review how a controller's team used a generative AI assistant during the monthly close and decide which uses need new review controls.",
   byline: [{ name: "Elena Fischer", after: " and " }, { name: "Sam Ortega", after: ", Prairie Lakes College" }],
   meta: "Submitted October 2026 · Version 1 · CC BY 4.0",
-  about: "Halverson Supply's controller let her team try a generative AI assistant during the September close. It drafted reconciliation notes, explained journal entries, and summarized variances. Students read the prompt log, find where the assistant was wrong or went unchecked, and propose review controls for the next close.",
-  objectives: ["Map where generative AI fits in a monthly close checklist.", "Find errors in AI-drafted reconciliation notes and journal entry explanations.", "Design review controls for AI-assisted close work."],
+  about: OVERVIEWS["TME-0171"].about,
+  objectives: OVERVIEWS["TME-0171"].objectives,
   time: "90 minutes", level: "MBA", tested: "Spring 2026", tools: ["Generative AI", "Excel"],
   authors: [
     { initials: "EF", name: "Elena Fischer", title: "Associate Professor of Accounting", inst: "Prairie Lakes College" },
@@ -296,9 +299,9 @@ export function detailFor(id?: string, opts: { published?: boolean } = {}): Reso
     id: r.id, d: r.d, discipline: r.discipline, type: r.type, aboutTitle: "About this " + r.type.toLowerCase(),
     title: r.title, summary: r.summary, byline,
     meta: "Updated 2026 · Version 1 · " + r.license,
-    about: r.summary, objectives: [], time: r.time, level: r.level, tested: "Spring 2026", tools: r.tools,
+    about: OVERVIEWS[r.id]?.about || [r.summary], objectives: OVERVIEWS[r.id]?.objectives || [], time: r.time, level: r.level, tested: "Spring 2026", tools: r.tools,
     authors: names.map((n, i) => ({ initials: initialsOf(n), name: n, title: AUTHORS[n]?.title || "", inst: insts[i] })),
-    files, totalAll: files.length + " files", allLabel: "Download all " + files.length + " files", allMeta: "One ZIP file", publicMeta: pub + " files in one ZIP",
+    files, totalAll: files.length + " files", allLabel: "Download all " + files.length + " files", allMeta: "One ZIP file", publicMeta: pub + (pub === 1 ? " file" : " files") + " in one ZIP",
     cite: { lead: apaStr + " (2026). ", italic: sentence(r.title), tail: " (Version 1) [Teaching " + r.type.toLowerCase() + "]. Teaching Materials Exchange. https://tme.illinois.edu/r/" + r.id.slice(4) },
     license: r.license, downloads: DOWNLOADS[id] || r.used * 38 + 21, courses: r.used, versions: "1 version",
     versionList: [{ v: "Version 1", date: "2026", note: "First published." }],
@@ -460,7 +463,6 @@ export const PEOPLE: Record<Person["key"], Person> = {
 
 export const SITE = {
   name: "Teaching Materials Exchange",
-  center: "UI-Deloitte Foundation Center for Business Emerging Technologies",
-  college: "Gies College of Business, University of Illinois Urbana-Champaign",
-  centerUrl: "https://giesbusiness.illinois.edu/",
+  center: "University of Illinois-Deloitte Foundation Center for Business Emerging Technologies",
+  centerUrl: "http://emergingtech.giesbusiness.illinois.edu/",
 };

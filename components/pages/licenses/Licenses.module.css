@@ -71,43 +71,39 @@
   color: var(--text-2);
 }
 
-/* ---------- The three licenses ---------- */
+/* ---------- The three licenses: open columns with thin lines between them ---------- */
 .licenses {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 24px;
-  margin: 24px 0 0;
+  --gap-x: clamp(32px, 4vw, 56px);
+  --gap-y: 48px;
+  --divider: var(--border-soft);
+  margin: 28px 0 0;
   padding: 0;
   list-style: none;
+}
+
+/* Three columns stretch to fill the row on a wide screen instead of leaving empty ones. */
+.licenses.licenses {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
 }
 
 .license {
   display: flex;
   flex-direction: column;
-  padding: 0 0 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.license > :not(.licenseArt) {
-  margin-left: 24px;
-  margin-right: 24px;
-}
-
-.licenseArt {
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: var(--action-tint);
 }
 
 .licenseImage {
-  width: clamp(120px, 12vw, 160px);
+  width: clamp(96px, 9vw, 120px);
+}
+
+.licenseHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 18px;
 }
 
 .licenseName {
-  margin-top: 22px;
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 500;
@@ -125,6 +121,48 @@
   font-size: 16px;
   line-height: 1.5;
   color: var(--text-2);
+}
+
+.defaultNote {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--info);
+}
+
+/* The key terms, one per line: attribution first, then commercial use. */
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.facts li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.facts svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.factRequired {
+  color: var(--orange-dark);
+}
+
+.factYes {
+  color: var(--ok);
+}
+
+.factNo {
+  color: var(--danger);
 }
 
 .listTitle {
@@ -164,7 +202,7 @@
   color: var(--orange-dark);
 }
 
-/* Pushed to the bottom so the links line up across the cards. */
+/* Pushed to the bottom so the links line up across the columns. */
 .licenseLinks {
   display: flex;
   flex-wrap: wrap;
@@ -216,6 +254,17 @@
   font-size: 15px;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.colHead {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.colBadge {
+  font-weight: 600;
 }
 
 .table tbody th {
@@ -330,12 +379,26 @@
 
 .choices div {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
+  grid-template-columns: 200px minmax(0, 1fr);
   gap: 4px 20px;
 }
 
 .choices dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px 10px;
   font-weight: 700;
+}
+
+.dtBadge {
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .choices div {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .choices dd {

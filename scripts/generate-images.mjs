@@ -2,6 +2,7 @@
 //
 //   OPENAI_API_KEY=... node scripts/generate-images.mjs            # only images that don't exist yet
 //   OPENAI_API_KEY=... node scripts/generate-images.mjs how-find   # regenerate the named images
+//   IMAGE_MODEL=gpt-image-2.6-flare ...                            # the other GPT Image 2.6 variant
 //
 // Every illustration shares STYLE, every photo cutout shares PHOTO, and every material cover in
 // one style shares that style's line, so a regenerated image still matches the rest. Images
@@ -11,7 +12,9 @@ import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
 
-const MODEL = "gpt-image-2.5-sunburst";
+/** Always a GPT Image 2.6 variant: sunburst unless IMAGE_MODEL picks flare. */
+const MODELS = ["gpt-image-2.6-sunburst", "gpt-image-2.6-flare"];
+const MODEL = process.env.IMAGE_MODEL || MODELS[0];
 const OUT_DIR = join(import.meta.dirname, "..", "public", "images");
 const CONCURRENCY = 6;
 
@@ -99,6 +102,13 @@ const IMAGES = {
   "license-sa": [SQUARE, "Two identical document pages side by side, joined by two curved arrows that form a loop between them."],
   "license-credit": [SQUARE, "A document page with a small card pinned to its bottom edge by a thumbtack, and a pen lying beside it."],
 
+  // Contribute: one photo cutout per step, shown in the progress bar at the top of the form
+  "step-files": [SQUARE, "A neat stack of manila file folders with plain paper pages peeking out, held together with a large bright orange binder clip.", HERO, CUTOUT],
+  "step-basics": [SQUARE, "A blank cream paper label tag tied with a bright orange string, lying beside a sharpened deep navy pencil.", HERO, CUTOUT],
+  "step-authors": [SQUARE, "Two blank conference name badges on lanyards, one with a deep navy lanyard and one with a bright orange lanyard, overlapping each other.", HERO, CUTOUT],
+  "step-license": [SQUARE, "A brass wax seal stamp with a dark wooden handle standing upright beside a round bright orange wax seal with a plain smooth face.", HERO, CUTOUT],
+  "step-review": [SQUARE, "A pair of black reading glasses resting on a short neat stack of blank paper pages, with a blank bright orange sticky note on the top page.", HERO, CUTOUT],
+
   // Home: frosted 3D objects that float beside the call to action above the footer
   "cta-cap": [SQUARE, "A graduation mortarboard cap with a short tassel, seen from slightly above and tilted at a gentle angle.", FROSTED, CTA_SIZE],
   "cta-plane": [SQUARE, "A folded paper airplane in flight, angled slightly upward, with crisp folds.", FROSTED, CTA_SIZE],
@@ -127,7 +137,7 @@ const IMAGES = {
   "disc-tax": [SQUARE, "A neat stack of blank paper forms held together with a large black binder clip, with a sharpened bright orange pencil lying across the top.", HERO, CUTOUT],
   "disc-ais": [SQUARE, "A stack of three glossy deep navy database disks with softly glowing blue edges, like a three-dimensional database icon.", HERO, CUTOUT],
   "disc-mgmt": [SQUARE, "Three interlocking gears, one deep navy, one bright orange, and one natural wood.", HERO, CUTOUT],
-  "disc-data": [SQUARE, "A glossy three-dimensional line graph: a mid blue ribbon rising and dipping across a deep navy grid base, with bright orange spheres at its data points.", HERO, CUTOUT],
+  "disc-data": [SQUARE, "A glossy three-dimensional line graph: a single thin glossy tube in bright mid blue, about as thick as a drinking straw, rising and dipping across a deep navy grid base and standing out clearly against it. The line is smooth and continuous, with no dots, spheres, beads, or markers anywhere on it.", HERO, CUTOUT],
   "disc-emtech": [SQUARE, "A virtual reality headset in white and deep navy with a soft blue glow on its front panel.", HERO, CUTOUT],
   "disc-other": [SQUARE, "Four jigsaw puzzle pieces fitted together, in deep navy, bright orange, mid blue, and cream.", HERO, CUTOUT],
 
@@ -265,6 +275,23 @@ for (const [id, subject] of Object.entries(MATERIAL_SUBJECTS)) {
 }
 for (const [id, subject] of Object.entries(COVER_SUBJECTS)) IMAGES[`${id}-watercolor`] = [WIDE, subject, `${WATERCOLOR} ${BANNER}`, COVER];
 
+/**
+ * About page: loose watercolors like the material covers, but each a single subject with room
+ * around it instead of a banner. Shown at about 560px (wide) or 280px (square) or less.
+ */
+const ABOUT = `${WATERCOLOR} A single subject, centered, with generous empty transparent space around it. No text, no letters, no numbers, no logos.`;
+const ABOUT_WIDE = { width: 1120 };
+const ABOUT_SQUARE = { width: 560 };
+Object.assign(IMAGES, {
+  "about-hero": [WIDE, "A long wooden library table covered with open books, case folders, a laptop showing a simple bar chart, and a coffee mug, with three tall arched windows behind it.", ABOUT, ABOUT_WIDE],
+  "about-why": [SQUARE, "A tall stack of worn case folders and handwritten lecture notes tied with string, resting on the corner of a classroom desk.", ABOUT, ABOUT_SQUARE],
+  "about-free": [SQUARE, "An open canvas tote bag with case folders, a rolled spreadsheet printout, and a pencil spilling out of it.", ABOUT, ABOUT_SQUARE],
+  "about-verified": [SQUARE, "A large brass key resting on a closed hardcover notebook with a ribbon bookmark.", ABOUT, ABOUT_SQUARE],
+  "about-credit": [SQUARE, "A round award medal on a ribbon lying across an open book, with a fountain pen beside it.", ABOUT, ABOUT_SQUARE],
+  "about-center": [WIDE, "A neoclassical university hall with tall columns, wide front steps, and a shallow dome, with a few leafy trees on either side.", ABOUT, ABOUT_WIDE],
+  "about-gift": [SQUARE, "A small potted sapling with fresh leaves standing on a short stack of books, a ribbon tied in a bow around the pot.", ABOUT, ABOUT_SQUARE],
+});
+
 async function exists(path) {
   try {
     await access(path);
@@ -300,6 +327,10 @@ async function generate(name) {
 
 if (!process.env.OPENAI_API_KEY) {
   console.error("Set OPENAI_API_KEY first.");
+  process.exit(1);
+}
+if (!MODELS.includes(MODEL)) {
+  console.error(`IMAGE_MODEL must be one of: ${MODELS.join(", ")}.`);
   process.exit(1);
 }
 const asked = process.argv.slice(2);
