@@ -211,6 +211,12 @@ const AUTHORS = {
   "Nora Byrne": "A woman in her late twenties with freckles and red hair in a ponytail, wearing a navy sweater.",
   "Kwame Mensah": "A Ghanaian American man in his forties with a shaved head and a warm smile, wearing a navy blazer and a light blue shirt.",
   "Arjun Mehta": "An Indian American man in his early thirties with short black hair and a trimmed beard, wearing a white oxford shirt.",
+  "Kofi Asante": "A Ghanaian man in his late fifties with close-cropped graying hair, a short gray beard, and wire-rimmed glasses, wearing a charcoal suit jacket over a navy shirt.",
+  "Beatriz Costa": "A Brazilian woman in her early thirties with shoulder-length curly dark brown hair, wearing a coral knit top.",
+  "Samuel Whitaker": "A man in his forties with short light brown hair and a friendly smile, wearing a navy vest over a blue plaid flannel shirt.",
+  "Ingrid Novak": "A woman in her fifties with a straight silver-blond bob and black-framed glasses, wearing a charcoal blazer over a white top.",
+  "Yuki Hayashi": "A Japanese woman in her late twenties with long straight black hair tucked behind her ears, wearing a cream cardigan.",
+  "Leah Sorensen": "A woman in her late thirties with wavy chestnut hair pulled back, wearing a forest green blazer over a white top.",
 };
 /**
  * Members who aren't authors yet but have a portrait, shown in the admin Users list (`MEMBER_PORTRAITS`
@@ -307,6 +313,139 @@ Object.assign(IMAGES, {
   "about-center": [WIDE, "A neoclassical university hall with tall columns, wide front steps, and a shallow dome, with a few leafy trees on either side.", ABOUT, ABOUT_WIDE],
   "about-gift": [SQUARE, "A small potted sapling with fresh leaves standing on a short stack of books, a ribbon tied in a bow around the pot.", ABOUT, ABOUT_SQUARE],
 });
+
+/**
+ * Materials added later have watercolors for both images. The cover is made like the others above.
+ * The picture in the body of the page, named after the ID like the flat illustrations, uses the
+ * About page's `ABOUT` style instead: one subject with room around it, and a closer subject than
+ * the cover's scene, so the page doesn't show the same picture twice. id → [cover, page picture].
+ */
+const WATERCOLOR_MATERIALS = {
+  "TME-0036": [
+    "A café counter with a coffee grinder, a row of paper takeaway cups, and a small fan of plain gift cards in a wooden display stand.",
+    "A small fan of plain gift cards beside a steaming ceramic mug of coffee and a few scattered coffee beans.",
+  ],
+  "TME-0037": [
+    "A busy marina with sailboats and motorboats at their slips, boxed engine parts stacked on the dock, and a mailbox on a post at the end of the pier.",
+    "A small bundle of sealed envelopes tied with string, resting beside a brass ship’s compass.",
+  ],
+  "TME-0038": [
+    "A bright design studio with two desks facing each other, drafting lamps, color swatches pinned to the wall, and a potted fern by a tall window.",
+    "Two blank wooden signposts pointing in different directions, with a potted fern at their base.",
+  ],
+  "TME-0039": [
+    "A small coffee cart with a striped awning in a library lobby, a blank chalkboard stand beside it, and paper cups lined up on its counter.",
+    "A paper coffee cup with an orange sleeve beside a small brass balance scale holding coffee beans on one pan and coins on the other.",
+  ],
+  "TME-0040": [
+    "A small accounting office at night with a row of desks and dark computer monitors, one monitor glowing orange, and a server cabinet in the corner.",
+    "A heavy padlock and chain wrapped around a stack of file folders.",
+  ],
+  "TME-0041": [
+    "A long wooden table where a jumble of loose index cards spilling from an open filing drawer is being sorted into neat, even stacks.",
+    "A wide-toothed comb drawn through a tangle of colored ribbons, leaving neat parallel strands behind it.",
+  ],
+  "TME-0042": [
+    "A row of developers’ desks with large monitors showing simple colored blocks, a wall of sticky notes arranged in columns, and a potted plant.",
+    "Smooth, plain wooden toy blocks painted navy, blue, and orange, with no studs or bumps on top, some stacked into a tower and others still loose beside it.",
+  ],
+  "TME-0043": [
+    "A new suburban street of half-built houses with bare timber frames, stacks of lumber, and a small construction trailer.",
+    "A magnifying glass resting on a tangle of string that connects three small wooden house models.",
+  ],
+  "TME-0044": [
+    "A landscaping company yard with a pickup truck, a trailer loaded with commercial lawn mowers, and a small metal shop building with its roll-up door open.",
+    "A commercial riding lawn mower parked on a short patch of freshly striped grass.",
+  ],
+  "TME-0045": [
+    "A food bank warehouse with tall shelves of canned goods and boxed produce, a pallet of donations, and a refrigerated truck at the loading door.",
+    "A wooden crate of fresh apples, carrots, and bread loaves tied with an orange ribbon.",
+  ],
+  "TME-0046": [
+    "A quiet office desk with a laptop showing a video call of two blank silhouetted figures, a desk phone, and a cup of tea.",
+    "A vintage telephone handset with a coiled cord, and a plain theatrical mask resting beside it.",
+  ],
+  "TME-0047": [
+    "A boatyard with a fishing boat on a cradle, outboard motors lined up on stands in an open workshop, and calm water behind.",
+    "An outboard boat motor standing upright on a wooden stand.",
+  ],
+  "TME-0048": [
+    "A conference table with a speakerphone in the middle, printed pages spread out with a few lines highlighted in orange, and a pair of headphones beside them.",
+    "A vintage studio microphone with loose curved sound waves drawn around it.",
+  ],
+  "TME-0049": [
+    "A foundry floor with iron valves and pipe fittings stacked on pallets, a forklift, and a long conveyor belt.",
+    "Iron pipe fittings and valves joined into a winding path, with one branch looping back on itself.",
+  ],
+  "TME-0050": [
+    "A small-town brick bank building with a clock above its door, a pickup truck parked out front, and wheat fields behind it.",
+    "An open navy umbrella sheltering a small ring of house and car keys.",
+  ],
+  "TME-0051": [
+    "A brick school building with a row of yellow school buses parked in front and a few bare trees.",
+    "An empty wooden classroom chair with a plain pay envelope resting on its seat.",
+  ],
+  "TME-0052": [
+    "A small hillside farm with a red barn, a wooden fence, and a few alpacas grazing in the pasture.",
+    "A fluffy alpaca standing beside a woven basket of yarn balls.",
+  ],
+  "TME-0053": [
+    "A dairy plant with a long low roof covered in solar panels, a silver milk tanker truck, and cows grazing in the field beside it.",
+    "A single solar panel tilted toward a bright sun, with a glass milk bottle standing in front of it.",
+  ],
+  "TME-0054": [
+    "A waterfront seafood restaurant with lantern lights, outdoor tables, and a small host stand by the door.",
+    "An open check presenter folder with a few paper bills and a torn receipt inside.",
+  ],
+  "TME-0055": [
+    "A flower shop counter with buckets of tulips and roses, a laptop beside the register, and a delivery van parked outside the window.",
+    "A small potted flowering plant beside an open laptop, with a soft cloud floating above the screen.",
+  ],
+  "TME-0056": [
+    "A bright warehouse aisle with a small autonomous robot carrying a tote between tall shelves.",
+    "A small friendly warehouse robot holding up a stack of plain paper certificates tied with a ribbon.",
+  ],
+  "TME-0057": [
+    "A small town water tower on tall legs beside a brick treatment plant and a row of leafy trees.",
+    "A brass water faucet with a single drop falling toward a short stack of coins.",
+  ],
+  "TME-0058": [
+    "A modern open office with rows of desks and a large wall screen showing a simple bar chart, and a small robot figurine on one desk.",
+    "A glowing glass brain sculpture resting on a stack of loan application folders, with a magnifying glass leaning against it.",
+  ],
+  "TME-0059": [
+    "A car dealership lot with rows of new cars under strings of small pennants and a glass-walled showroom behind them.",
+    "A car key fob on a ring resting on a small triangle made of three wooden blocks.",
+  ],
+  "TME-0060": [
+    "A home office corner with a laptop on a small desk, a potted plant, and a large unlabeled wall map with a few pins in it.",
+    "A few small houses on a folded paper map, joined by dotted lines to a single office building.",
+  ],
+  "TME-0061": [
+    "The front steps of a stately public library with tall windows, a bicycle rack, and a small reading garden with benches.",
+    "Four hardcover books standing in a neat row, each a different color, with a brass compass resting on top.",
+  ],
+  "TME-0062": [
+    "A town square with a city hall clock tower, a fountain, and a few people sitting on benches.",
+    "A round pie on a plate, cut into slices of different sizes like a pie chart, with a cake server beside it.",
+  ],
+  "TME-0063": [
+    "A long table with a tall stack of bound reports, a row of filing boxes, and a desk printer feeding out a sheet of payroll checks.",
+    "A thick bound report with a ribbon bookmark and a pair of reading glasses resting on top.",
+  ],
+  "TME-0064": [
+    "A regional passenger airplane flying over a green forest, with a chain of small glowing cubes trailing behind it like a contrail.",
+    "A small green leaf resting on top of a glossy hexagonal token coin.",
+  ],
+  "TME-0065": [
+    "A youth soccer field with small goals, orange cones, a mesh bag of soccer balls, and a folding table with a cash box on the sideline.",
+    "A metal cash box standing open with a few paper bills inside and a whistle on a lanyard lying across it.",
+  ],
+};
+for (const [id, [cover, picture]] of Object.entries(WATERCOLOR_MATERIALS)) {
+  IMAGES[`${id}-watercolor`] = [WIDE, cover, `${WATERCOLOR} ${BANNER}`, COVER];
+  IMAGES[id] = [WIDE, picture, ABOUT, ABOUT_WIDE];
+}
 
 /**
  * Who runs the exchange: the Commons atrium inside the Business Instructional Facility at Gies
