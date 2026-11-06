@@ -2,7 +2,7 @@
 
 import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown, ChevronLeft, ChevronRight, LayoutGrid, List, SlidersHorizontal, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { filterDefs, matches, resources, type FilterKey, type Resource } from "@/lib/data";
 import { useDemo } from "@/lib/demo";
@@ -36,10 +36,56 @@ function useIsPhone() {
   );
 }
 
+/*
+ * Everything that picks the results lives in the address: the search, the filters (one key per
+ * checked option, like ?disc=Audit&disc=Tax), the sort, and the page. So Back and Forward step
+ * through pages, a material opened from the results comes back to the same results, and a link
+ * shows exactly what its sender saw.
+ */
+const SORT_KEY = "sort";
+const PAGE_KEY = "page";
+
+/** The page number in the address. Anything that isn't a whole number above 1 means the first page. */
+function pageFromParams(params: URLSearchParams | null): number {
+  const p = Number(params?.get(PAGE_KEY));
+  return Number.isInteger(p) && p > 1 ? p : 1;
+}
+
+function sortFromParams(params: URLSearchParams | null): Sort {
+  const s = params?.get(SORT_KEY);
+  return s === "newest" || s === "used" ? s : "relevance";
+}
+
 function checkedFromParams(params: URLSearchParams | null): Checked {
   const c: Checked = {};
   FILTER_KEYS.forEach((k) => params?.getAll(k).forEach((l) => (c[keyOf(k, l)] = true)));
   return c;
+}
+
+/**
+ * The query string for a change to the current results. Keeps the search and anything else in the
+ * address, and writes the filters in the order they're listed, so the same choices always make the
+ * same address. The defaults (relevance, page 1) are left out.
+ */
+function browseQuery(params: URLSearchParams | null, next: { checked: Checked; sort: Sort; page: number }) {
+  const out = new URLSearchParams();
+  const own = new Set<string>([...FILTER_KEYS, SORT_KEY, PAGE_KEY]);
+  params?.forEach((v, k) => {
+    if (!own.has(k)) out.append(k, v);
+  });
+  filterDefs.forEach((g) => {
+    const listed = g.options.map((o) => o.label);
+    const at = (label: string) => (listed.indexOf(label) + 1 || listed.length + 1);
+    Object.keys(next.checked)
+      .filter((k) => k.startsWith(g.key + ":"))
+      .map((k) => k.slice(g.key.length + 1))
+      .sort((a, b) => at(a) - at(b))
+      .forEach((label) => out.append(g.key, label));
+  });
+  if (next.sort !== "relevance") out.set(SORT_KEY, next.sort);
+  if (next.page > 1) out.set(PAGE_KEY, String(next.page));
+  const qs = out.toString();
+  return qs ? "?" + qs : "";
 }
 
 function scorer(query: string) {
@@ -89,16 +135,19 @@ function ResultsWrap({ list, className, ...rest }: { list: boolean } & React.HTM
 export function BrowseView() {
   const params = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const { auth } = useDemo();
   const phone = useIsPhone();
   const query = params?.get("q") || "";
-  const [checked, setChecked] = useState<Checked>(() => checkedFromParams(params));
-  const [sort, setSort] = useState<Sort>(() => (["newest", "used"].includes(params?.get("sort") || "") ? (params?.get("sort") as Sort) : "relevance"));
+  const paramKey = params?.toString() || "";
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const checked = useMemo(() => checkedFromParams(params), [paramKey]);
+  const sort = sortFromParams(params);
+  const page = pageFromParams(params);
   const [view, setView] = useState<"list" | "grid">("list");
   const [sheet, setSheet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [page, setPage] = useState(1);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const resultsRef = useRef<HTMLDivElement>(null);
   const firstQuery = useRef(query);
@@ -113,15 +162,28 @@ export function BrowseView() {
     }, kind === "load" ? 450 : 260);
   };
 
-  // A new search from the header resets filters to whatever the link carries.
-  const paramKey = params?.toString() || "";
+  /**
+   * Moves to new results. Filters and sort replace the current entry, so Back doesn't undo one
+   * checkbox at a time. Pages add an entry, so Back from page 2 goes to page 1. Only the address
+   * changes, through the browser's own history, so the results update at once without asking the
+   * server for the page again.
+   */
+  const go = (next: { checked?: Checked; sort?: Sort; page?: number }, mode: "push" | "replace") => {
+    const href = pathname + browseQuery(params, { checked, sort, page, ...next });
+    if (mode === "push") window.history.pushState(null, "", href);
+    else window.history.replaceState(null, "", href);
+  };
+
+  // Dim the results briefly whenever they change, from the controls or from Back and Forward. A new
+  // search, from the header or a link, shows the loading cards instead.
+  const shownKey = useRef(paramKey);
   useEffect(() => {
-    setChecked(checkedFromParams(params));
-    setPage(1);
+    if (shownKey.current === paramKey) return;
+    shownKey.current = paramKey;
     if (firstQuery.current !== query) {
       firstQuery.current = query;
       flash("load");
-    }
+    } else flash("refresh");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramKey]);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -136,20 +198,12 @@ export function BrowseView() {
 
   // Any change to filters or sort starts again from the first page.
   const toggle = (k: FilterKey, label: string) => {
-    setPage(1);
-    setChecked((c) => {
-      const next = { ...c };
-      if (next[keyOf(k, label)]) delete next[keyOf(k, label)];
-      else next[keyOf(k, label)] = true;
-      return next;
-    });
-    flash("refresh");
+    const next = { ...checked };
+    if (next[keyOf(k, label)]) delete next[keyOf(k, label)];
+    else next[keyOf(k, label)] = true;
+    go({ checked: next, page: 1 }, "replace");
   };
-  const clearAll = () => {
-    setPage(1);
-    setChecked({});
-    flash("refresh");
-  };
+  const clearAll = () => go({ checked: {}, page: 1 }, "replace");
 
   const filters = groups.map((g) => ({
     ...g,
@@ -167,8 +221,8 @@ export function BrowseView() {
   const first = (current - 1) * PER_PAGE;
   const shown = results.slice(first, first + PER_PAGE);
   const goToPage = (p: number) => {
-    setPage(p);
-    flash("refresh");
+    if (p === current) return;
+    go({ page: p }, "push");
     resultsRef.current?.scrollIntoView({ block: "start" });
   };
   const isEmpty = n === 0 && !loading;
@@ -198,11 +252,7 @@ export function BrowseView() {
       label="Sort by"
       hideLabel={compact}
       value={sort}
-      onValueChange={(v) => {
-        setSort(v);
-        setPage(1);
-        flash("refresh");
-      }}
+      onValueChange={(v) => go({ sort: v, page: 1 }, "replace")}
       size="sm"
       className={compact ? styles.sortPhone : styles.sortDesktop}
       options={[

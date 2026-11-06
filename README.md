@@ -70,7 +70,7 @@ There is no backend. Use the **View as** switch (bottom right, or in the admin s
 | Path | Screen |
 | --- | --- |
 | `/` | Home |
-| `/browse` | Browse, with filters, sort, grid or list view, and 20 materials a page |
+| `/browse` | Browse, with filters, sort, grid or list view, and 20 materials a page. The search, filters, sort, and page are in the URL (`/browse?disc=Audit&tools=Excel&sort=newest&page=2`), so Back and shared links show the same results |
 | `/r/0142` | Resource (`?own=1` shows it to its authors) |
 | `/r/0142/files/lakeside-solution.xlsx` | File, locked or unlocked by access |
 | `/verify` | Verify instructor status (`?state=expired` and other states) |
@@ -122,7 +122,7 @@ Patterns are decorative and hidden from assistive technology. Covers change slow
 
 ## Illustrations
 
-Each public page has a spot illustration (the admin screens stay plain). Each resource has one in the body of its page (`public/images/TME-0142.webp` and so on). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's GPT Image 2.6 at low quality. The script always uses a 2.6 variant: `gpt-image-2.6-sunburst` unless `IMAGE_MODEL=gpt-image-2.6-flare` picks the other one, and it refuses any other model. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
+Each public page has a spot illustration (the admin screens stay plain). Each resource has one in the body of its page (`public/images/TME-0142.webp` and so on); for the thirty materials from earlier in 2026 (`TME-0036` to `TME-0065`), that picture is a watercolor instead (see Material covers). They are WebP files with transparent backgrounds, made by `scripts/generate-images.mjs` with OpenAI's GPT Image 2.6 at low quality. The script always uses a 2.6 variant: `gpt-image-2.6-sunburst` unless `IMAGE_MODEL=gpt-image-2.6-flare` picks the other one, and it refuses any other model. Every illustration prompt shares one style line that limits the palette to the site's navy, orange, and blue. Like the patterns, the illustrations are decorative, so they have empty alt text.
 
 The home hero uses a second style: color photo cutouts that sit straight on the pattern, with no disc. Nineteen of them rain down the pattern (`home-hero-photo.webp` and the `hero-*.webp` files), showing academia, institutions, and the disciplines the exchange covers. Each falls in its own lane, left to right in the order of `HERO_CUTOUTS` in `HomeView.tsx`, and passes behind the title panel (`CutoutRain`). Drops come in three sizes, and the bigger ones fall faster, which gives the rain some depth. On a narrow screen, every other lane is left out. Photo prompts share their own style line, which asks for a true-color studio photo cut out like a collage element. The hero prompts also ask each subject to fill its frame, so the cutouts look the same scale. They're shown at about 130px or less, so the script saves them 320px wide. The illustration the hero used before (`home-hero.webp`) is kept so it can be switched back.
 
@@ -170,7 +170,7 @@ OPENAI_API_KEY=... node scripts/generate-images.mjs           # make any images 
 OPENAI_API_KEY=... node scripts/generate-images.mjs TME-0142  # make a new version of one image
 ```
 
-Every resource expects two images named after its ID: the illustration in the body of its page and its watercolor cover. A new resource in `lib/data.ts` needs a subject in `MATERIAL_SUBJECTS` in the script, which makes both, and a new author needs a line in the script's `AUTHORS` and an entry in `AUTHORS` in `lib/data.ts`.
+Every resource expects two images named after its ID: the picture in the body of its page and its watercolor cover. For most materials, the picture is a flat illustration, and one subject in `MATERIAL_SUBJECTS` in the script makes both. The thirty materials from earlier in 2026 (`TME-0036` to `TME-0065`) are in `WATERCOLOR_MATERIALS` instead, with two subjects each: the cover's scene, and a closer subject for the page, painted in the About page's `ABOUT` style (one subject with room around it) and saved 1120px wide. A new resource should go in `WATERCOLOR_MATERIALS`. A new author needs a line in the script's `AUTHORS` and an entry in `AUTHORS` in `lib/data.ts`.
 
 ## Motion
 

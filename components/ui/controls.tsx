@@ -299,15 +299,15 @@ export function Segmented<V extends string>({
   onValueChange,
   options,
   label,
-  variant = "solid",
+  variant = "plain",
   className,
 }: {
   value: V;
   onValueChange: (v: V) => void;
   options: SegmentOption<V>[];
   label: string;
-  /** solid: navy selected segment inside a border. soft: gray track with a white selected chip. */
-  variant?: "solid" | "soft";
+  /** plain: no frame or fill, the selected option is dark and underlined. soft: gray track with a white selected chip. */
+  variant?: "plain" | "soft";
   className?: string;
 }) {
   return (
@@ -315,10 +315,10 @@ export function Segmented<V extends string>({
       aria-label={label}
       value={[value]}
       onValueChange={(v) => v.length && onValueChange(v[0] as V)}
-      className={cx(variant === "solid" ? styles.segSolid : styles.segSoft, className)}
+      className={cx(variant === "plain" ? styles.segPlain : styles.segSoft, className)}
     >
       {options.map((o) => (
-        <Toggle key={o.value} value={o.value} className={variant === "solid" ? styles.segSolidItem : styles.segSoftItem}>
+        <Toggle key={o.value} value={o.value} className={variant === "plain" ? styles.segPlainItem : styles.segSoftItem}>
           {o.icon}
           {o.label}
           {o.count !== undefined ? <span className={styles.segCount}>{o.count}</span> : null}

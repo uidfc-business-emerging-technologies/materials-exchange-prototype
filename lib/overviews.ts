@@ -512,4 +512,424 @@ export const OVERVIEWS: Record<string, Overview> = {
       "Explain what evidence an external auditor would expect to see for AI-drafted work.",
     ],
   },
+
+  "TME-0036": {
+    about: [
+      "Juniper Coffee Roasters runs 22 cafés and sells gift cards in its stores and online, most of them in November and December. At the end of fiscal 2025 it carried $1.9 million of unredeemed card balances as a contract liability, some from cards sold four years earlier. The new controller wants to stop waiting for cards to go dormant and start recognizing the breakage she expects, but the auditors want to see the evidence behind the estimate.",
+      "Students work from three years of card-level data: the issue date, the amount loaded, and every redemption. They build redemption curves by quarter of issue, estimate the share of value that will never be redeemed, and apply ASC 606’s breakage guidance, which recognizes expected breakage in proportion to the pattern of redemptions. They also find the balances Juniper must turn over to the state under unclaimed property law, because those never become breakage.",
+      "The teaching note gives a 75-minute plan and a short discussion of how much the estimate depends on the cards sold over the holidays.",
+    ],
+    objectives: [
+      "Explain when ASC 606 allows a company to recognize breakage on rights customers don’t use.",
+      "Build redemption curves from card-level data in Excel.",
+      "Estimate expected breakage and recognize it in proportion to redemptions.",
+      "Identify balances that unclaimed property laws remove from breakage.",
+    ],
+  },
+
+  "TME-0037": {
+    about: [
+      "Bluewater Marine Supply sells engines, rigging, and electronics to 640 boatyards and marinas along the Gulf Coast. Its December 31 accounts receivable balance is $11.8 million, and the audit plan calls for positive confirmations. Tolerable misstatement is $350,000, and the team expects few errors.",
+      "Students start from the aged receivables listing. They size a monetary unit sample in Excel, select balances with a random start, and then work through 46 confirmation replies in the case exhibits: clean agreements, payments in transit, a disputed invoice, customers who never reply, and one reply that reports a balance $18,400 lower. They perform alternative procedures where replies are missing, separate misstatements from timing differences, and project the misstatement to the population with an allowance for sampling risk.",
+      "The teaching note ties each step to AU-C 505 on external confirmations and AU-C 530 on audit sampling, and gives the expected answer for every reply.",
+    ],
+    objectives: [
+      "Determine a monetary unit sample size from tolerable and expected misstatement.",
+      "Select a sample of customer balances and perform confirmation procedures.",
+      "Distinguish misstatements from timing differences in confirmation replies.",
+      "Project sample misstatements to the population and evaluate the result.",
+    ],
+  },
+
+  "TME-0038": {
+    about: [
+      "Rosa Lin and Ben Achebe have run Fernhill Design, a two-person brand design studio, as an LLC taxed as a partnership since 2023. Profit reached $420,000 last year, and a friend told them an S corporation election would save them “thousands” in self-employment tax. They also plan to hire two designers and may bring in an outside investor in three years.",
+      "Students project three years of income under each choice. For the partnership, they compute each founder’s self-employment tax and qualified business income deduction. For the S corporation, they set a reasonable salary from the compensation data in the exhibits, add payroll taxes and the cost of running payroll, and test what the election does to the deduction and to state taxes. Then they weigh what the numbers leave out: an S corporation’s single class of stock, the limits on who can own shares, and how each structure would handle an investor.",
+      "The teaching note includes a worked comparison and a reasonable salary range for each founder.",
+    ],
+    objectives: [
+      "Compute self-employment tax for the partners in a partnership.",
+      "Set a reasonable salary for S corporation shareholder-employees and compute the payroll taxes on it.",
+      "Compare the total tax under each entity choice over three years.",
+      "Explain the nontax factors, like ownership limits and outside investors, that can outweigh tax savings.",
+    ],
+  },
+
+  "TME-0039": {
+    about: [
+      "The student business club runs Grounds Up, a coffee cart in the library lobby that is open 32 weeks a year. It sells drip coffee, lattes, and cold brew, pays student baristas by the hour, and rents its spot from the college for $450 a month. Last year it barely covered its costs, and the club’s new treasurer wants to know why before proposing two changes: adding pastries from a local bakery and opening a second cart in the science building.",
+      "Students work from a semester of daily sales by drink, a list of costs, and quotes from the bakery and for a second cart. They separate fixed and variable costs, compute the contribution margin per drink and a weighted average for the sales mix, and find the break-even point in cups per day. Then they test each proposal with what-if analysis and decide which one the club should try first.",
+      "It fits a 50-minute introductory class. The solution workbook shows each step, and the case works well as a first look at sales mix.",
+    ],
+    objectives: [
+      "Separate costs into fixed and variable parts.",
+      "Compute contribution margin and a weighted average contribution margin for a sales mix.",
+      "Calculate break-even and target-profit volumes.",
+      "Use what-if analysis to compare two business proposals.",
+    ],
+  },
+
+  "TME-0040": {
+    about: [
+      "Hollis & Grant, a 14-person CPA firm, arrives on the morning of March 28 to find its file server encrypted and a ransom note on every workstation. Client returns are due in less than three weeks, the backups were last tested in the fall, and the managing partner’s first instinct is to pay. The firm holds Social Security numbers and bank details for about 3,000 clients.",
+      "Students play the managing partner, the IT consultant, the office manager, and the firm’s cyber insurer. The facilitator releases six timed updates, from the first call to the help desk to an email from a local reporter. After each one, teams decide what to do next: isolate systems, call the insurer, restore from backups, notify clients and the IRS, and whether to pay. They finish by listing the controls that would have prevented the attack or cut it short.",
+      "The teaching note includes the updates, a facilitator script, and a debrief that ties each decision to a tax practice’s duties under the FTC Safeguards Rule and the IRS’s guidance for tax professionals.",
+    ],
+    objectives: [
+      "Describe the stages of a ransomware incident and the decisions at each one.",
+      "Prioritize containment, recovery, and notification steps under time pressure.",
+      "Explain a tax practice’s data security duties under the FTC Safeguards Rule.",
+      "Recommend preventive and detective controls for a small firm.",
+    ],
+  },
+
+  "TME-0041": {
+    about: [
+      "Wellspring Health, a group of six clinics, is moving to a new purchasing system, and the vendor master it exports has grown messy over twelve years: 4,800 rows, with names typed three different ways, addresses split across the wrong columns, phone numbers in five formats, and payment terms written out as text. The accounts payable lead needs one clean list, and she needs to run the cleanup again when the final export arrives next month.",
+      "Students load the export into Power Query in Excel. They trim and standardize text, split and merge columns, fix data types, map payment terms to a short list, and flag likely duplicate vendors with a fuzzy match. Every step is recorded in the query, so they finish by refreshing it against a second, newer export and checking that the result still holds up.",
+      "The exercise fits a 50-minute lab and assumes no earlier Power Query experience. The solution file has the finished query with a comment on each step.",
+    ],
+    objectives: [
+      "Profile a dataset to find missing, inconsistent, and duplicate values.",
+      "Clean and reshape data with repeatable Power Query steps.",
+      "Flag likely duplicate records with fuzzy matching.",
+      "Explain why a recorded, repeatable cleanup beats editing cells by hand.",
+    ],
+  },
+
+  "TME-0042": {
+    about: [
+      "Fernway Health builds a scheduling and billing platform that it hosts for 140 physical therapy clinics. Its engineers work in two-week sprints, and in 2025 they spent $3.6 million on salaries, contractors, and cloud costs, mixing new features, bug fixes, a data migration, and early research on an AI note-taking tool. The CFO has expensed all of it, and an investor’s due diligence team has asked why none of it is on the balance sheet.",
+      "Students work from a sprint log that tags each ticket by feature and type, along with payroll and contractor data. They decide which costs qualify for capitalization as internal-use software under ASC 350-40, first under the project-stage model and then under ASU 2025-06, which replaces the stages with a probable-to-complete threshold. They build the capitalization schedule, choose a useful life, and measure the effect on EBITDA, the number the investors watch most.",
+      "The teaching note works through the judgment calls ticket by ticket and suggests a debate on whether capitalizing makes the financial statements more useful or less.",
+    ],
+    objectives: [
+      "Distinguish internal-use software from software to be sold or licensed.",
+      "Identify development costs that qualify for capitalization under ASC 350-40.",
+      "Compare the project-stage model with the probable-to-complete threshold in ASU 2025-06.",
+      "Build a capitalization and amortization schedule and explain its effect on EBITDA.",
+    ],
+  },
+
+  "TME-0043": {
+    about: [
+      "Sable Creek Homebuilders builds about 300 houses a year in the suburbs of a fast-growing city. Its founder and CEO owns 60% of the company. Management’s representation letter lists two related parties: a land company owned by the CEO’s brother and the building the company leases for its office, which the CEO owns. The audit senior has a feeling there are more.",
+      "Students get the vendor master, a year of disbursements, a list of the company’s land purchases, and excerpts from county property records and state business filings. They match addresses, registered agents, and officers across the files and find a framing subcontractor run by the CEO’s son-in-law, a lot sold to an LLC that shares an address with the CFO, and a storage yard rented from a trust for the CEO’s children. For each one, they decide whether it is a related party under ASC 850, what has to be disclosed, and what it means for the audit.",
+      "The teaching note connects the case to AU-C 550 and includes a debrief on why related party transactions turn up so often in fraud cases.",
+    ],
+    objectives: [
+      "Identify related parties and related party transactions under ASC 850.",
+      "Use data matching to find relationships management didn’t disclose.",
+      "Evaluate whether management’s claim that a transaction was at arm’s length can be supported.",
+      "Explain how undisclosed related parties change the auditor’s assessment of risk.",
+    ],
+  },
+
+  "TME-0044": {
+    about: [
+      "Brightfield Landscaping, an S corporation with 35 employees, had its best year yet in 2025 and spent heavily: two pickup trucks, a dump truck, eleven commercial mowers, a skid steer, office computers, and a $640,000 shop building. The owner wants the biggest deduction she can get this year. Her accountant isn’t sure that’s the best plan, because the owner expects an even bigger 2026 and plans to sell some old equipment.",
+      "Students work from the year’s fixed asset additions and disposals. They sort each asset into its MACRS class and convention, then compare three plans: regular MACRS, Section 179 expensing on selected assets, and bonus depreciation. They model taxable income for 2025 and 2026 under each plan, decide whether the limits on passenger vehicles apply to the trucks, explain why the building is treated differently, and compute depreciation recapture on the equipment sold. Then they write a short recommendation for the owner.",
+      "The solution workbook shows the three plans side by side, under the 2025 rules that restored 100% bonus depreciation.",
+    ],
+    objectives: [
+      "Classify assets by MACRS recovery period and convention.",
+      "Compare Section 179 expensing, bonus depreciation, and regular MACRS deductions.",
+      "Compute depreciation recapture on equipment that is sold.",
+      "Recommend a depreciation plan based on income this year and next.",
+    ],
+  },
+
+  "TME-0045": {
+    about: [
+      "Cedar Hollow Food Bank serves four rural counties from one warehouse and three refrigerated trucks. Last fiscal year it received $5.2 million in cash and pledges and $3.9 million worth of donated food. The gifts came in every form: a family foundation’s grant for a new walk-in freezer, a county contract to deliver meals to seniors, a $250,000 pledge that depends on a matching campaign, a bequest, and thousands of small online gifts.",
+      "Students work from the gift log and the award letters in the exhibits. For each gift, they decide whether it is a contribution or an exchange transaction under ASC 958-605, whether it is conditional, and whether it carries a donor restriction. They measure the donated food, record the release from restriction when the freezer is bought, and prepare a statement of activities with columns for net assets with and without donor restrictions.",
+      "The teaching note includes the answer for every gift and a short discussion of why the board cares so much about the difference between restricted and unrestricted money.",
+    ],
+    objectives: [
+      "Distinguish contributions from exchange transactions under ASC 958-605.",
+      "Identify conditional contributions and donor restrictions.",
+      "Record releases from restriction and measure contributed goods.",
+      "Prepare a statement of activities for a not-for-profit organization.",
+    ],
+  },
+
+  "TME-0046": {
+    about: [
+      "On a Friday afternoon, a senior accountant at Marrow Valley Foods joins a video call with what looks and sounds like the CFO, who is traveling. He says an acquisition is about to close, asks her to keep it quiet, and walks her through wiring $1.4 million to a law firm’s escrow account. A second “executive” joins the call to confirm. By Monday the money is gone.",
+      "Students read the call transcript and the emails before and after it, then map each step against the company’s written payment controls. They find where the attackers used urgency, secrecy, and authority, and why the callback and dual-approval controls didn’t stop them: the callback went to a number in the attacker’s own email, and the second approver approved from his phone during a meeting. In small groups, they redesign the wire approval process for a world where a familiar voice or face on a screen is no longer proof of who someone is.",
+      "The teaching note includes a facilitation guide and a summary of the widely reported cases this one is modeled on.",
+    ],
+    objectives: [
+      "Describe how cloned voices and video are used in payment fraud.",
+      "Identify the social engineering pressures in a fraudulent payment request.",
+      "Evaluate why existing payment controls failed to stop the transfer.",
+      "Design verification controls that don’t depend on recognizing a voice or a face.",
+    ],
+  },
+
+  "TME-0047": {
+    about: [
+      "Kestrel Marine builds fishing and pleasure boats in two divisions. The Engine division makes outboard motors and sells about 40% of them to outside dealers; the Boat division buys the rest. Both division managers earn bonuses on their own profit, and they have argued about the transfer price for a year. Engine wants the market price of $9,800. Boat says it should pay full cost, $7,100, because it buys in bulk and needs no marketing.",
+      "Students work from each division’s cost data, its capacity, and the outside offers on the table, including a supplier quote Boat keeps threatening to take. They compute the lowest and highest prices that make sense for the company as a whole, then show how market-based, cost-based, and negotiated prices change each manager’s decisions. A late twist adds a new Engine plant in a country with a lower tax rate, which turns the transfer price into a tax question too.",
+      "The teaching note suggests running the case as a negotiation between two teams before the full-class discussion.",
+    ],
+    objectives: [
+      "Calculate the range of transfer prices that keeps division decisions in the company’s interest.",
+      "Compare market-based, cost-based, and negotiated transfer prices.",
+      "Explain how transfer prices shape division managers’ incentives and performance measures.",
+      "Describe why tax authorities require arm’s-length prices between countries.",
+    ],
+  },
+
+  "TME-0048": {
+    about: [
+      "Analysts listen to earnings calls for what executives say and for how they say it. This exercise gives students 400 transcripts from 50 fictional companies over two years, split into prepared remarks and the question-and-answer session, along with each company’s results for the following quarter.",
+      "In the first session, students clean the transcripts in a Jupyter notebook, count words from a finance-specific word list for negative, uncertain, and hedging language, and compare the tone of the prepared remarks with the answers to analysts. In the second, they test whether a change in tone predicts a revenue miss or a restatement, and look closely at the calls the model gets confidently wrong. A last step compares the word counts with tone scores from a large language model and asks students to explain the differences.",
+      "The teaching note covers the accounting research the method comes from and the common ways text measures go wrong.",
+    ],
+    objectives: [
+      "Clean and tokenize unstructured text with Python.",
+      "Measure tone with a dictionary built for financial text.",
+      "Test whether a text measure predicts a later financial outcome.",
+      "Explain the limits of dictionary methods and of language model scores.",
+    ],
+  },
+
+  "TME-0049": {
+    about: [
+      "Ironwood Manufacturing makes cast-iron valves and fittings and buys from about 900 suppliers. Its ERP system records every step of every purchase: requisition, approval, purchase order, goods receipt, invoice, and payment. The internal audit director suspects that the process as it really runs looks very little like the flowchart in the policy manual.",
+      "Students get an event log of 1.1 million events covering 60,000 purchase order lines. They load it into Celonis or into the pm4py library in Python, discover the process as it actually runs, and compare it with the designed one. Then they hunt for exceptions: purchase orders created after the invoice, payments released before goods were received, prices changed after approval, and the same person approving and receiving. They finish with a short memo that sizes each problem in dollars and recommends where to tighten controls.",
+      "The teaching note introduces process mining and conformance checking for students who haven’t seen them, and includes the expected results.",
+    ],
+    objectives: [
+      "Describe what an event log is and how process mining uses it.",
+      "Discover the actual purchase-to-pay process and compare it with the designed process.",
+      "Identify control exceptions such as after-the-fact purchase orders and payment before receipt.",
+      "Size process deviations in dollars and recommend control improvements.",
+    ],
+  },
+
+  "TME-0050": {
+    about: [
+      "Prairie Hearth Bank has $620 million in loans, mostly home mortgages, auto loans, and loans to farms and small businesses. Under the current expected credit loss model in ASC 326, it has to estimate the losses it expects over each loan’s whole life, not only the losses that have already happened. The chief credit officer wants a first estimate for the auto and mortgage pools before the year-end meeting with the bank’s examiners.",
+      "Students work from loan-level data with each loan’s origination year, balance, credit score, and charge-off history. They estimate lifetime loss rates by vintage for each pool, adjust them for a reasonable and supportable forecast of unemployment, and revert to historical rates after the forecast period. Then they test how far the allowance moves when the unemployment forecast changes by one point, and write the paragraph for the notes that explains the estimate.",
+      "The teaching note compares the vintage method with a simpler loss-rate method and walks through the solution.",
+    ],
+    objectives: [
+      "Explain how the CECL model in ASC 326 differs from the incurred loss model.",
+      "Estimate lifetime loss rates by loan pool and origination year.",
+      "Adjust historical loss rates for a reasonable and supportable forecast.",
+      "Measure how sensitive the allowance is to economic assumptions.",
+    ],
+  },
+
+  "TME-0051": {
+    about: [
+      "Westfield Unified School District employs about 2,300 teachers, aides, bus drivers, and staff, and runs payroll twice a month. A tip to the district’s hotline says that a payroll clerk who retired last year kept getting paid, and that others might have too. The state auditor’s office has been asked to look at the last 18 months of payroll.",
+      "Students get the payroll register, the HR master file, time and attendance records, and a list of direct deposit accounts. They match the files to find people paid after their termination date, people with no time records, two employees paid into the same bank account, and employees whose addresses match a payroll clerk’s. They decide which matches are real red flags and which have ordinary explanations, like summer pay for teachers, and then estimate the loss.",
+      "The teaching note covers the payroll controls that should have caught each scheme and includes the answer key.",
+    ],
+    objectives: [
+      "Describe common payroll fraud schemes and the controls that prevent them.",
+      "Match payroll, HR, and banking data to find anomalies.",
+      "Separate true red flags from exceptions with ordinary explanations.",
+      "Estimate a loss and recommend payroll controls.",
+    ],
+  },
+
+  "TME-0052": {
+    about: [
+      "Joanne Pruitt, an emergency room nurse, bought six alpacas in 2021 and has sold fiber, yarn, and a few breeding animals every year since. She has lost money every year, about $22,000 in 2025, and has deducted the losses against her wages. Her return has been selected for examination, and the agent’s first letter asks why the farm shouldn’t be treated as an activity not engaged in for profit under Section 183. If it is a hobby, she owes tax on every sale and can deduct none of the costs.",
+      "Students get Joanne’s records, the agent’s letter, and her own account of how she runs the farm. They find and read the nine factors in the Section 183 regulations, locate cases with similar facts, weigh the facts on both sides, and write a memo to the supervising CPA with a conclusion and the authority behind it. A peer review step has students check each other’s citations.",
+      "The teaching note includes a model memo, a grading rubric, and the cases students tend to find most useful.",
+    ],
+    objectives: [
+      "Locate and read the regulations and cases that apply to a tax question.",
+      "Apply the Section 183 factors to a client’s facts.",
+      "Weigh authority on both sides and reach a supported conclusion.",
+      "Write a clear research memo with proper citations.",
+    ],
+  },
+
+  "TME-0053": {
+    about: [
+      "Clover Ridge Dairy, a cooperative of 38 family farms, runs a plant that bottles milk and makes cheese. Electricity is its second-largest cost after milk itself. A solar developer has offered two deals for a 1.2-megawatt array on the plant’s roof and an empty field: buy it for $1.9 million, or sign a 20-year power purchase agreement at a fixed price per kilowatt-hour.",
+      "Students build a 25-year cash flow model in Excel for each option. They include the federal clean energy tax credit and the construction deadline to qualify for it, depreciation, panel wear, maintenance, and the credit the utility pays for excess power. They compute net present value, internal rate of return, and payback, then run sensitivity analysis on the discount rate, the price of power, and the chance that the utility changes its net metering rules. They end by weighing what the model can’t capture: what members think the panels say about the cooperative, and the risk of tying up capital for decades.",
+      "The teaching note includes a complete model and questions for a discussion about long-term commitments.",
+    ],
+    objectives: [
+      "Build a multi-year cash flow model for a capital investment.",
+      "Calculate NPV, IRR, and payback and explain what each one shows.",
+      "Compare buying an asset with signing a long-term purchase agreement.",
+      "Use sensitivity analysis to find the assumptions that matter most.",
+    ],
+  },
+
+  "TME-0054": {
+    about: [
+      "Tidewater Grill runs five seafood restaurants. Food cost at the harbor location has crept up three points in a year while its sales stayed flat, and the general manager can’t explain it. The owners suspect theft but don’t know whether it is food, cash, or both.",
+      "Students load a year of point-of-sale data into Power BI: 1.6 million line items with server, table, time, payment type, voids, comps, and discounts, plus the schedule of who worked each shift. They build measures for void and comp rates by server and hour, find a pattern of cash checks voided after the table has paid, and connect it to one server’s shifts and one manager’s override code. Then they estimate the loss and write up what the owners should change.",
+      "The teaching note covers common point-of-sale schemes in restaurants and how to present data findings to owners who aren’t accountants.",
+    ],
+    objectives: [
+      "Build measures for voids, comps, and discounts in Power BI.",
+      "Spot unusual patterns by employee, time, and payment type.",
+      "Link data anomalies to the people and controls involved.",
+      "Estimate a loss and recommend point-of-sale controls.",
+    ],
+  },
+
+  "TME-0055": {
+    about: [
+      "Marigold Florist has two shops and a delivery van, and its owner has kept the books in the same desktop accounting software since 2012. The computer that runs it is failing, the bookkeeper works from home two days a week, and the owner wants to see sales on her phone. She has decided to move to a cloud accounting service at the start of the new year.",
+      "Students plan the move. They decide which balances and how much history to bring over, design the chart of accounts for the new system, and set up users and permissions for the owner, the bookkeeper, the shop managers, and the outside CPA. They write the checks that will prove the opening trial balance, open invoices, and bank balances came across correctly, and list what changes when the data lives with a vendor: backups, multifactor sign-in, and the apps connected to the books.",
+      "It fits a 50-minute introductory class. The solution includes a sample conversion checklist and a permission matrix.",
+    ],
+    objectives: [
+      "Plan the data conversion for a move to a new accounting system.",
+      "Design user roles and permissions that keep duties separate in a small business.",
+      "Write reconciliation checks that prove converted balances are complete and accurate.",
+      "Explain the control risks that come with cloud software.",
+    ],
+  },
+
+  "TME-0056": {
+    about: [
+      "Lumen Robotics makes warehouse picking robots and plans to go public in eighteen months. It has granted stock options to almost all of its 210 employees, and its auditors have found two problems: the company has been pricing grants with an out-of-date 409A valuation, and nobody has been tracking forfeitures when people leave.",
+      "Students work from the option grant ledger and three valuation reports. They estimate volatility from a group of public peers, value each grant with the Black-Scholes model, and build the expense schedule over each vesting period under ASC 718. Then they work through three events: a group of employees who leave before vesting, a repricing of underwater options after a down round, and grants that vest only if the IPO happens.",
+      "The teaching note includes the solution workbook and a discussion of the “cheap stock” questions the SEC often asks before an IPO.",
+    ],
+    objectives: [
+      "Estimate the inputs to an option pricing model for a private company.",
+      "Measure the grant-date fair value of stock options with Black-Scholes.",
+      "Recognize compensation cost over the vesting period and account for forfeitures.",
+      "Account for an option repricing and for awards that vest on an IPO.",
+    ],
+  },
+
+  "TME-0057": {
+    about: [
+      "The Town of Millbrook, population 14,000, runs its own water utility. It bills about 5,600 customers, issued $8 million in revenue bonds to replace its treatment plant, and pays the general fund every year in place of property taxes. The new finance director has found that the utility’s books were kept like the general fund’s, on the modified accrual basis, and the auditors want them fixed.",
+      "Students record a year of the utility’s transactions as an enterprise fund on the full accrual basis: billings and unbilled revenue, bond proceeds and interest, capital assets and depreciation, and the payment to the general fund. They prepare the fund’s statement of net position, its statement of revenues, expenses, and changes in net position, and its statement of cash flows, then reconcile the fund to the town’s government-wide statements.",
+      "The teaching note explains how GASB standards set the basis of accounting for each kind of fund and includes the full solution.",
+    ],
+    objectives: [
+      "Explain when a government uses an enterprise fund.",
+      "Record transactions on the full accrual basis for a proprietary fund.",
+      "Prepare the financial statements for an enterprise fund.",
+      "Reconcile fund statements to the government-wide statements.",
+    ],
+  },
+
+  "TME-0058": {
+    about: [
+      "Harbor Point Lending makes personal loans online and approves about 70% of them with a machine learning model and no human review. The model’s scores also drive the company’s allowance for credit losses. The external auditor has to decide whether the model’s outputs can be relied on, and the company’s regulator has asked how it checks the model for bias.",
+      "Students get the model documentation, a holdout sample of 20,000 applications with the model’s scores and what happened to each loan, and the monitoring reports from the model risk team. They test whether the model still predicts defaults as well as it did when it was built, look for drift in the applicant population, and compare approval and default rates across groups. Then they evaluate the governance around the model: who can change it, how changes are tested, and who signs off.",
+      "The teaching note maps the procedures to the auditing standards on using information produced by the company and to bank regulators’ guidance on model risk management.",
+    ],
+    objectives: [
+      "Explain how a machine learning model’s outputs become audit evidence.",
+      "Test a credit model’s accuracy and drift with holdout data.",
+      "Measure differences in outcomes across groups of applicants.",
+      "Evaluate the governance and change controls over a model.",
+    ],
+  },
+
+  "TME-0059": {
+    about: [
+      "Kingsley Auto Group owns three franchised dealerships run by the founder’s two children. It finances its new-car inventory through a floor plan line with the manufacturer’s finance arm, earns incentives from the manufacturer for hitting sales targets, and books a large share of its profit from the loans and warranties sold in the finance office. This is the audit firm’s first year on the engagement.",
+      "Students play the audit team at the fraud brainstorming session the standards require. Each gets a role card with what that person knows: the partner has heard about a family dispute, the senior noticed cars that were sold but not yet paid off on the floor plan, and the IT specialist found that salespeople can change deal records after the fact. Teams use the fraud triangle to list the ways the statements could be misstated, rank them, and choose audit responses.",
+      "The teaching note includes the role cards, a facilitation guide, and the risks a strong team should find.",
+    ],
+    objectives: [
+      "Explain the purpose of the fraud brainstorming session that auditing standards require.",
+      "Apply the fraud triangle to a specific company and industry.",
+      "Identify fraud risks in floor plan financing, manufacturer incentives, and finance office income.",
+      "Link each fraud risk to an audit response.",
+    ],
+  },
+
+  "TME-0060": {
+    about: [
+      "Copperleaf Software has one office, in Illinois, but since 2021 its staff has spread out: 120 of its 180 employees now work from home in 23 states, and a few split their time between two. The company kept withholding Illinois income tax for everyone until a new payroll manager noticed. Now it has to work out what it owes and fix its payroll setup.",
+      "Students work from an employee roster with home addresses, travel days, and pay. For each state, they decide whether Copperleaf has to register as an employer and withhold income tax, apply the convenience-of-the-employer rules in the states that have them, and work out where unemployment insurance is owed under the localization tests. They estimate the back taxes, penalties, and interest, then compare voluntary disclosure agreements with simply filing correctly from now on.",
+      "The teaching note explains the rules for each state in the case and suggests how to turn the findings into a memo for the CFO.",
+    ],
+    objectives: [
+      "Determine when an employer must withhold income tax for a remote employee’s state.",
+      "Apply convenience-of-the-employer rules and unemployment insurance localization tests.",
+      "Estimate the exposure from past years of incorrect withholding.",
+      "Compare voluntary disclosure with filing correctly going forward.",
+    ],
+  },
+
+  "TME-0061": {
+    about: [
+      "The Riverside Public Library runs a main branch and six neighborhood branches on a $14 million budget from the city. The city council has asked every department to show results, and the library director worries that the only numbers anyone looks at are the ones easiest to count: books checked out and people through the door.",
+      "Students start from the library’s mission and strategic plan. In small groups, they build a balanced scorecard with the four perspectives adapted for a public agency, choose two or three measures for each, and set targets. Then they test their measures against a list of ways things could go wrong, like branches chasing quick checkouts or cutting programs that are hard to measure, and revise.",
+      "The teaching note includes a sample scorecard and a debrief on how scorecards change for nonprofits and governments.",
+    ],
+    objectives: [
+      "Explain the four perspectives of the balanced scorecard and how they connect to strategy.",
+      "Adapt the scorecard for an organization whose mission isn’t profit.",
+      "Choose leading and lagging measures with realistic targets.",
+      "Identify measures that could encourage the wrong behavior.",
+    ],
+  },
+
+  "TME-0062": {
+    about: [
+      "The City of Ashford publishes a 300-page budget every year, and almost nobody reads it. The new budget director wants a one-page dashboard for the city’s website that answers the questions residents actually ask: where the money comes from, where it goes, and what changed from last year.",
+      "Students get three years of budget data by fund, department, and revenue source. They sketch on paper first, then build the dashboard in Tableau: a breakdown of revenue, spending by function per resident, and the year’s biggest changes. They test it on a classmate playing a resident with no accounting background and revise anything that confused them.",
+      "The teaching note covers design choices for public audiences and includes a finished dashboard.",
+    ],
+    objectives: [
+      "Translate a government budget into measures that make sense to residents.",
+      "Choose chart types that suit part-to-whole, ranking, and change comparisons.",
+      "Build an interactive dashboard in Tableau.",
+      "Revise a design based on feedback from someone outside accounting.",
+    ],
+  },
+
+  "TME-0063": {
+    about: [
+      "Fairwind Outfitters pays its 900 employees through PayCrest, a payroll service. Fairwind’s auditors can’t test PayCrest’s controls themselves, so they rely on a SOC 1 Type 2 report from PayCrest’s service auditor. This year’s report runs 84 pages, and the audit senior has asked a new staff member to say what in it matters.",
+      "Students read an excerpt of the report. They identify the period it covers and the type of opinion, find the two control exceptions and judge whether they affect Fairwind, and list the complementary user entity controls Fairwind needs for PayCrest’s controls to work. They also notice that the report leaves out a subservice organization, a data center, under the carve-out method, and decide what that leaves for the auditors to do.",
+      "The teaching note walks through the report section by section and includes an answer key.",
+    ],
+    objectives: [
+      "Explain the difference between SOC 1 Type 1 and Type 2 reports.",
+      "Evaluate control exceptions in a service auditor’s report.",
+      "Identify the complementary user entity controls the client must operate.",
+      "Determine how a SOC 1 report changes the user auditor’s procedures.",
+    ],
+  },
+
+  "TME-0064": {
+    about: [
+      "Corvid Air, a regional airline, has promised to offset all emissions from its shortest routes. It buys carbon credits as tokens on a blockchain registry, where each token stands for one metric ton of verified reductions and can be traded at any hour. It holds some for its own use, sells others when prices rise, and retires tokens when it files its emissions report.",
+      "Students decide how to classify and measure the tokens under US GAAP. They compare treating them as intangible assets, as inventory, and as crypto assets at fair value under ASC 350-60, and test whether carbon tokens meet that standard’s scope. Then they work through the FASB’s project on environmental credits, account for a year of purchases, sales, and retirements under its approach, and draft the disclosure an investor would want to see.",
+      "The teaching note explains why practice still varies and suggests a debate between the controller and the head of sustainability.",
+    ],
+    objectives: [
+      "Explain what a tokenized carbon credit represents.",
+      "Evaluate whether carbon tokens fall within the scope of ASC 350-60 for crypto assets.",
+      "Account for environmental credits held for the company’s own use and for sale.",
+      "Draft a disclosure about environmental credits for investors.",
+    ],
+  },
+
+  "TME-0065": {
+    about: [
+      "The Northside Youth Soccer League has 1,100 players, a volunteer board, and a treasurer who ran its finances for six years. When she stepped down, her successor couldn’t make the bank balance match the registration records, and a referee said he hadn’t been paid since spring. The board has asked a forensic accountant who volunteers as a coach to find out what happened.",
+      "Students get three years of bank statements, the registration system’s payment records, the league’s debit card statements, and a box of receipts in the exhibits. They reconcile deposits to registrations to find fees that never reached the bank, trace debit card charges to personal spending, and spot checks written to a “field maintenance” vendor that doesn’t exist. They calculate the loss, organize the evidence the way an insurer or prosecutor would need it, and recommend controls a volunteer board can actually keep up with.",
+      "The teaching note includes a complete loss schedule and a discussion of why small nonprofits are such frequent targets.",
+    ],
+    objectives: [
+      "Reconcile bank activity to source records to find missing receipts.",
+      "Trace disbursements to identify personal and fictitious expenses.",
+      "Calculate and document a loss for an insurer or prosecutor.",
+      "Recommend practical controls for a volunteer-run organization.",
+    ],
+  },
 };
