@@ -1,3 +1,9 @@
+"use client";
+
+// A client component like every other page view. As a server component, its stylesheet was the
+// first thing the page rendered, and React moves that into <head>. The router then had nothing
+// on the page to scroll to, so a link here from the bottom of another page left you at the bottom.
+
 import { ArrowRight, ExternalLink, Search, Upload } from "lucide-react";
 import Link from "next/link";
 import { SITE } from "@/lib/data";

@@ -110,6 +110,8 @@ lib/
   covers.ts      material cover image files, and the placeholder covers
 ```
 
+Every page view in `components/pages` is a client component (`"use client"`), and a new one should be too. A server component that imports a stylesheet renders that stylesheet first, and React moves it into `<head>`. The router then finds nothing on the new page to scroll to, so a link to it from the bottom of another page leaves you at the bottom. The About page did this until it was made a client component.
+
 ## Pattern covers
 
 [Tabbied](https://tabbied.com) patterns (`tabbied/react`) fill the home hero, a decorative band on the home page, and the art beside forms like sign-in. Material covers are watercolors, not patterns (see Material covers). The discipline picks the design (Bloks, Maze, Trigram, Metro, Weave, Terrain, Comet, Tesserae); the seed keeps the same pattern for the same thing:
