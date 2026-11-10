@@ -156,7 +156,7 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--field-gap, 6px);
   min-width: 0;
 }
 
@@ -393,6 +393,27 @@
   border: 2px solid var(--navy);
   padding: 13px 15px;
   background: var(--action-tint);
+}
+
+/* No card: just the radio, its label, and its description. */
+.radioGroupPlain {
+  gap: 2px;
+}
+
+.radioPlain,
+.radioPlain.radioCardOn {
+  padding: 8px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.radioPlain .radioLabel {
+  font-weight: 500;
+}
+
+.radioPlain.radioCardOn .radioLabel {
+  font-weight: 600;
 }
 
 .radioCompact {

@@ -55,6 +55,8 @@ Each Preview keeps its own copy of the build settings it was created with. If yo
 
 Text links have no underline; one appears on hover (`app/globals.css`). The header menu keeps its orange underline under the current page.
 
+Every page sets `robots: noindex, nofollow` in the root layout's metadata, so search engines leave the prototype out. Footer and other links open a page at the top of the window.
+
 A material's type and disciplines link to Browse with that filter applied, wherever they appear: card and list kickers, the breadcrumb, kicker, and facts on its page, and the account page (`CategoryLine` and `DisciplineLinks`). A discipline line with two areas links each one: "Emerging technology and audit" links Emerging technology and Audit, and "analytics" links Data analytics. A line that isn't a discipline of its own, like Ethics, links to the material's discipline (Other).
 
 ## Demo state
@@ -75,7 +77,7 @@ There is no backend. Use the **View as** switch (bottom right, or in the admin s
 | `/r/0142/files/lakeside-solution.xlsx` | File, locked or unlocked by access |
 | `/verify` | Verify instructor status (`?state=expired` and other states) |
 | `/contribute` | Contribute a resource, five steps. It's a prototype, so nothing is checked: open any step from the progress bar, in any order, and submit with fields empty. Add a co-author who's a member by their email (try `kmensah@eastmoor.edu`) |
-| `/sign-in`, `/reset-password` | Sign in, create account, reset password (`?expired=1`) |
+| `/sign-in`, `/reset-password` | Sign in, create account (passwords of 8 or more characters), reset password (`?expired=1`). Sign in and Create account each have a watercolor on a quiet Northstar pattern |
 | `/account` | Account |
 | `/authors/dana-whitfield` | Author profile |
 | `/about` | About the exchange: why it exists, what it holds to, who runs it, and who supports it |

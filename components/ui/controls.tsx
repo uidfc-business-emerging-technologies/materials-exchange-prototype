@@ -241,6 +241,7 @@ export function RadioCards<V extends string>({
   hideLabel,
   layout = "stack",
   compact,
+  plain,
   className,
 }: {
   value: V;
@@ -251,6 +252,8 @@ export function RadioCards<V extends string>({
   layout?: "stack" | "row" | "grid";
   /** Inline pill-sized radios, for short choices like Published or Unpublished. */
   compact?: boolean;
+  /** A plain list of radios with no card around each one. */
+  plain?: boolean;
   className?: string;
 }) {
   const labelId = useId();
@@ -263,10 +266,10 @@ export function RadioCards<V extends string>({
         aria-labelledby={labelId}
         value={value}
         onValueChange={(v) => onValueChange(v as V)}
-        className={cx(styles.radioGroup, layout === "row" && styles.radioRow, layout === "grid" && styles.radioGrid)}
+        className={cx(styles.radioGroup, layout === "row" && styles.radioRow, layout === "grid" && styles.radioGrid, plain && styles.radioGroupPlain)}
       >
         {options.map((o) => (
-          <label key={o.value} className={cx(styles.radioCard, compact && styles.radioCompact, o.value === value && styles.radioCardOn, o.disabled && styles.disabled)}>
+          <label key={o.value} className={cx(styles.radioCard, compact && styles.radioCompact, o.value === value && styles.radioCardOn, plain && styles.radioPlain, o.disabled && styles.disabled)}>
             <Radio.Root value={o.value} disabled={o.disabled} className={styles.radio}>
               <Radio.Indicator className={styles.radioDot} />
             </Radio.Root>

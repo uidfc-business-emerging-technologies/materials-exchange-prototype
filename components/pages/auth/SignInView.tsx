@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, BadgeCheck, Check, Circle, CircleCheck, CircleX, Clock, ExternalLink, FileText, FileUp, Info, Link2, LoaderCircle, Lock, Mail, Trash2, Upload, UserPlus } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Check, Circle, CircleCheck, CircleX, Clock, ExternalLink, FileText, FileUp, Info, KeyRound, Link2, LoaderCircle, Lock, LogIn, Mail, Trash2, Upload, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +11,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { RadioCards, TextField } from "@/components/ui/controls";
 import { ErrorSummary, errorFor, type FormError } from "@/components/ui/ErrorSummary";
 import { infoToast, toast } from "@/components/ui/overlays";
-import { SplitArt } from "@/components/site/SplitArt";
+import { SplitWatercolor } from "@/components/site/SplitArt";
 import { verifyHref } from "@/components/site/SiteHeader";
 import split from "@/components/site/SplitPage.module.css";
 import styles from "./Auth.module.css";
@@ -102,7 +102,7 @@ export function SignInView() {
     if (step === "create" && method === "doc" && !doc) out.push({ k: "doc", text: "Choose a document to upload", target: "ca-doc" });
     if (step !== "forgot") {
       if (!pw) out.push({ k: "pw", text: "Enter a password", target: pre + "-pw" });
-      else if (step === "create" && pw.length < 10) out.push({ k: "pw", text: "Use at least 10 characters for your password", target: "ca-pw" });
+      else if (step === "create" && pw.length < 8) out.push({ k: "pw", text: "Use at least 8 characters for your password", target: "ca-pw" });
     }
     return out;
   };
@@ -197,7 +197,7 @@ export function SignInView() {
             <ErrorSummary errors={errors} />
             <h1 className={styles.h1}>Sign in</h1>
             <p className={styles.lead}>Use the email and password for your Teaching Materials Exchange account.</p>
-            <form onSubmit={submit(afterSignIn)} noValidate className={styles.form}>
+            <form onSubmit={submit(afterSignIn)} noValidate className={[styles.form, styles.signInForm].join(" ")}>
               <TextField id="si-email" label="Email" type="email" autoComplete="email" value={email} onValueChange={setEmail} error={err("email")} />
               <PasswordField
                 id="si-pw"
@@ -209,12 +209,14 @@ export function SignInView() {
                 show={showPw}
                 onToggle={() => setShowPw((v) => !v)}
                 labelAside={
-                  <button type="button" className={styles.textBtn} onClick={() => go("forgot")}>
+                  <button type="button" className={[styles.textBtn, styles.withIcon].join(" ")} onClick={() => go("forgot")}>
+                    <KeyRound size={15} aria-hidden />
                     Forgot password?
                   </button>
                 }
               />
               <Button type="submit" size="lg" block>
+                <LogIn size={17} aria-hidden />
                 Sign in
               </Button>
             </form>
@@ -238,9 +240,10 @@ export function SignInView() {
             <form onSubmit={submit(submitCreate)} noValidate className={styles.form}>
               <TextField id="ca-name" label="Full name" autoComplete="name" value={name} onValueChange={setName} error={err("name")} />
               <TextField id="ca-email" label="School email" description="An address from your college or university, like name@school.edu." type="email" autoComplete="email" value={email} onValueChange={setEmail} error={err("email")} />
-              <PasswordField id="ca-pw" label="Password" description="At least 10 characters" autoComplete="new-password" value={pw} onValueChange={setPw} error={err("pw")} show={showPw} onToggle={() => setShowPw((v) => !v)} />
+              <PasswordField id="ca-pw" label="Password" description="At least 8 characters" autoComplete="new-password" value={pw} onValueChange={setPw} error={err("pw")} show={showPw} onToggle={() => setShowPw((v) => !v)} />
               <div className={styles.verifyBlock}>
                 <RadioCards<Method>
+                  plain
                   label="Verify you teach"
                   value={method}
                   onValueChange={setMethod}
@@ -299,6 +302,7 @@ export function SignInView() {
                 ) : null}
               </div>
               <Button type="submit" size="lg" block>
+                <UserPlus size={17} aria-hidden />
                 Create account
               </Button>
             </form>
@@ -456,7 +460,7 @@ export function SignInView() {
           </>
         ) : null}
       </div>
-      <SplitArt discipline="other" seed="sign-in" cellSize={32} image="sign-in" />
+      <SplitWatercolor seed="sign-in" image={step === "create" ? "create-account-watercolor" : "sign-in-watercolor"} />
     </div>
   );
 }

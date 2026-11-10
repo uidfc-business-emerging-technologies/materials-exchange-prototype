@@ -43,6 +43,18 @@
   margin-top: 28px;
 }
 
+/* Sign in: a little more room between each label and its input. */
+.signInForm {
+  --field-gap: 10px;
+}
+
+.withIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+}
+
 .returnNote {
   display: flex;
   gap: 10px;

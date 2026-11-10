@@ -253,6 +253,12 @@
   color: var(--ink);
 }
 
+.listCoverLink {
+  display: block;
+  flex: none;
+  border-radius: var(--radius);
+}
+
 .listCover {
   flex: none;
   width: 144px;

@@ -199,6 +199,12 @@
   border-bottom: 1px solid var(--border);
 }
 
+.thumbLink {
+  display: block;
+  flex: none;
+  border-radius: var(--radius);
+}
+
 .thumb {
   flex: none;
   width: 72px;
