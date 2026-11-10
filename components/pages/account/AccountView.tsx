@@ -219,7 +219,9 @@ export function AccountView() {
                 const f = !!follow[id];
                 return (
                   <li key={id} className={styles.row}>
-                    <MaterialCover id={r.id} className={styles.thumb} sizes="72px" />
+                    <Link href={resourceHref(id)} className={styles.thumbLink} tabIndex={-1} aria-hidden="true">
+                      <MaterialCover id={r.id} className={styles.thumb} sizes="72px" />
+                    </Link>
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />
@@ -278,9 +280,19 @@ export function AccountView() {
             </div>
             {mine.length ? (
               <ul className={styles.list}>
-                {mine.map((m) => (
+                {mine.map((m) => {
+                  // A material with a page to view links its thumbnail there, like the View button.
+                  const viewHref = m.actions.find((a) => a.label === "View")?.href;
+                  const thumb = <MaterialCover id={m.id} placeholder={m.placeholder} className={styles.thumb} sizes="72px" />;
+                  return (
                   <li key={m.id} className={styles.row}>
-                    <MaterialCover id={m.id} placeholder={m.placeholder} className={styles.thumb} sizes="72px" />
+                    {viewHref ? (
+                      <Link href={viewHref} className={styles.thumbLink} tabIndex={-1} aria-hidden="true">
+                        {thumb}
+                      </Link>
+                    ) : (
+                      thumb
+                    )}
                     <div className={styles.rowText}>
                       <span className={styles.kicker}>
                         <CategoryLine type={m.type} discipline={m.discipline} d={m.d} className={styles.kickerLink} />
@@ -305,7 +317,8 @@ export function AccountView() {
                       )}
                     </div>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             ) : (
               <div className={styles.emptyBox}>

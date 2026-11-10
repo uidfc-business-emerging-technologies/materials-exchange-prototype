@@ -496,6 +496,16 @@ Object.assign(IMAGES, {
   "attest-original": [SQUARE, "A hardcover journal volume standing upright beside a single document page marked with a large check mark.", ABOUT, ATTEST_SIZE],
 });
 
+/**
+ * Sign in and Create account: a watercolor for each, in the style of the About page, shown on a
+ * quiet Northstar pattern beside the form. Shown at about 420px or less.
+ */
+const AUTH_SIZE = { width: 840 };
+Object.assign(IMAGES, {
+  "sign-in-watercolor": [SQUARE, "A large brass door key on a ring resting on an open laptop whose screen shows a simple round avatar, with a small stack of case folders beside the laptop.", ABOUT, AUTH_SIZE],
+  "create-account-watercolor": [SQUARE, "A blank faculty name badge on a lanyard lying on an open notebook beside a fountain pen, with a small potted sapling and a short stack of books next to them.", ABOUT, AUTH_SIZE],
+});
+
 async function exists(path) {
   try {
     await access(path);

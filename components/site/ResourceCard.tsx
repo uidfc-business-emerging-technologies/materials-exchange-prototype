@@ -45,7 +45,10 @@ export function ResourceCard({ resource: r, locked, variant = "grid", headingLev
   if (variant === "list") {
     return (
       <article className={styles.listCard}>
-        <MaterialCover id={r.id} className={styles.listCover} sizes="(max-width: 640px) 72px, 144px" />
+        {/* The title link is the one tab stop and screen reader link; the thumbnail repeats it for the mouse and touch. */}
+        <Link href={link} className={styles.listCoverLink} tabIndex={-1} aria-hidden="true">
+          <MaterialCover id={r.id} className={styles.listCover} sizes="(max-width: 640px) 72px, 144px" />
+        </Link>
         <div className={styles.listBody}>
           <span className={styles.kicker}>
             <CategoryLine type={r.type} discipline={r.discipline} d={r.d} className={styles.kickerLink} />

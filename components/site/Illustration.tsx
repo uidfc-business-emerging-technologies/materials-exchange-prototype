@@ -39,6 +39,8 @@ export const STEP_OBJECTS = ["step-files", "step-basics", "step-authors", "step-
 export const ABOUT_ART = ["about-hero", "about-bif", "about-center", "about-why", "about-free", "about-verified", "about-credit", "about-gift"] as const;
 /** Watercolors for the three steps in How it works on the home page. */
 export const HOW_ART = ["how-find-watercolor", "how-verify-watercolor", "how-share-watercolor"] as const;
+/** Watercolors beside the Sign in and Create account forms, on a quiet Northstar pattern. */
+export const AUTH_ART = ["sign-in-watercolor", "create-account-watercolor"] as const;
 /** Small watercolors, one per statement in Before you submit at the end of the contribute form. */
 export const ATTEST_ART = ["attest-rights", "attest-privacy", "attest-company", "attest-original"] as const;
 
@@ -62,6 +64,7 @@ export type IllustrationName =
   | "contribute"
   | "contribute-done"
   | "sign-in"
+  | (typeof AUTH_ART)[number]
   | "reset-password"
   | "account"
   | "author"

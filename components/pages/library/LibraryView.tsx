@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { coverFiles, PLACEHOLDER_COVERS } from "@/lib/covers";
 import { allResources, AUTHORS, authorHref, authorPhoto, authorSlug, disciplines, MEMBER_PORTRAITS, resourceHref } from "@/lib/data";
-import { ABOUT_ART, ATTEST_ART, CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, HOW_ART, STAT_OBJECTS, STEP_OBJECTS } from "@/components/site/Illustration";
+import { ABOUT_ART, ATTEST_ART, AUTH_ART, CTA_OBJECTS, cutoutsFor, hasMaterialImage, HERO_OBJECTS, HOW_ART, STAT_OBJECTS, STEP_OBJECTS } from "@/components/site/Illustration";
 import styles from "./Library.module.css";
 
 const MATERIALS = allResources()
@@ -38,7 +38,7 @@ export function LibraryView() {
     <div className={styles.page}>
       <h1 className={styles.h1}>Image library</h1>
       <p className={styles.lead}>
-        Every picture on the exchange is made with OpenAI&apos;s GPT Image 2.6 (<code>gpt-image-2.6-sunburst</code> or <code>gpt-image-2.6-flare</code>, low quality, transparent background) by <code>scripts/generate-images.mjs</code>. Find the covers, portraits, watercolors, and 3D objects to reuse.
+        Every picture on the exchange is made with OpenAI&apos;s GPT Image 2.6 (<code>gpt-image-2.6-sunburst</code> or <code>gpt-image-2.6-flare</code>, transparent background) by <code>scripts/generate-images.mjs</code>. Find the covers, portraits, watercolors, and 3D objects to reuse.
       </p>
 
       <section aria-labelledby="covers-h" className={styles.section}>
@@ -97,6 +97,9 @@ export function LibraryView() {
         <h3 className={styles.h3}>How it works</h3>
         <p className={styles.where}>The three steps on the home page.</p>
         <Objects names={HOW_ART} />
+        <h3 className={styles.h3}>Sign in and Create account</h3>
+        <p className={styles.where}>One beside each form, on a quiet Northstar pattern.</p>
+        <Objects names={AUTH_ART} />
         <h3 className={styles.h3}>Before you submit</h3>
         <p className={styles.where}>One beside each statement a contributor checks at the end of the contribute form.</p>
         <Objects names={ATTEST_ART} />

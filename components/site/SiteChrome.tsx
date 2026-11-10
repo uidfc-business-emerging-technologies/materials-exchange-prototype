@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { ScrollToTop } from "./ScrollToTop";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 import { ViewAs } from "./ViewAs";
@@ -11,6 +12,7 @@ import styles from "./SiteChrome.module.css";
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.shell}>
+      <ScrollToTop />
       <a href="#main" className="skip-link">
         Skip to content
       </a>

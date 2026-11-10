@@ -3,7 +3,7 @@
 // for the same thing. Material covers are watercolors (lib/covers.ts), not patterns.
 import type { DisciplineKey } from "./data";
 
-export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape" | "curl";
+export type PatternSlug = "bloks" | "maze" | "trigram" | "metro" | "weave" | "terrain" | "comet" | "tesserae" | "mixtape" | "curl" | "northstar";
 
 /** Editorial direction: Illini navy and orange with the discipline's signature color, on white. */
 export const PATTERN_MAP: Record<DisciplineKey, { slug: PatternSlug; inks: string[] }> = {
@@ -26,6 +26,12 @@ export const COVER_GROUND = "#FFFFFF";
  * (`PatternCover`'s `transparent`), so only the arcs show, and fades it out at the top and bottom.
  */
 export const CURL_PALETTE = [COVER_GROUND, "#EAEBEA", "#F0F1F0", "#E4E5E4"];
+
+/**
+ * Sign in and Create account: Northstar's four-point stars in very light neutral grays, ground
+ * first, drawn on a transparent ground (`PatternCover`'s `transparent`) so only the stars show.
+ */
+export const STAR_PALETTE = [COVER_GROUND, "#EDEEED", "#E6E7E6", "#DFE0DF", "#F2F3F2"];
 
 /** Light grays from the site's surfaces and borders, ground first, so a color photo on the pattern stands out. */
 export const NEUTRAL_PALETTE = [COVER_GROUND, "#F4F4F4", "#EBECEB", "#E4E5E4", "#DDDEDD", "#D2D4D3"];

@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   title: { default: "Teaching Materials Exchange", template: "%s · Teaching Materials Exchange" },
   description: "Free, classroom-ready teaching materials from business school faculty.",
   icons: { icon: ICON },
+  // A prototype with fictional content: keep it out of search results and don't follow its links.
+  robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };

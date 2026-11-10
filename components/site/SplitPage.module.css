@@ -43,6 +43,12 @@
   width: 74%;
 }
 
+/* A watercolor with no disc, standing on the pattern. */
+.artWatercolor {
+  position: relative;
+  width: min(86%, 440px);
+}
+
 .back {
   display: inline-flex;
   align-items: center;
